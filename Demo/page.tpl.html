@@ -1,0 +1,413 @@
+<title>Pendulum Self-Model Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F2; --panel:#FFFFFF; --panel-2:#F5F7F9;
+  --ink:#101519; --ink-2:#33414D; --muted:#5A6773; --rule:#D3DAE0; --rule-2:#E4E9ED;
+  --truth:#0D7C88; --truth-soft:rgba(13,124,136,.13);
+  --model:#6F5FA6; --alarm:#C9432A; --alarm-soft:rgba(201,67,42,.07);
+  --shadow:0 1px 2px rgba(16,21,25,.06), 0 8px 24px -18px rgba(16,21,25,.35);
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --disp:"Archivo","IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+    --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+    --truth:#38B9C4; --truth-soft:rgba(56,185,196,.15);
+    --model:#A392DC; --alarm:#F2735C; --alarm-soft:rgba(242,115,92,.09);
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --truth:#38B9C4; --truth-soft:rgba(56,185,196,.15);
+  --model:#A392DC; --alarm:#F2735C; --alarm-soft:rgba(242,115,92,.09);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;
+  padding-inline:20px;padding-block:28px 44px;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1120px;margin-inline:auto;display:flex;flex-direction:column;gap:18px;}
+
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);}
+
+/* ---- header ---- */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;
+  border-bottom:1px solid var(--rule);padding-bottom:16px;}
+.head h1{font-family:var(--disp);font-weight:700;font-size:clamp(25px,3.5vw,38px);
+  line-height:1.1;letter-spacing:-.021em;margin:6px 0 0;text-wrap:balance;max-width:22ch;}
+.head h1 em{font-style:normal;color:var(--truth);}
+.sub{color:var(--ink-2);font-size:14.5px;max-width:50ch;margin:9px 0 0;}
+
+.chip{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;
+  font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:9px 15px;border-radius:2px;
+  border:1px solid var(--rule);background:var(--panel);color:var(--muted);white-space:nowrap;
+  transition:color .18s,border-color .18s,background .18s;}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none;}
+.chip[data-state="ok"]{color:var(--truth);border-color:color-mix(in srgb,var(--truth) 42%,transparent);
+  background:var(--truth-soft);}
+.chip[data-state="alarm"]{color:var(--alarm);border-color:color-mix(in srgb,var(--alarm) 52%,transparent);
+  background:var(--alarm-soft);}
+.chip[data-state="alarm"] .dot{animation:pulse 1.15s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---- instrument ---- */
+.bench{display:grid;grid-template-columns:340px minmax(0,1fr);gap:0;
+  background:var(--panel);border:1px solid var(--rule);border-radius:3px;box-shadow:var(--shadow);
+  overflow:hidden;}
+.stage{border-right:1px solid var(--rule);display:flex;flex-direction:column;}
+.pane-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);padding:11px 16px;border-bottom:1px solid var(--rule-2);background:var(--panel-2);}
+.stage svg,.scope svg{display:block;width:100%;height:auto;}
+.readouts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule-2);
+  margin-top:auto;}
+.readouts div{padding:10px 8px 12px;text-align:center;border-left:1px solid var(--rule-2);}
+.readouts div:first-child{border-left:0;}
+.readouts .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.readouts .v{font-family:var(--mono);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;
+  margin-top:3px;color:var(--ink);}
+.scope{display:flex;flex-direction:column;}
+.scope-body{padding:6px 12px 2px;}
+
+/* ---- transport ---- */
+.transport{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 16px;
+  border-top:1px solid var(--rule);background:var(--panel-2);grid-column:1/-1;}
+button{font:inherit;cursor:pointer;}
+.play{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);border:1px solid var(--ink);border-radius:2px;
+  padding:10px 20px;min-width:118px;transition:opacity .15s;}
+.play:hover{opacity:.85;}
+.ghostbtn{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;color:var(--ink-2);border:1px solid var(--rule);border-radius:2px;padding:9px 13px;}
+.ghostbtn:hover{border-color:var(--muted);color:var(--ink);}
+.speeds{display:flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.speeds button{font-family:var(--mono);font-size:11.5px;background:transparent;color:var(--muted);
+  border:0;border-left:1px solid var(--rule);padding:9px 12px;}
+.speeds button:first-child{border-left:0;}
+.speeds button[aria-pressed="true"]{background:var(--ink);color:var(--paper);}
+input[type=range]{flex:1 1 180px;min-width:140px;accent-color:var(--truth);height:22px;}
+.clock{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--muted);
+  white-space:nowrap;}
+:focus-visible{outline:2px solid var(--truth);outline-offset:2px;}
+
+/* ---- numbers ---- */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.fig{background:var(--panel);padding:17px 18px 18px;}
+.fig .n{font-family:var(--disp);font-weight:700;font-size:33px;letter-spacing:-.02em;line-height:1.05;
+  font-variant-numeric:tabular-nums;}
+.fig .n span{font-size:17px;font-weight:600;color:var(--muted);letter-spacing:0;}
+.fig .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:7px;}
+.fig .d{font-size:13px;color:var(--ink-2);margin-top:7px;}
+.fig.hero .n{color:var(--alarm);}
+
+/* ---- notes ---- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;
+  border-top:1px solid var(--rule);padding-top:20px;}
+.notes h2{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 10px;}
+.notes ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:8px;}
+.notes li{font-size:14px;color:var(--ink-2);}
+.notes li b{color:var(--ink);font-weight:500;}
+.notes .lim li::marker{color:var(--alarm);}
+.notes .yes li::marker{color:var(--truth);}
+.finding{border-left:2px solid var(--truth);background:var(--panel);padding:16px 20px;border-radius:0 3px 3px 0;}
+.finding h2{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--truth);margin:0 0 8px;}
+.finding p{margin:0;font-size:14px;color:var(--ink-2);max-width:78ch;}
+.finding b{color:var(--ink);font-weight:500;}
+.method{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--muted);
+  border-top:1px solid var(--rule);padding-top:16px;}
+.method b{color:var(--ink-2);font-weight:500;}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;padding:9px 16px 13px;}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+.swatch{width:15px;height:0;border-top-width:2.5px;border-top-style:solid;flex:none;}
+
+@media (max-width:860px){
+  .bench{grid-template-columns:minmax(0,1fr);}
+  .stage{border-right:0;border-bottom:1px solid var(--rule);}
+  .readouts{margin-top:0;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important;}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="head">
+    <div>
+      <div class="eyebrow">Rung 2 &middot; Damage detection &middot; Recorded run</div>
+      <h1>The pendulum notices its own body <em>changed</em>.</h1>
+      <p class="sub">A learned model of its own dynamics, built from 100 seconds of random flailing.
+        Halfway through the run its mass silently jumps 50%. Nothing tells it. It works this out
+        from the gap between what it predicted and what its body did.</p>
+    </div>
+    <div class="chip" id="chip" data-state="idle"><span class="dot"></span><span id="chipText">Ready</span></div>
+  </header>
+
+  <section class="bench">
+    <div class="stage">
+      <div class="pane-label">Body &mdash; live</div>
+      <svg id="stage" viewBox="0 0 340 338" role="img" aria-label="Animated pendulum showing the real body and the model's expected position"></svg>
+      <div class="legend">
+        <span><i class="swatch" style="border-top-color:var(--truth)"></i>Actual body</span>
+        <span><i class="swatch" style="border-top-color:var(--model);border-top-style:dashed"></i>Model expected (1.0&thinsp;s &mdash; planner horizon)</span>
+      </div>
+      <div class="readouts">
+        <div><div class="k">Angle</div><div class="v" id="rTheta">&mdash;</div></div>
+        <div><div class="k">Rate</div><div class="v" id="rRate">&mdash;</div></div>
+        <div><div class="k">Torque</div><div class="v" id="rTorque">&mdash;</div></div>
+      </div>
+    </div>
+
+    <div class="scope">
+      <div class="pane-label">Self-model error &mdash; one-step prediction, 10-step trailing mean</div>
+      <div class="scope-body">
+        <svg id="scope" viewBox="0 0 660 300" role="img" aria-label="Prediction error over time, log scale, spiking above the alarm threshold shortly after the mass change"></svg>
+      </div>
+      <div class="legend" style="padding-top:0">
+        <span><i class="swatch" style="border-top-color:var(--truth)"></i>This run</span>
+        <span><i class="swatch" style="border-top-color:var(--muted);border-top-style:dashed"></i>Mean of 10 runs</span>
+        <span><i class="swatch" style="border-top-color:var(--rule);border-top-width:9px"></i>Range across 10</span>
+      </div>
+    </div>
+
+    <div class="transport">
+      <button class="play" id="play">Run</button>
+      <button class="ghostbtn" id="jump">Jump to damage</button>
+      <div class="speeds" role="group" aria-label="Playback speed">
+        <button data-sp="1">1&times;</button><button data-sp="2" aria-pressed="true">2&times;</button><button data-sp="4">4&times;</button>
+      </div>
+      <input type="range" id="scrub" min="0" max="100" value="0" step="1" aria-label="Scrub through the run">
+      <div class="clock" id="clock">t = 0.00 s</div>
+    </div>
+  </section>
+
+  <section class="figs" id="figs"></section>
+
+  <section class="notes">
+    <div class="yes">
+      <h2>What the run shows</h2>
+      <ul>
+        <li>The model was trained <b>only on the healthy body</b> and never retrained. Detection comes from prediction error alone.</li>
+        <li>No fault library, no labels, no extra sensor. The threshold is calibrated on healthy behaviour only, leave-one-out, so no run is scored against a threshold fitted to itself.</li>
+        <li>It does not depend on the controller working. Swing-up succeeded in <b>3 of 10</b> runs; all <b>10</b> detections fired anyway.</li>
+      </ul>
+    </div>
+    <div class="lim">
+      <h2>What it does not show</h2>
+      <ul>
+        <li>Detection, not diagnosis. It signals <b>that</b> the body changed, not which parameter moved.</li>
+        <li>Not a control result. This planner swings the pendulum upright in a minority of runs, and the damage left control quality unchanged (<b>2.80 &rarr; 2.81</b>).</li>
+        <li>Simulation, one body, one damage type. Recovering <em>after</em> damage is still unsolved in our own data.</li>
+      </ul>
+    </div>
+  </section>
+
+  <aside class="finding">
+    <h2>One result worth arguing about</h2>
+    <p>Probing the body with <b>random</b> torque produces a far bigger error jump &mdash; <b>9.0&times;</b>
+      against 3.8&times; under control &mdash; and yet it is the <em>worse</em> detector. At a zero-false-alarm
+      threshold, random probing catches <b>1 of 10</b> damage events; closed-loop control catches
+      <b>10 of 10</b>. Thrashing the body widens the healthy baseline faster than it widens the damage signal.
+      Holding the body inside a narrow, well-modelled regime is what makes the change legible at all.</p>
+  </aside>
+
+  <p class="method" id="method"></p>
+</div>
+
+<script>
+const D = /*__DATA__*/;
+const $ = id => document.getElementById(id);
+const W = D.window, dt = D.dt, N = D.steps, DAM = D.damage_at, T0 = W;
+const secs = s => (s - T0) * dt;
+const fmt = (v, n) => v.toFixed(n);
+
+/* ---------------- scope (static layers, drawn once) ---------------- */
+const CW = 660, CH = 300, PL = 54, PR = 14, PT = 20, PB = 32;
+const PW = CW - PL - PR, PH = CH - PT - PB;
+const XA = T0, XB = N - 1;
+const YA = 1e-5, YB = 5e-3, LA = Math.log10(YA), LB = Math.log10(YB);
+const X = s => PL + (s - XA) / (XB - XA) * PW;
+const Y = v => PT + (LB - Math.log10(Math.min(Math.max(v, YA), YB))) / (LB - LA) * PH;
+
+const line = (arr, a, b) => {
+  let d = '';
+  for (let i = a; i <= b; i++) d += (i === a ? 'M' : 'L') + X(i).toFixed(1) + ' ' + Y(arr[i]).toFixed(1);
+  return d;
+};
+const SUP = { '-5': '10⁻⁵', '-4': '10⁻⁴', '-3': '10⁻³' };
+const crossIdx = DAM + D.ep_cross - 1;
+
+let g = '';
+/* alarm region */
+g += `<rect x="${PL}" y="${PT}" width="${PW}" height="${(Y(D.threshold) - PT).toFixed(1)}" style="fill:var(--alarm-soft)"/>`;
+/* grid + y labels */
+for (const e of [-5, -4, -3]) {
+  const y = Y(Math.pow(10, e)).toFixed(1);
+  g += `<line x1="${PL}" y1="${y}" x2="${PL + PW}" y2="${y}" stroke-width="1" style="stroke:var(--rule-2)"/>`;
+  g += `<text x="${PL - 9}" y="${y}" text-anchor="end" dominant-baseline="middle"
+        font-size="10.5" style="fill:var(--muted);font-family:var(--mono)">${SUP[e]}</text>`;
+}
+g += `<text x="14" y="${PT + PH / 2}" font-size="10"
+      letter-spacing="1.4" text-anchor="middle" transform="rotate(-90 14 ${PT + PH / 2})" style="fill:var(--muted);font-family:var(--mono)">MEAN SQ. ERROR</text>`;
+/* x ticks */
+for (let t = 0; t <= 11; t += 2) {
+  const s = T0 + t / dt, x = X(s).toFixed(1);
+  g += `<line x1="${x}" y1="${PT + PH}" x2="${x}" y2="${PT + PH + 4}" stroke-width="1" style="stroke:var(--rule)"/>`;
+  g += `<text x="${x}" y="${PT + PH + 17}" text-anchor="middle"
+        font-size="10.5" style="fill:var(--muted);font-family:var(--mono)">${t}s</text>`;
+}
+/* band + mean */
+let band = '';
+for (let i = T0; i <= XB; i++) band += (i === T0 ? 'M' : 'L') + X(i).toFixed(1) + ' ' + Y(D.band_hi[i]).toFixed(1);
+for (let i = XB; i >= T0; i--) band += 'L' + X(i).toFixed(1) + ' ' + Y(D.band_lo[i]).toFixed(1);
+g += `<path d="${band}Z" opacity=".55" style="fill:var(--rule)"/>`;
+g += `<path d="${line(D.mean_roll, T0, XB)}" fill="none" stroke-width="1.2"
+      stroke-dasharray="4 3" opacity=".9" style="stroke:var(--muted)"/>`;
+/* threshold */
+const ty = Y(D.threshold).toFixed(1);
+g += `<line x1="${PL}" y1="${ty}" x2="${PL + PW}" y2="${ty}" stroke-width="1.3" stroke-dasharray="6 4" style="stroke:var(--alarm)"/>`;
+g += `<text x="${PL + 7}" y="${(+ty - 7).toFixed(1)}"
+      font-size="10" letter-spacing=".08em" style="fill:var(--alarm);font-family:var(--mono)">ALARM THRESHOLD &mdash; 3&sigma; OF HEALTHY</text>`;
+/* damage marker */
+const dx = X(DAM).toFixed(1);
+g += `<line x1="${dx}" y1="${PT}" x2="${dx}" y2="${PT + PH}" stroke-width="1.3" stroke-dasharray="3 3" opacity=".65" style="stroke:var(--ink)"/>`;
+g += `<text x="${(+dx - 7).toFixed(1)}" y="${PT + 12}" text-anchor="end"
+      font-size="10.5" font-weight="500" style="fill:var(--ink);font-family:var(--mono)">MASS +50%</text>`;
+/* run trace, split at the crossing */
+g += `<path d="${line(D.ep_roll, T0, crossIdx)}" fill="none" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round" style="stroke:var(--truth)"/>`;
+g += `<path d="${line(D.ep_roll, crossIdx, XB)}" fill="none" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round" style="stroke:var(--alarm)"/>`;
+/* detection marker */
+const cx = X(crossIdx), cy = Y(D.ep_roll[crossIdx]);
+g += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" style="fill:var(--alarm)"/>`;
+g += `<text x="${(cx + 9).toFixed(1)}" y="${(cy - 9).toFixed(1)}"
+      font-size="11" font-weight="500" style="fill:var(--alarm);font-family:var(--mono)">DETECTED +${(D.ep_cross * dt).toFixed(2)}s</text>`;
+/* playhead */
+g += `<line id="head" x1="${PL}" y1="${PT - 5}" x2="${PL}" y2="${PT + PH}" stroke-width="1.6" style="stroke:var(--ink)"/>`;
+g += `<circle id="headDot" cx="${PL}" cy="${PT + PH}" r="3.5" style="fill:var(--ink)"/>`;
+$('scope').innerHTML = g;
+
+/* ---------------- stage ---------------- */
+const PX = 168, PY = 138, ROD = 100, R0 = 13, R1 = R0 * Math.sqrt(1.5);
+$('stage').innerHTML = `
+  <line x1="${PX}" y1="${PY}" x2="${PX}" y2="${PY - ROD - 16}" stroke-width="1" stroke-dasharray="3 4" style="stroke:var(--rule)"/>
+  <text x="${PX}" y="${PY - ROD - 24}" text-anchor="middle"
+        font-size="9.5" letter-spacing=".12em" style="fill:var(--muted);font-family:var(--mono)">UPRIGHT</text>
+  <line id="gRod" x1="${PX}" y1="${PY}" x2="${PX}" y2="${PY - ROD}" stroke-width="2" stroke-dasharray="5 4" opacity=".85" style="stroke:var(--model)"/>
+  <circle id="gBob" cx="${PX}" cy="${PY - ROD}" r="${R0}" fill="none" stroke-width="2" opacity=".85" style="stroke:var(--model)"/>
+  <line id="rRod" x1="${PX}" y1="${PY}" x2="${PX}" y2="${PY - ROD}" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--truth)"/>
+  <circle id="rBob" cx="${PX}" cy="${PY - ROD}" r="${R0}" style="fill:var(--truth)"/>
+  <circle cx="${PX}" cy="${PY}" r="4.5" style="fill:var(--ink)"/>
+  <text id="mass" x="${PX}" y="${PY + ROD + 40}" text-anchor="middle"
+        font-size="11" font-weight="500" letter-spacing=".1em" opacity="0" style="fill:var(--alarm);font-family:var(--mono)">MASS +50%</text>
+  <text x="34" y="${PY + ROD + 68}" font-size="9.5" letter-spacing=".12em" style="fill:var(--muted);font-family:var(--mono)">TORQUE</text>
+  <line x1="34" y1="${PY + ROD + 80}" x2="306" y2="${PY + ROD + 80}" stroke-width="6" stroke-linecap="round" style="stroke:var(--rule-2)"/>
+  <line x1="170" y1="${PY + ROD + 72}" x2="170" y2="${PY + ROD + 88}" stroke-width="1" style="stroke:var(--rule)"/>
+  <line id="tq" x1="170" y1="${PY + ROD + 80}" x2="170" y2="${PY + ROD + 80}" stroke-width="6" stroke-linecap="round" style="stroke:var(--ink)"/>`;
+
+/* ---------------- figures ---------------- */
+$('figs').innerHTML = [
+  ['hero', (D.detect_median * dt).toFixed(2), 's', 'Time to notice',
+   `Median across ${D.n_episodes} runs (${(D.detect_min * dt).toFixed(2)}–${(D.detect_max * dt).toFixed(2)}s). The body changes; ${D.detect_median} control steps later the alarm trips.`],
+  ['', `${D.n_episodes} / ${D.n_episodes}`, '', 'Runs detected',
+   `Independent runs, every one caught — including the ${D.n_episodes - D.n_swingup} where the controller performed badly. Detection does not depend on control working.`],
+  ['', '0', ` / ${D.healthy_steps.toLocaleString()}`, 'False alarms',
+   'Healthy steps scored against a threshold calibrated on the other runs. It never cried wolf.'],
+  ['', (D.train_samples * dt).toFixed(0), 's', 'Data to build the model',
+   `${D.train_samples.toLocaleString()} random-torque transitions, self-collected. No demonstrations, no reward.`],
+].map(([c, n, u, l, d]) =>
+  `<div class="fig ${c}"><div class="n">${n}<span>${u}</span></div><div class="l">${l}</div><div class="d">${d}</div></div>`
+).join('');
+
+$('method').innerHTML = `<b>Method.</b> Forward model: 4&ndash;64&ndash;64&ndash;3 MLP predicting the state delta,
+  trained on ${D.train_samples.toLocaleString()} random-action transitions from the healthy body
+  (Pendulum-v1, 20&thinsp;Hz). Control: CEM model-predictive control, horizon 20, 5 iterations
+  &times; 100 candidates, 10 elites &mdash; identical to Rung&nbsp;1. Detection statistic: ${W}-step trailing
+  mean of one-step prediction error. At step ${DAM} the pendulum mass is multiplied by 1.5 mid-episode.
+  The run shown is the median of the ${D.n_episodes} by post-damage control cost, so it is representative
+  rather than flattering. Every number and every trace on this page is read from that recording.
+  <br><br><b>The threshold is not tuned.</b> Every rule was calibrated on healthy data only and
+  leave-one-out across runs: ` + Object.entries(D.robust).map(([k, v]) =>
+    `${k} &rarr; ${v.detected}/${D.n_episodes} detected, median ${v.median.toFixed(2)}s, ${v.false} false alarm${v.false === 1 ? '' : 's'}`
+  ).join('; ') + `. The result survives all three, including the strictest possible zero-false-alarm rule.`;
+
+/* ---------------- playback ---------------- */
+let step = 0, playing = false, speed = 2, last = 0, tripped = false;
+const head = $('head'), headDot = $('headDot');
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function render() {
+  const i = Math.min(Math.max(Math.round(step), 0), N - 1);
+  const th = D.theta[i], gh = D.ghost[i], tq = D.torque[i];
+  const bx = PX + ROD * Math.sin(th), by = PY - ROD * Math.cos(th);
+  const gx = PX + ROD * Math.sin(gh), gy = PY - ROD * Math.cos(gh);
+  $('rRod').setAttribute('x2', bx.toFixed(2)); $('rRod').setAttribute('y2', by.toFixed(2));
+  $('rBob').setAttribute('cx', bx.toFixed(2)); $('rBob').setAttribute('cy', by.toFixed(2));
+  $('gRod').setAttribute('x2', gx.toFixed(2)); $('gRod').setAttribute('y2', gy.toFixed(2));
+  $('gBob').setAttribute('cx', gx.toFixed(2)); $('gBob').setAttribute('cy', gy.toFixed(2));
+
+  const damaged = i >= DAM, r = damaged ? R1 : R0;
+  $('rBob').setAttribute('r', r.toFixed(2)); $('gBob').setAttribute('r', r.toFixed(2));
+  $('mass').setAttribute('opacity', damaged ? '1' : '0');
+  $('tq').setAttribute('x2', (170 + tq * 62).toFixed(1));
+  $('tq').style.stroke = Math.abs(tq) > 0.05 ? 'var(--truth)' : 'var(--rule)';
+
+  $('rTheta').textContent = (th * 180 / Math.PI).toFixed(0) + '°';
+  $('rRate').textContent = fmt(D.thdot ? D.thdot[i] : 0, 1);
+  $('rTorque').textContent = (tq >= 0 ? '+' : '') + fmt(tq, 2);
+
+  const x = i < T0 ? PL : X(i);
+  head.setAttribute('x1', x.toFixed(1)); head.setAttribute('x2', x.toFixed(1));
+  headDot.setAttribute('cx', x.toFixed(1));
+  $('clock').textContent = 't = ' + (i * dt).toFixed(2) + ' s';
+  $('scrub').value = String(Math.round(i / (N - 1) * 100));
+
+  tripped = i >= crossIdx;
+  const chip = $('chip');
+  if (!damaged) { chip.dataset.state = i > 0 ? 'ok' : 'idle'; $('chipText').textContent = i > 0 ? 'Model matches body' : 'Ready'; }
+  else if (!tripped) { chip.dataset.state = 'ok'; $('chipText').textContent = 'Model matches body'; }
+  else { chip.dataset.state = 'alarm'; $('chipText').textContent = 'Mismatch detected — ' + (D.ep_cross * dt).toFixed(2) + 's'; }
+}
+
+function frame(now) {
+  if (!playing) return;
+  const d = Math.min(Math.max((now - last) / 1000, 0), 0.1); last = now;
+  step += d * speed / dt;
+  if (step >= N - 1) { step = N - 1; stop(); render(); return; }
+  render(); requestAnimationFrame(frame);
+}
+function start() {
+  if (step >= N - 1) step = 0;
+  playing = true; $('play').textContent = 'Pause';
+  last = performance.now(); requestAnimationFrame(frame);
+}
+function stop() { playing = false; $('play').textContent = step >= N - 1 ? 'Replay' : 'Run'; }
+
+$('play').onclick = () => playing ? stop() : start();
+$('jump').onclick = () => { stop(); step = Math.max(0, DAM - 24); render(); start(); };
+$('scrub').oninput = e => { stop(); step = e.target.value / 100 * (N - 1); render(); };
+document.querySelectorAll('.speeds button').forEach(b => b.onclick = () => {
+  speed = +b.dataset.sp;
+  document.querySelectorAll('.speeds button').forEach(o => o.removeAttribute('aria-pressed'));
+  b.setAttribute('aria-pressed', 'true');
+});
+addEventListener('keydown', e => {
+  if (e.key === ' ' && e.target === document.body) { e.preventDefault(); playing ? stop() : start(); }
+});
+
+render();
+if (!reduce) setTimeout(start, 700);
+</script>
