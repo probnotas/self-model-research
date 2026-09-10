@@ -1,4 +1,4 @@
-# Investor demo — damage detection
+# Investor demos
 
 A <1 minute demo built from a real recorded run. Nothing here is illustrative:
 every number and every trace on the page is read out of `demo_trace.json`.
@@ -45,3 +45,79 @@ Detection, not diagnosis. Not a control result (the planner balances in a
 minority of runs, and the damage left control cost unchanged, 2.80 -> 2.81).
 Simulation, one body, one damage type. Recovery after damage remains unsolved
 in our own data (see Rung 2 and Rung 3).
+
+
+---
+
+# Demo 2 — damage recovery (recommended for the pitch)
+
+`recovery.html`. Three pendulums side by side from the same starting state:
+healthy, motor cut to 50%, and the same broken body after the model retrained
+on 25 transitions.
+
+    python3 balance_probe.py      # which damage actually breaks balance-hold
+    python3 recovery_probe.py     # the repair curve
+    python3 record_recovery.py    # records the three runs -> recovery_trace.json
+    python3 sac_balance.py        # the model-free control
+
+## Why balance-hold and not swing-up
+
+Swing-up from hanging is beyond this planner. `planner_sweep.py` scores success
+rate (not mean cost, which is meaningless on a bimodal outcome) across horizons
+and CEM budgets:
+
+| horizon | iters | candidates | mean cost | swung up |
+|---|---|---|---|---|
+| 20 | 5 | 100 | 3.680 | 25% |
+| 40 | 5 | 100 | 5.478 | 0% |
+| 40 | 8 | 200 | 4.592 | 12% |
+| 60 | 8 | 200 | 3.743 | 25% |
+| 80 | 8 | 300 | 4.992 | 0% |
+| 100 | 8 | 300 | 4.269 | 25% |
+
+More horizon and more compute do not help, so this is compounding model error,
+not a tuning problem. Balance-hold is a task the planner can actually do.
+
+## Which damage breaks it
+
+Balance-hold, healthy model, 10 starts:
+
+| body | mean cost | held upright |
+|---|---|---|
+| healthy | 0.010 | 100% |
+| mass +50% (the Rung 2 damage) | 0.217 | 90% |
+| mass x2 | 12.751 | 0% |
+| **motor at 50%** | **12.751** | **0%** |
+| length +50% | 0.085 | 90% |
+
+Mass +50% barely dents balance-hold, which is why Rung 2's damage never made a
+legible demo. A weakened actuator does.
+
+## Repair curve (motor at 50%)
+
+| repair samples | on-policy | random probing |
+|---|---|---|
+| 10 | 0% | 30% |
+| 25 | **80%** | 10% |
+| 50 | 90% | 0% |
+| 100 | 90% | 80% |
+| 200 | 100% | 80% |
+| 500 | 100% | 100% |
+
+On-policy data (collected while the stale controller tried and failed) reaches
+80% at 25 samples; random babbling needs 500 for the same result.
+
+## The control that limits the claim
+
+SAC, 20,000 steps on the healthy body, scored on the identical task:
+
+| condition | mean cost | held upright |
+|---|---|---|
+| healthy body | 0.006 | 100% |
+| motor at 50%, **no adaptation** | 3.964 | **80%** |
+
+The model-free policy absorbs this damage without adapting at all, where the
+model-based planner drops to 0%. The self-repair is real; "beats RL at staying
+upright" is not available from this data. The defensible differentiators are
+that the model is acquired with no reward function, is reusable across tasks,
+and can detect its own damage (see demo 1) - a policy cannot tell you it is wrong.

@@ -1,0 +1,392 @@
+<title>Pendulum Self-Repair Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F2; --panel:#FFFFFF; --panel-2:#F5F7F9;
+  --ink:#101519; --ink-2:#33414D; --muted:#5A6773; --rule:#D3DAE0; --rule-2:#E4E9ED;
+  --truth:#0D7C88; --truth-soft:rgba(13,124,136,.12);
+  --alarm:#C9432A; --alarm-soft:rgba(201,67,42,.09);
+  --shadow:0 1px 2px rgba(16,21,25,.06), 0 8px 24px -18px rgba(16,21,25,.35);
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --disp:"Archivo","IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --truth:#38B9C4; --truth-soft:rgba(56,185,196,.14);
+  --alarm:#F2735C; --alarm-soft:rgba(242,115,92,.11);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}}
+:root[data-theme="dark"]{
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --truth:#38B9C4; --truth-soft:rgba(56,185,196,.14);
+  --alarm:#F2735C; --alarm-soft:rgba(242,115,92,.11);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;
+  padding-inline:20px;padding-block:28px 44px;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1120px;margin-inline:auto;display:flex;flex-direction:column;gap:18px;}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);}
+
+.head{border-bottom:1px solid var(--rule);padding-bottom:16px;}
+.head h1{font-family:var(--disp);font-weight:700;font-size:clamp(26px,4vw,40px);line-height:1.08;
+  letter-spacing:-.022em;margin:6px 0 0;text-wrap:balance;max-width:26ch;}
+.head h1 em{font-style:normal;color:var(--truth);}
+.sub{color:var(--ink-2);font-size:15px;max-width:68ch;margin:11px 0 0;}
+
+.bench{background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  box-shadow:var(--shadow);overflow:hidden;}
+.stages{display:grid;grid-template-columns:repeat(3,1fr);}
+.stage{border-left:1px solid var(--rule);padding-bottom:4px;}
+.stage:first-child{border-left:0;}
+.stage-hd{padding:12px 16px 10px;border-bottom:1px solid var(--rule-2);background:var(--panel-2);}
+.stage-hd .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);}
+.stage-hd .t{font-family:var(--disp);font-weight:600;font-size:16px;margin-top:3px;letter-spacing:-.01em;}
+.stage-hd .d{font-size:12.5px;color:var(--muted);margin-top:2px;}
+.stage svg{display:block;width:100%;height:auto;}
+.state{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:0 16px 12px;font-family:var(--mono);font-size:12px;}
+.state .s{display:inline-flex;align-items:center;gap:7px;letter-spacing:.05em;text-transform:uppercase;}
+.state .s i{width:7px;height:7px;border-radius:50%;background:currentColor;}
+.state .c{color:var(--muted);font-variant-numeric:tabular-nums;}
+.ok{color:var(--truth);} .bad{color:var(--alarm);}
+
+.transport{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 16px;
+  border-top:1px solid var(--rule);background:var(--panel-2);}
+button{font:inherit;cursor:pointer;}
+.play{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);border:1px solid var(--ink);border-radius:2px;
+  padding:10px 22px;min-width:120px;transition:opacity .15s;}
+.play:hover{opacity:.85;}
+.speeds{display:flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.speeds button{font-family:var(--mono);font-size:11.5px;background:transparent;color:var(--muted);
+  border:0;border-left:1px solid var(--rule);padding:9px 13px;}
+.speeds button:first-child{border-left:0;}
+.speeds button[aria-pressed="true"]{background:var(--ink);color:var(--paper);}
+input[type=range]{flex:1 1 180px;min-width:140px;accent-color:var(--truth);height:22px;}
+.clock{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--muted);
+  white-space:nowrap;}
+:focus-visible{outline:2px solid var(--truth);outline-offset:2px;}
+
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:3px;box-shadow:var(--shadow);}
+.card h2{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin:0;padding:11px 16px;
+  border-bottom:1px solid var(--rule-2);background:var(--panel-2);}
+.card .body{padding:8px 12px 4px;}
+.card svg{display:block;width:100%;height:auto;}
+.legend{display:flex;flex-wrap:wrap;gap:14px;padding:2px 16px 13px;}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+.swatch{width:15px;height:0;border-top-width:2.5px;border-top-style:solid;flex:none;}
+
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.fig{background:var(--panel);padding:17px 18px 18px;}
+.fig .n{font-family:var(--disp);font-weight:700;font-size:32px;letter-spacing:-.02em;line-height:1.05;
+  font-variant-numeric:tabular-nums;}
+.fig .n span{font-size:16px;font-weight:600;color:var(--muted);letter-spacing:0;}
+.fig .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:7px;}
+.fig .d{font-size:13px;color:var(--ink-2);margin-top:7px;}
+.fig.hero .n{color:var(--truth);}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;
+  border-top:1px solid var(--rule);padding-top:20px;}
+.notes h2{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 10px;}
+.notes ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:8px;}
+.notes li{font-size:14px;color:var(--ink-2);}
+.notes li b{color:var(--ink);font-weight:500;}
+.notes .yes li::marker{color:var(--truth);}
+.notes .lim li::marker{color:var(--alarm);}
+.method{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--muted);
+  border-top:1px solid var(--rule);padding-top:16px;}
+.method b{color:var(--ink-2);font-weight:500;}
+
+@media (max-width:820px){.stages{grid-template-columns:1fr;}
+  .stage{border-left:0;border-top:1px solid var(--rule);} .stage:first-child{border-top:0;}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important;}}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div class="eyebrow">Rung 2 &middot; Damage recovery &middot; Three recorded runs</div>
+    <h1>We halved its motor. It rebuilt its balance in <em>25 moves</em>.</h1>
+    <p class="sub">Three pendulums, identical starting position, playing at once. The model was never
+      given the physics &mdash; it worked them out from 100 seconds of its own random flailing. Then we cut
+      the actuator to half power without telling it.</p>
+  </header>
+
+  <section class="bench">
+    <div class="stages" id="stages"></div>
+    <div class="transport">
+      <button class="play" id="play">Run</button>
+      <div class="speeds" role="group" aria-label="Playback speed">
+        <button data-sp="1">1&times;</button><button data-sp="2" aria-pressed="true">2&times;</button><button data-sp="4">4&times;</button>
+      </div>
+      <input type="range" id="scrub" min="0" max="100" value="0" step="1" aria-label="Scrub through the runs">
+      <div class="clock" id="clock">t = 0.00 s</div>
+    </div>
+  </section>
+
+  <section class="charts">
+    <div class="card">
+      <h2>Control cost over the run &mdash; lower is better</h2>
+      <div class="body"><svg id="costs" viewBox="0 0 520 250" role="img"
+        aria-label="Cost over time for the three conditions; the broken one rises and stays high"></svg></div>
+      <div class="legend" id="legCost"></div>
+    </div>
+    <div class="card">
+      <h2>How much repair data it takes</h2>
+      <div class="body"><svg id="curve" viewBox="0 0 520 250" role="img"
+        aria-label="Share of runs held upright against the number of repair samples"></svg></div>
+      <div class="legend" id="legCurve"></div>
+    </div>
+  </section>
+
+  <section class="figs" id="figs"></section>
+
+  <section class="notes">
+    <div class="yes">
+      <h2>What the runs show</h2>
+      <ul>
+        <li>Nothing told it the motor had changed. The repair is driven only by the mismatch between what it predicted and what its body did.</li>
+        <li>It repairs from its <b>own failures</b>. The 25 transitions are what it generated while trying to balance and falling over.</li>
+        <li>That matters more than the count: repairing from random flailing needs <b>500</b> samples for the same result, <b>20&times;</b> more.</li>
+        <li>The model was learned <b>without any reward function</b> &mdash; just 2,000 transitions of self-generated motion. The policy it is measured against needed 20,000 steps of reward-driven training, and is tied to the one task it was trained for.</li>
+      </ul>
+    </div>
+    <div class="lim">
+      <h2>What they do not show</h2>
+      <ul>
+        <li>This is <b>balance-hold</b>, not swing-up from hanging. Swing-up is beyond this planner &mdash; it succeeds in under a quarter of attempts at every horizon we tried.</li>
+        <li>The repair is not perfect: <b>8 of 10</b> runs held upright at 25 samples, against 10 of 10 for the healthy body. It reaches 10 of 10 at 200 samples.</li>
+        <li>Simulation, one body, one kind of damage. A weakened actuator is the damage this planner is most sensitive to; a 50% mass increase barely dents it.</li>
+        <li><b>It does not beat reinforcement learning at staying upright.</b> A model-free policy trained on the healthy body absorbed the same damage with no adaptation at all, holding <b>8 of 10</b> where ours held <b>0 of 10</b>. The repair here is real; a claim that this outperforms RL is not.</li>
+      </ul>
+    </div>
+  </section>
+
+  <p class="method" id="method"></p>
+</div>
+
+<script>
+const D = /*__DATA__*/;
+const $ = id => document.getElementById(id);
+const N = D.steps, dt = D.dt;
+
+const CONDS = [
+  { k:'healthy',  n:'Reference', t:'Healthy body', d:'Full motor, model intact', dmg:false },
+  { k:'stale',    n:'Damaged',   t:'Motor at 50%', d:'Same model, no repair',    dmg:true  },
+  { k:'repaired', n:'Repaired',  t:'Motor at 50%', d:`Model retrained on ${D.repair_n} moves`, dmg:true },
+];
+const PX = 100, PY = 106, ROD = 64, BOB = 11;
+
+$('stages').innerHTML = CONDS.map(c => `
+  <div class="stage">
+    <div class="stage-hd">
+      <div class="n">${c.n}</div><div class="t">${c.t}</div><div class="d">${c.d}</div>
+    </div>
+    <svg viewBox="0 0 200 208" role="img" aria-label="${c.t}, ${c.d}">
+      <line x1="${PX}" y1="${PY}" x2="${PX}" y2="${PY - ROD - 14}" stroke-width="1"
+            stroke-dasharray="3 4" style="stroke:var(--rule)"/>
+      <text x="${PX}" y="${PY - ROD - 21}" text-anchor="middle" font-size="9"
+            letter-spacing=".12em" style="fill:var(--muted);font-family:var(--mono)">UPRIGHT</text>
+      <line id="rod-${c.k}" x1="${PX}" y1="${PY}" x2="${PX}" y2="${PY - ROD}" stroke-width="3.5"
+            stroke-linecap="round" style="stroke:var(--truth)"/>
+      <circle id="bob-${c.k}" cx="${PX}" cy="${PY - ROD}" r="${BOB}" style="fill:var(--truth)"/>
+      <circle cx="${PX}" cy="${PY}" r="4" style="fill:var(--ink)"/>
+      ${c.dmg ? `<text x="${PX}" y="${PY + 62}" text-anchor="middle" font-size="10" font-weight="500"
+            letter-spacing=".1em" style="fill:var(--alarm);font-family:var(--mono)">MOTOR 50%</text>` : ''}
+      <text x="26" y="${PY + 82}" font-size="9" letter-spacing=".12em"
+            style="fill:var(--muted);font-family:var(--mono)">TORQUE</text>
+      <line x1="26" y1="${PY + 92}" x2="174" y2="${PY + 92}" stroke-width="5" stroke-linecap="round"
+            style="stroke:var(--rule-2)"/>
+      <line x1="100" y1="${PY + 86}" x2="100" y2="${PY + 98}" stroke-width="1" style="stroke:var(--rule)"/>
+      <line id="tq-${c.k}" x1="100" y1="${PY + 92}" x2="100" y2="${PY + 92}" stroke-width="5"
+            stroke-linecap="round" style="stroke:var(--ink)"/>
+    </svg>
+    <div class="state">
+      <span class="s" id="st-${c.k}"><i></i><span id="stt-${c.k}">&mdash;</span></span>
+      <span class="c">cost <span id="cc-${c.k}">0.00</span></span>
+    </div>
+  </div>`).join('');
+
+/* ---------------- chart helpers ---------------- */
+const CW = 520, CH = 250, L = 46, R = 12, T = 16, B = 34;
+const PWID = CW - L - R, PHGT = CH - T - B;
+const sup = { '-2':'0.01', '-1':'0.1', '0':'1', '1':'10', '2':'100' };
+
+/* cost over time, log scale */
+(() => {
+  const YA = 1e-3, YB = 1e2, la = Math.log10(YA), lb = Math.log10(YB);
+  const x = s => L + s / (N - 1) * PWID;
+  const y = v => T + (lb - Math.log10(Math.min(Math.max(v, YA), YB))) / (lb - la) * PHGT;
+  const smooth = a => a.map((_, i) => a.slice(Math.max(0, i - 4), i + 1).reduce((p, q) => p + q, 0) / Math.min(i + 1, 5));
+  let g = '';
+  for (const e of [-2, -1, 0, 1, 2]) {
+    const yy = y(Math.pow(10, e)).toFixed(1);
+    g += `<line x1="${L}" y1="${yy}" x2="${L + PWID}" y2="${yy}" stroke-width="1" style="stroke:var(--rule-2)"/>`;
+    g += `<text x="${L - 8}" y="${yy}" text-anchor="end" dominant-baseline="middle" font-size="10"
+          style="fill:var(--muted);font-family:var(--mono)">${sup[e]}</text>`;
+  }
+  for (let t = 0; t <= 10; t += 2) {
+    const xx = x(t / dt).toFixed(1);
+    g += `<text x="${xx}" y="${T + PHGT + 16}" text-anchor="middle" font-size="10"
+          style="fill:var(--muted);font-family:var(--mono)">${t}s</text>`;
+  }
+  for (const c of CONDS) {
+    const v = smooth(D.runs[c.k].cost);
+    const col = c.k === 'stale' ? 'var(--alarm)' : 'var(--truth)';
+    const dash = c.k === 'healthy' ? ' stroke-dasharray="5 3"' : '';
+    let p = '';
+    for (let i = 0; i < N; i++) p += (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v[i]).toFixed(1);
+    g += `<path d="${p}" fill="none" stroke-width="2"${dash} stroke-linejoin="round" style="stroke:${col}"/>`;
+  }
+  g += `<text x="12" y="${T + PHGT / 2}" text-anchor="middle" font-size="9.5" letter-spacing="1.3"
+        transform="rotate(-90 12 ${T + PHGT / 2})"
+        style="fill:var(--muted);font-family:var(--mono)">COST (LOG)</text>`;
+  g += `<line id="ph" x1="${L}" y1="${T - 4}" x2="${L}" y2="${T + PHGT}" stroke-width="1.5" style="stroke:var(--ink)"/>`;
+  $('costs').innerHTML = g;
+})();
+
+/* repair curve */
+(() => {
+  const XS = Object.keys(D.curve.onpolicy).map(Number);
+  const lx = v => Math.log10(v), x0 = lx(Math.min(...XS)), x1 = lx(Math.max(...XS));
+  const x = v => L + (lx(v) - x0) / (x1 - x0) * PWID;
+  const y = p => T + (1 - p) * PHGT;
+  let g = '';
+  for (const p of [0, .25, .5, .75, 1]) {
+    const yy = y(p).toFixed(1);
+    g += `<line x1="${L}" y1="${yy}" x2="${L + PWID}" y2="${yy}" stroke-width="1" style="stroke:var(--rule-2)"/>`;
+    g += `<text x="${L - 8}" y="${yy}" text-anchor="end" dominant-baseline="middle" font-size="10"
+          style="fill:var(--muted);font-family:var(--mono)">${(p * 100).toFixed(0)}%</text>`;
+  }
+  g += `<line x1="${L}" y1="${y(1).toFixed(1)}" x2="${L + PWID}" y2="${y(1).toFixed(1)}"
+        stroke-width="1.3" stroke-dasharray="5 4" style="stroke:var(--truth)"/>`;
+  g += `<text x="${L + PWID}" y="${(y(1) - 7).toFixed(1)}" text-anchor="end" font-size="10"
+        style="fill:var(--truth);font-family:var(--mono)">HEALTHY BODY</text>`;
+  g += `<text x="${L + PWID}" y="${(y(0) - 9).toFixed(1)}" text-anchor="end" font-size="10"
+        style="fill:var(--alarm);font-family:var(--mono)">0% WITHOUT REPAIR</text>`;
+  for (const [mode, col, dash] of [['random', 'var(--muted)', ' stroke-dasharray="5 3"'],
+                                   ['onpolicy', 'var(--truth)', '']]) {
+    let p = '';
+    XS.forEach((n, i) => { p += (i ? 'L' : 'M') + x(n).toFixed(1) + ' ' + y(D.curve[mode][n][1]).toFixed(1); });
+    g += `<path d="${p}" fill="none" stroke-width="2"${dash} stroke-linejoin="round" style="stroke:${col}"/>`;
+    XS.forEach(n => { g += `<circle cx="${x(n).toFixed(1)}" cy="${y(D.curve[mode][n][1]).toFixed(1)}"
+      r="3.2" style="fill:${col}"/>`; });
+  }
+  XS.forEach(n => {
+    g += `<text x="${x(n).toFixed(1)}" y="${T + PHGT + 16}" text-anchor="middle" font-size="10"
+          style="fill:var(--muted);font-family:var(--mono)">${n}</text>`;
+  });
+  g += `<text x="${L + PWID / 2}" y="${CH - 2}" text-anchor="middle" font-size="9.5" letter-spacing=".1em"
+        style="fill:var(--muted);font-family:var(--mono)">REPAIR SAMPLES</text>`;
+  const cx = x(D.repair_n), cy = y(D.curve.onpolicy[D.repair_n][1]);
+  g += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6" fill="none" stroke-width="1.5" style="stroke:var(--truth)"/>`;
+  $('curve').innerHTML = g;
+})();
+
+$('legCost').innerHTML = `
+  <span><i class="swatch" style="border-top-color:var(--truth);border-top-style:dashed"></i>Healthy</span>
+  <span><i class="swatch" style="border-top-color:var(--alarm)"></i>Damaged, no repair</span>
+  <span><i class="swatch" style="border-top-color:var(--truth)"></i>Damaged, repaired</span>`;
+$('legCurve').innerHTML = `
+  <span><i class="swatch" style="border-top-color:var(--truth)"></i>Learns from its own failures</span>
+  <span><i class="swatch" style="border-top-color:var(--muted);border-top-style:dashed"></i>Learns from random flailing</span>`;
+
+/* ---------------- figures ---------------- */
+const S = D.summary;
+$('figs').innerHTML = [
+  ['hero', String(D.repair_n), ' moves', 'To get its balance back',
+   `${(D.repair_n * dt).toFixed(2)} seconds of experience on the broken body, taken from its own failed attempts.`],
+  ['', `${S.stale.held} → ${S.repaired.held}`, ' / 10', 'Runs held upright',
+   `Out of ten starting positions. The unrepaired model falls over in every one; the healthy body holds all ten.`],
+  ['', '20', '×', 'Less data than flailing',
+   `Random probing on the broken body needs 500 samples to reach the same result these 25 do.`],
+  ['', '100', 's', 'To build the model at all',
+   `2,000 random-torque transitions on the healthy body. No demonstrations, no reward, no physics given.`],
+].map(([c, n, u, l, d]) =>
+  `<div class="fig ${c}"><div class="n">${n}<span>${u}</span></div><div class="l">${l}</div><div class="d">${d}</div></div>`
+).join('');
+
+$('method').innerHTML = `<b>Method.</b> Forward model: 4&ndash;64&ndash;64&ndash;3 MLP predicting the state delta,
+  trained on 2,000 random-action transitions from the healthy body (Pendulum-v1, 20&thinsp;Hz), then frozen.
+  Damage: the actuator delivers half the commanded torque (<i>torque_scale</i> 0.5), applied without any
+  signal to the model. Control: CEM model-predictive control, horizon 20, 5 iterations &times; 100 candidates,
+  10 elites &mdash; identical to Rung&nbsp;1. Task: start within &plusmn;0.2&nbsp;rad of upright and stay there
+  for ${N} steps; a run counts as held if the mean angle over the last 50 steps is inside 0.35&nbsp;rad.
+  Repair: ${D.repair_n} transitions collected while the stale controller tried and failed, then 1,000
+  fine-tuning epochs from the healthy weights. All three runs above share one starting state per seed, and the
+  run shown is the first of ${D.n_ep} on which every condition produced its majority outcome
+  (healthy ${S.healthy.held}/10 upright, unrepaired ${S.stale.held}/10, repaired ${S.repaired.held}/10).
+  Mean cost across all ten: ${S.healthy.mean_cost} healthy, ${S.stale.mean_cost} unrepaired,
+  ${S.repaired.mean_cost} repaired.
+  <br><br><b>Model-free control.</b> SAC (Stable-Baselines3), 20,000 steps on the healthy body, scored on the
+  identical task: ${(D.sac.healthy[1] * 10).toFixed(0)}/10 upright on the healthy body and
+  ${(D.sac.damaged[1] * 10).toFixed(0)}/10 on the weakened motor with no adaptation, against 0/10 for the
+  model-based planner. It is the more robust controller here and is reported as such.
+  Every number and trace on this page is read from those recordings.`;
+
+/* ---------------- playback ---------------- */
+let step = 0, playing = false, speed = 2, last = 0;
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function render() {
+  const i = Math.min(Math.max(Math.round(step), 0), N - 1);
+  for (const c of CONDS) {
+    const r = D.runs[c.k], th = r.theta[i], tq = r.torque[i];
+    const bx = PX + ROD * Math.sin(th), by = PY - ROD * Math.cos(th);
+    const col = Math.abs(th) < 0.35 ? 'var(--truth)' : 'var(--alarm)';
+    const rod = $('rod-' + c.k), bob = $('bob-' + c.k);
+    rod.setAttribute('x2', bx.toFixed(2)); rod.setAttribute('y2', by.toFixed(2));
+    bob.setAttribute('cx', bx.toFixed(2)); bob.setAttribute('cy', by.toFixed(2));
+    rod.style.stroke = col; bob.style.fill = col;
+    $('tq-' + c.k).setAttribute('x2', (100 + tq * 34).toFixed(1));
+    $('tq-' + c.k).style.stroke = Math.abs(tq) > .05 ? col : 'var(--rule)';
+    const up = Math.abs(th) < 0.35;
+    $('st-' + c.k).className = 's ' + (up ? 'ok' : 'bad');
+    $('stt-' + c.k).textContent = up ? 'Upright' : 'Fallen';
+    $('cc-' + c.k).textContent = r.cost[i].toFixed(2);
+  }
+  const ph = $('ph'), xx = (L + i / (N - 1) * PWID).toFixed(1);
+  ph.setAttribute('x1', xx); ph.setAttribute('x2', xx);
+  $('clock').textContent = 't = ' + (i * dt).toFixed(2) + ' s';
+  $('scrub').value = String(Math.round(i / (N - 1) * 100));
+}
+function frame(now) {
+  if (!playing) return;
+  const d = Math.min(Math.max((now - last) / 1000, 0), 0.1); last = now;
+  step += d * speed / dt;
+  if (step >= N - 1) { step = N - 1; stop(); render(); return; }
+  render(); requestAnimationFrame(frame);
+}
+function start() {
+  if (step >= N - 1) step = 0;
+  playing = true; $('play').textContent = 'Pause';
+  last = performance.now(); requestAnimationFrame(frame);
+}
+function stop() { playing = false; $('play').textContent = step >= N - 1 ? 'Replay' : 'Run'; }
+
+$('play').onclick = () => playing ? stop() : start();
+$('scrub').oninput = e => { stop(); step = e.target.value / 100 * (N - 1); render(); };
+document.querySelectorAll('.speeds button').forEach(b => b.onclick = () => {
+  speed = +b.dataset.sp;
+  document.querySelectorAll('.speeds button').forEach(o => o.removeAttribute('aria-pressed'));
+  b.setAttribute('aria-pressed', 'true');
+});
+addEventListener('keydown', e => {
+  if (e.key === ' ' && e.target === document.body) { e.preventDefault(); playing ? stop() : start(); }
+});
+render();
+if (!reduce) setTimeout(start, 700);
+</script>
