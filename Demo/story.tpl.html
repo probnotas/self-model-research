@@ -178,7 +178,10 @@ input[type=range]{flex:1 1 170px;min-width:130px;accent-color:var(--truth);heigh
       <ul>
         <li>Balance-hold, not swing-up from hanging. Swing-up is beyond this planner, which is why it gets stood back up rather than righting itself.</li>
         <li>The repair is not perfect: <b>8 of 10</b> runs balanced afterwards, against 10 of 10 on the healthy body.</li>
-        <li><b>It does not beat reinforcement learning here.</b> A model-free policy trained on the healthy body shrugged off the same damage with no adaptation, holding 8 of 10 where this planner held 0 of 10. What it cannot do is <i>tell you it is broken</i>.</li>
+        <li><b>It is not more sample-efficient than reinforcement learning at this repair.</b> Given the
+        same 100 moves of experience on the broken body, a model-free policy recovers just as well
+        &mdash; 9 of 10 against 9 of 10, statistically
+        identical on paired runs. The self-repair is real; an efficiency win over RL is not.</li>
       </ul>
     </div>
   </section>
@@ -293,10 +296,15 @@ $('method').innerHTML = `<b>Method.</b> Forward model: 4&ndash;64&ndash;64&ndash
   Detection is unchanged by the threshold rule &mdash; ` + Object.entries(D.robust).map(([k, v]) =>
     `${k}: ${v.detected}/${D.n_ep} at ${v.median.toFixed(2)}s, ${v.false} false alarm${v.false === 1 ? '' : 's'} in ${D.healthy_steps} healthy steps`
   ).join('; ') + `. The run shown is the first on which all three acts produced their majority outcome.
-  <br><br><b>Model-free control.</b> SAC (Stable-Baselines3), 20,000 reward-driven steps on the healthy body,
-  scored on the identical task: 10/10 upright healthy, 8/10 on the weakened motor with no adaptation at all,
-  against 0/10 for this planner. It is the more robust controller here and has no way to signal that anything
-  changed. Every number and every trace on this page is read from the recording.`;
+  <br><br><b>Head to head with reinforcement learning.</b> All conditions scored on the same damaged
+  body from the same ten start states, so the comparison is paired. Runs held upright: model-based with the
+  stale model ${D.h2h['MB-stale'].held}/10, after this repair ${D.h2h['MB-repaired'].held}/10; SAC (20,000
+  reward-driven steps on the healthy body) ${D.h2h['SAC-0'].held}/10 with no adaptation and
+  ${D.h2h['SAC-100'].held}/10 when given the same ${D.repair_n} moves of adaptation. The repair against the
+  stale model is significant (exact McNemar p=0.004); the difference against an equally-adapted policy is not
+  (p=1.00, and p=0.85 on paired cost). What has no model-free counterpart is the detection: a policy emits
+  actions, not predictions, so it has nothing to compare against its body. Every number and every trace on
+  this page is read from the recording.`;
 
 /* ---------------- playback ---------------- */
 let step = 0, playing = false, speed = 2, last = 0;

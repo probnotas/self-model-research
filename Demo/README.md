@@ -170,9 +170,41 @@ attempts that each start near upright is what helps, because that is the region
 the controller has to be accurate in. A single 1 s attempt is also too short to
 fall (only 6 of 30 ended fallen), which is why attempts are 2.5 s.
 
-## The bound on the claim
+## Head to head with RL (`head_to_head.py`)
 
-SAC, 20,000 steps on the healthy body, same task: 10/10 upright healthy, **8/10
-on the weakened motor with no adaptation at all**, against 0/10 for this planner.
-The model-free policy is the more robust controller. What it cannot do is signal
-that anything changed — that is the differentiator, not sample efficiency.
+All conditions on the same damaged body from the same ten start states, so the
+comparison is paired. Exact Wilcoxon signed-rank on cost, exact McNemar on the
+hold rate (no scipy in this environment; both enumerated directly at n=10).
+
+| condition | mean cost | held upright |
+|---|---|---|
+| model-based, healthy | 0.009 | 10/10 |
+| model-based, stale model | 13.503 | 0/10 |
+| **model-based, repaired on 100 moves** | **0.657** | **9/10** |
+| SAC, healthy | 0.005 | 10/10 |
+| SAC, no adaptation | 4.927 | 3/10 |
+| **SAC, same 100 steps of adaptation** | **0.387** | **9/10** |
+
+| comparison | result |
+|---|---|
+| stale vs repaired | 0/10 -> 9/10, McNemar **p=0.004**, cost p=0.002 |
+| repaired vs SAC with matched budget | 9/10 vs 9/10, **p=1.00**, cost p=0.85 |
+| repaired vs SAC unadapted | 9/10 vs 3/10, p=0.031 — but see caveat |
+| healthy: model-based vs SAC | both 10/10; SAC lower cost, p=0.002 |
+
+**The self-repair is significant. A sample-efficiency win over RL is not.** Given
+the same 100 steps of experience on the broken body, the model-free policy
+recovers just as well.
+
+Caveat on "repaired beats unadapted SAC": unadapted SAC scored 8/10 in
+`sac_balance.py` and 3/10 here, differing only in the start-state draw. Ten
+starts is too few to pin that number, so the claim should not be leaned on. The
+matched-budget tie does not depend on it.
+
+## What survives
+
+1. No reward function: 2,000 self-generated transitions vs 20,000 reward-driven
+   steps for SAC. 10x fewer samples and no reward engineering.
+2. The model is reusable across tasks; a policy is welded to the one it trained on.
+3. Self-diagnosis has no model-free counterpart. A policy emits actions, not
+   predictions, so it has nothing to compare against its body.
