@@ -1,5 +1,8 @@
 # Investor demos
 
+**Use `story.html`** - detection and self-repair in one continuous run. The other
+two are the experiments it was built from.
+
 A <1 minute demo built from a real recorded run. Nothing here is illustrative:
 every number and every trace on the page is read out of `demo_trace.json`.
 
@@ -121,3 +124,55 @@ model-based planner drops to 0%. The self-repair is real; "beats RL at staying
 upright" is not available from this data. The defensible differentiators are
 that the model is acquired with no reward function, is reusable across tasks,
 and can detect its own damage (see demo 1) - a policy cannot tell you it is wrong.
+
+
+---
+
+# Demo 3 — detection AND self-repair in one run (USE THIS ONE)
+
+`story.html`. One continuous 260-step recording, no cuts:
+
+| act | steps | what happens |
+|---|---|---|
+| 1 | 0-59 | healthy body, healthy model — balances |
+| 2 | 60-159 | actuator drops to 50% mid-run — notices in 0.13 s, falls, is stood back up at step 110, falls again |
+| 3 | 160-259 | model fine-tuned on the 100 transitions from those two failed attempts — balances again, same broken motor |
+
+    python3 record_story.py     # PH_A / PH_B / STEPS / RETRY / REPAIR_N via env
+
+## Results across all 10 runs
+
+| measure | result |
+|---|---|
+| upright at end of act 1 | 10/10 |
+| attempts ending on the floor in act 2 | 20/20 |
+| upright at end of act 3 | 8/10 |
+| damage detected | 10/10, median 0.13 s |
+
+Detection is unchanged by the threshold rule (all calibrated leave-one-out on
+healthy data only): mean+3σ 10/10 at 0.13 s with 5 false alarms in 500 healthy
+steps; mean+4σ and max-healthy both 10/10 at 0.13 s with 2.
+
+## Why the repair data is collected this way
+
+The repair set is the transitions from the failed attempts, and *where* they come
+from matters more than how many there are:
+
+| repair data | runs balancing afterwards |
+|---|---|
+| 25 from one continuous fall | 6/10 |
+| 50 from one continuous fall | 6/10 |
+| 60 from three 1 s attempts | 8/10 |
+| 100 from two 2.5 s attempts | 8/10 |
+
+Doubling the data from a single fall changes nothing; splitting it across
+attempts that each start near upright is what helps, because that is the region
+the controller has to be accurate in. A single 1 s attempt is also too short to
+fall (only 6 of 30 ended fallen), which is why attempts are 2.5 s.
+
+## The bound on the claim
+
+SAC, 20,000 steps on the healthy body, same task: 10/10 upright healthy, **8/10
+on the weakened motor with no adaptation at all**, against 0/10 for this planner.
+The model-free policy is the more robust controller. What it cannot do is signal
+that anything changed — that is the differentiator, not sample efficiency.
