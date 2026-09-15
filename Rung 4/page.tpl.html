@@ -1,0 +1,333 @@
+<title>Body or World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F2; --panel:#FFFFFF; --panel-2:#F5F7F9;
+  --ink:#101519; --ink-2:#33414D; --muted:#5A6773; --rule:#D3DAE0; --rule-2:#E4E9ED;
+  --body:#C9432A; --body-soft:rgba(201,67,42,.09);
+  --world:#5E55A8; --world-soft:rgba(94,85,168,.09);
+  --ok:#0D7C88; --ok-soft:rgba(13,124,136,.10);
+  --shadow:0 1px 2px rgba(16,21,25,.06), 0 8px 24px -18px rgba(16,21,25,.35);
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --disp:"Archivo","IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --body:#F2735C; --body-soft:rgba(242,115,92,.12);
+  --world:#9C90E0; --world-soft:rgba(156,144,224,.12);
+  --ok:#38B9C4; --ok-soft:rgba(56,185,196,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}}
+:root[data-theme="dark"]{
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --body:#F2735C; --body-soft:rgba(242,115,92,.12);
+  --world:#9C90E0; --world-soft:rgba(156,144,224,.12);
+  --ok:#38B9C4; --ok-soft:rgba(56,185,196,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;
+  padding-inline:20px;padding-block:30px 48px;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1080px;margin-inline:auto;display:flex;flex-direction:column;gap:22px;}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,4.4vw,44px);line-height:1.06;
+  letter-spacing:-.023em;margin:8px 0 0;text-wrap:balance;max-width:20ch;}
+h1 em{font-style:normal;color:var(--body);}
+h1 i{font-style:normal;color:var(--world);}
+.lede{font-size:16px;color:var(--ink-2);max-width:66ch;margin:14px 0 0;}
+.head{border-bottom:1px solid var(--rule);padding-bottom:20px;}
+
+h2.sec{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:-.012em;
+  margin:14px 0 0;}
+p{margin:10px 0 0;font-size:15px;color:var(--ink-2);max-width:72ch;}
+p b,li b{color:var(--ink);font-weight:500;}
+
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:3px;box-shadow:var(--shadow);}
+.card h3{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin:0;padding:12px 16px;
+  border-bottom:1px solid var(--rule-2);background:var(--panel-2);}
+.card .b{padding:8px 12px 0;}
+.card svg{display:block;width:100%;height:auto;}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:6px 16px 14px;}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--muted);}
+.sw{width:16px;height:0;border-top-width:2.5px;border-top-style:solid;flex:none;}
+
+.rule3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.step{background:var(--panel);padding:16px 18px 18px;}
+.step .n{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.step .t{font-family:var(--disp);font-weight:600;font-size:16px;margin-top:5px;}
+.step .d{font-size:13.5px;color:var(--ink-2);margin-top:5px;}
+.step.bodyv .t{color:var(--body);} .step.worldv .t{color:var(--world);}
+.split{display:flex;gap:10px;margin-top:10px;}
+.split div{flex:1;padding:9px 11px;border-radius:2px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.05em;text-transform:uppercase;}
+.split .y{background:var(--body-soft);color:var(--body);}
+.split .n2{background:var(--world-soft);color:var(--world);}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.tw{overflow-x:auto;}
+th,td{text-align:right;padding:9px 12px;border-bottom:1px solid var(--rule-2);
+  font-variant-numeric:tabular-nums;white-space:nowrap;}
+th:first-child,td:first-child{text-align:left;white-space:normal;}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;}
+tbody tr:last-child td{border-bottom:0;}
+td.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;}
+.b-row td:first-child{border-left:2px solid var(--body);}
+.w-row td:first-child{border-left:2px solid var(--world);}
+.o-row td:first-child{border-left:2px solid var(--muted);}
+.hi{color:var(--ink);font-weight:500;}
+
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.fig{background:var(--panel);padding:17px 18px;}
+.fig .n{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1.1;}
+.fig .n span{font-size:15px;font-weight:600;color:var(--muted);}
+.fig .l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:7px;}
+.fig.g .n{color:var(--ok);}
+
+.callout{border-left:2px solid var(--ink);background:var(--panel);padding:18px 22px;border-radius:0 3px 3px 0;}
+.callout h3{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink);margin:0 0 8px;}
+.callout code{font-family:var(--mono);font-size:13px;background:var(--panel-2);padding:2px 6px;border-radius:2px;}
+.eq{font-family:var(--mono);font-size:13.5px;color:var(--ink);background:var(--panel-2);
+  padding:12px 16px;border-radius:2px;margin:12px 0;overflow-x:auto;}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;}
+ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:9px;}
+li{font-size:14.5px;color:var(--ink-2);}
+.ladder{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:3px;overflow:hidden;}
+.rung{background:var(--panel);padding:14px 18px;display:flex;gap:16px;align-items:baseline;}
+.rung .k{font-family:var(--mono);font-size:11px;color:var(--muted);flex:none;width:30px;}
+.rung .t{font-weight:500;font-size:15px;}
+.rung .v{margin-left:auto;font-family:var(--mono);font-size:12px;text-align:right;}
+.rung.a .v{color:var(--ok);} .rung.b .v{color:var(--ok);} .rung.c .v{color:var(--body);}
+.foot{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--muted);
+  border-top:1px solid var(--rule);padding-top:18px;}
+@media (max-width:760px){.rule3{grid-template-columns:1fr;}}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div class="eyebrow">Rung 4 &middot; 7 conditions &times; 20 runs</div>
+    <h1>Did <em>my body</em> change, or did <i>the world</i> push me?</h1>
+    <p class="lede">At the instant it happens, both look the same: the self-model's prediction stops
+      matching reality. The question is whether the robot can tell them apart from the error alone
+      &mdash; without being told, and without a second sensor. It can, in a second and a half, from a
+      rule with no learned parts.</p>
+  </header>
+
+  <section class="figs" id="figs"></section>
+
+  <section class="card">
+    <h3>Prediction error after the event &mdash; same spike, different tail</h3>
+    <div class="b"><svg id="chart" viewBox="0 0 900 400" role="img"
+      aria-label="Prediction error over time: body changes stay elevated, world events spike and return to baseline"></svg></div>
+    <div class="legend" id="leg"></div>
+  </section>
+
+  <p><b>The control that makes this real.</b> The push is sized so its error spike matches or beats
+    the body change's. The strongest case is the dashed purple line: it peaks
+    <span id="ratio"></span> higher than any body change and still comes straight back down. Peak size
+    carries no information at all. Only persistence does.</p>
+
+  <h2 class="sec">The rule</h2>
+  <section class="rule3">
+    <div class="step">
+      <div class="n">Step 1 &mdash; detect</div>
+      <div class="t">Error crosses the line</div>
+      <div class="d">A 10-step trailing mean of prediction error passes a threshold set from
+        undisturbed runs only, leave-one-out. No event data is used to place it.</div>
+    </div>
+    <div class="step">
+      <div class="n">Step 2 &mdash; wait</div>
+      <div class="t">1.5 seconds</div>
+      <div class="d">Long enough for a shove to have passed. Wait only 0.5&thinsp;s and accuracy
+        collapses to 39% &mdash; the world event has not finished yet.</div>
+    </div>
+    <div class="step">
+      <div class="n">Step 3 &mdash; decide</div>
+      <div class="t">Still elevated?</div>
+      <div class="split">
+        <div class="y">Yes &rarr; body</div>
+        <div class="n2">No &rarr; world</div>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="sec">Every condition</h2>
+  <div class="card"><div class="tw"><table id="tbl"></table></div></div>
+
+  <section class="callout">
+    <h3>A harder limit than measurement</h3>
+    <p>The pendulum's angular acceleration is:</p>
+    <div class="eq">thdd = 3g/(2l)&middot;sin(th) + 3/(m&middot;l&sup2;)&middot;(u &times; torque_scale)</div>
+    <p>Mass and actuator gain enter <b>only</b> through the ratio <code>torque_scale / m</code>.
+      Doubling the mass and halving the motor are not merely hard to tell apart &mdash; they are
+      bit-identical, <b>0.000e+00</b> deviation over 500 shared commands. No forward model, no
+      quantity of data and no better algorithm separates <i>I got heavier</i> from
+      <i>my motor got weaker</i> on this body. They are one event wearing two names.</p>
+  </section>
+
+  <h2 class="sec">So the ladder has three steps, not two</h2>
+  <section class="ladder">
+    <div class="rung a"><span class="k">01</span><span class="t">That something changed</span>
+      <span class="v">solved &mdash; 0.13&thinsp;s (Rung 2)</span></div>
+    <div class="rung b"><span class="k">02</span><span class="t">Whether it was my body or the world</span>
+      <span class="v">solved &mdash; 98% in 1.5&thinsp;s</span></div>
+    <div class="rung c"><span class="k">03</span><span class="t">Which parameter actually moved</span>
+      <span class="v">partly impossible in principle</span></div>
+  </section>
+
+  <h2 class="sec">What did not work</h2>
+  <section class="cols">
+    <div>
+      <p><b>Directionality is not a signature.</b> The hypothesis was that a body change would push the
+        error consistently one way. It does not. Residual coherence later in the episode:</p>
+      <ul id="cohlist"></ul>
+      <p>A mass change decoheres, a length change coheres hard. Body changes share no common
+        direction, so the whole idea has to be dropped. Persistence carries the signal alone.</p>
+    </div>
+    <div>
+      <p><b>A gentle body change is invisible.</b> Added damping produces a peak of 5.28e-05 against a
+        5.48e-05 baseline &mdash; underneath the detection floor. It fires in 10% of runs and is
+        misclassified in both. That is a limit on <i>detection</i>, not on the rule, and it sets the
+        sensitivity floor for the whole approach.</p>
+      <div class="card" style="margin-top:12px"><div class="tw"><table id="sens"></table></div></div>
+    </div>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script>
+const D = /*__DATA__*/;
+const $ = i => document.getElementById(i);
+const N = D.steps, dt = D.dt, ON = D.onset, W = D.window;
+const KEYS = Object.keys(D.rows);
+const BASE = KEYS[0];
+const kind = k => D.rows[k].truth;
+const col = k => kind(k) === "body" ? "var(--body)" : kind(k) === "world" ? "var(--world)" : "var(--muted)";
+const SHORT = k => k.replace(/^body: |^world: /, "").replace(" (nothing happens)", "");
+
+/* ---- figures ---- */
+const pct = v => Math.round(v * 100) + "%";
+$('figs').innerHTML = [
+  ['g', pct(D.acc_detected), '', 'Correct on detected events'],
+  ['', `${D.conf.world[0]}/${D.conf.world.reduce((a, b) => a + b)}`, '', 'World events called world'],
+  ['', `${D.conf.body[0]}/${D.conf.body.reduce((a, b) => a + b)}`, '', 'Body changes called body'],
+  ['g', '0', ` / ${D.n_seeds}`, 'False alarms when nothing happens'],
+  ['', (D.lag * dt).toFixed(1), 's', 'To reach a verdict'],
+].map(([c, n, u, l]) =>
+  `<div class="fig ${c}"><div class="n">${n}<span>${u}</span></div><div class="l">${l}</div></div>`).join('');
+
+/* ---- chart ---- */
+const CW = 900, CH = 400, L = 62, R = 16, T = 26, B = 40;
+const PW = CW - L - R, PH = CH - T - B;
+const YA = 2e-5, YB = 8e-3, la = Math.log10(YA), lb = Math.log10(YB);
+const X = s => L + (s - W) / (N - 1 - W) * PW;
+const Y = v => T + (lb - Math.log10(Math.min(Math.max(v, YA), YB))) / (lb - la) * PH;
+const SUP = { '-5': '10⁻⁵', '-4': '10⁻⁴', '-3': '10⁻³', '-2': '10⁻²' };
+let g = '';
+g += `<rect x="${X(W).toFixed(1)}" y="${T}" width="${(X(ON) - X(W)).toFixed(1)}" height="${PH}"
+      style="fill:var(--ok-soft)"/>`;
+const cw0 = X(ON + D.lag), cw1 = X(ON + D.lag + 30);
+g += `<rect x="${cw0.toFixed(1)}" y="${T}" width="${(cw1 - cw0).toFixed(1)}" height="${PH}"
+      style="fill:var(--rule)" opacity=".5"/>`;
+g += `<text x="${((cw0 + cw1) / 2).toFixed(1)}" y="${T + 14}" text-anchor="middle" font-size="10.5"
+      font-weight="500" style="fill:var(--ink);font-family:var(--mono)">DECISION WINDOW</text>`;
+for (const e of [-5, -4, -3, -2]) {
+  const y = Y(Math.pow(10, e)).toFixed(1);
+  g += `<line x1="${L}" y1="${y}" x2="${L + PW}" y2="${y}" stroke-width="1" style="stroke:var(--rule-2)"/>`;
+  g += `<text x="${L - 10}" y="${y}" text-anchor="end" dominant-baseline="middle" font-size="11"
+        style="fill:var(--muted);font-family:var(--mono)">${SUP[e]}</text>`;
+}
+for (let t = 0; t <= 11; t += 2) {
+  const s = W + t / dt; if (s > N - 1) break;
+  g += `<text x="${X(s).toFixed(1)}" y="${T + PH + 20}" text-anchor="middle" font-size="11"
+        style="fill:var(--muted);font-family:var(--mono)">${t}s</text>`;
+}
+g += `<text x="16" y="${T + PH / 2}" text-anchor="middle" font-size="10" letter-spacing="1.4"
+      transform="rotate(-90 16 ${T + PH / 2})" style="fill:var(--muted);font-family:var(--mono)">PREDICTION ERROR</text>`;
+const ty = Y(D.threshold).toFixed(1);
+g += `<line x1="${L}" y1="${ty}" x2="${L + PW}" y2="${ty}" stroke-width="1.3" stroke-dasharray="6 4"
+      style="stroke:var(--ink)" opacity=".55"/>`;
+g += `<text x="${L + 6}" y="${(+ty - 7).toFixed(1)}" font-size="10" style="fill:var(--ink);
+      font-family:var(--mono)" opacity=".75">ALARM THRESHOLD</text>`;
+g += `<line x1="${X(ON).toFixed(1)}" y1="${T}" x2="${X(ON).toFixed(1)}" y2="${T + PH}"
+      stroke-width="1.4" stroke-dasharray="3 3" style="stroke:var(--ink)" opacity=".7"/>`;
+g += `<text x="${(X(ON) - 7).toFixed(1)}" y="${T + 14}" text-anchor="end" font-size="10.5"
+      font-weight="500" style="fill:var(--ink);font-family:var(--mono)">EVENT</text>`;
+const STYLE = {
+  "body: mass doubled": [2.6, ""], "body: length +50%": [1.8, ' stroke-dasharray="6 3"'],
+  "body: damping added": [1.4, ' stroke-dasharray="2 3"'],
+  "world: push (bigger spike)": [2.6, ' stroke-dasharray="7 3"'],
+  "world: push (peak-matched)": [1.8, ""], "world: long push (10 steps)": [1.4, ' stroke-dasharray="2 3"'],
+};
+for (const k of KEYS) {
+  const a = D.traces[k]; let p = '';
+  for (let i = W; i < N; i++) p += (i === W ? 'M' : 'L') + X(i).toFixed(1) + ' ' + Y(a[i]).toFixed(1);
+  const [w, dash] = STYLE[k] || [1.4, ' stroke-dasharray="4 4"'];
+  g += `<path d="${p}" fill="none" stroke-width="${w}"${dash} stroke-linejoin="round"
+        style="stroke:${col(k)}" opacity="${w > 2 ? 1 : .8}"/>`;
+}
+$('chart').innerHTML = g;
+$('leg').innerHTML = KEYS.map(k => {
+  const [w, dash] = STYLE[k] || [1.4, ' stroke-dasharray="4 4"'];
+  return `<span><i class="sw" style="border-top-color:${col(k)};${dash ? 'border-top-style:dashed;' : ''}
+    border-top-width:${Math.min(w, 3)}px"></i>${SHORT(k)}</span>`;
+}).join('');
+
+const bodyPeak = Math.max(...KEYS.filter(k => kind(k) === "body").map(k => D.rows[k].peak));
+$('ratio').textContent = (D.rows["world: push (bigger spike)"].peak / bodyPeak).toFixed(1) + "×";
+
+/* ---- tables ---- */
+$('tbl').innerHTML = `<thead><tr><th>Condition</th><th>What it was</th><th>Peak error</th>
+  <th>At +3&thinsp;s</th><th>Detected</th><th>Called right</th></tr></thead><tbody>` +
+  KEYS.map(k => {
+    const r = D.rows[k], cls = r.truth === "body" ? "b-row" : r.truth === "world" ? "w-row" : "o-row";
+    const right = r.right === null ? "&mdash;" : `<span class="${r.right === 1 ? 'hi' : ''}">${pct(r.right)}</span>`;
+    return `<tr class="${cls}"><td>${SHORT(k)}</td>
+      <td class="tag" style="color:${col(k)}">${r.truth === "none" ? "nothing" : r.truth}</td>
+      <td>${r.peak.toExponential(2)}</td>
+      <td class="${r.truth === 'body' && r.detected > .5 ? 'hi' : ''}">${r.late.toExponential(2)}</td>
+      <td>${pct(r.detected)}</td><td>${right}</td></tr>`;
+  }).join('') + `</tbody>`;
+
+$('sens').innerHTML = `<thead><tr><th>Threshold</th><th>False alarms</th><th>Mass</th>
+  <th>Length</th><th>Damping</th></tr></thead><tbody>` +
+  Object.entries(D.sens).map(([s, v]) => {
+    const on = +s === D.sigma;
+    return `<tr><td class="${on ? 'hi' : ''}">mean + ${s}&sigma;${on ? ' &larr; used' : ''}</td>
+      <td class="${v[BASE] === 0 ? 'hi' : ''}">${pct(v[BASE])}</td>
+      <td>${pct(v["body: mass doubled"])}</td><td>${pct(v["body: length +50%"])}</td>
+      <td>${pct(v["body: damping added"])}</td></tr>`;
+  }).join('') + `</tbody>`;
+
+$('cohlist').innerHTML = KEYS.filter(k => kind(k) !== "none" && !k.includes("damping")
+  && !k.includes("long")).map(k =>
+  `<li><b>${SHORT(k)}</b> &mdash; ${D.coh[k].during.toFixed(2)} during the event,
+   <b>${D.coh[k].later.toFixed(2)}</b> afterwards</li>`).join('');
+
+$('foot').innerHTML = `<b>Method.</b> Forward model: 4&ndash;64&ndash;64&ndash;3 MLP predicting the state
+  delta, trained on 2,000 random-action transitions from the healthy body (Pendulum-v1, 20&thinsp;Hz),
+  then frozen. Control: CEM model-predictive balance-hold, horizon 20 &mdash; identical to Rungs&nbsp;1&ndash;3.
+  Every condition runs ${D.n_seeds} seeds for ${N} steps with the event at step ${ON}. A world event adds an
+  external torque of ${D.push} for ${D.push_steps} or ${D.push_steps * 2} steps, applied after the actuator
+  gain and never part of the commanded action, so the model cannot predict it. Detection statistic:
+  ${W}-step trailing mean of one-step prediction error; threshold mean + ${D.sigma}&sigma; of undisturbed
+  runs, calibrated leave-one-out so no run sets its own bar. Verdict taken ${D.lag} steps
+  (${(D.lag * dt).toFixed(2)}&thinsp;s) after the alarm. Accuracy by wait: ` +
+  Object.entries(D.lags).map(([k, v]) => `${(k * dt).toFixed(1)}s ${pct(v)}`).join(', ') +
+  `. Every number here is read from those runs.`;
+</script>

@@ -1,0 +1,207 @@
+<title>Nothing Beat Fine-Tuning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F2; --panel:#FFFFFF; --panel-2:#F5F7F9;
+  --ink:#101519; --ink-2:#33414D; --muted:#5A6773; --rule:#D3DAE0; --rule-2:#E4E9ED;
+  --null:#7C8794; --null-soft:rgba(124,135,148,.12);
+  --win:#0D7C88; --win-soft:rgba(13,124,136,.11);
+  --cost:#C9432A; --cost-soft:rgba(201,67,42,.09);
+  --shadow:0 1px 2px rgba(16,21,25,.06), 0 8px 24px -18px rgba(16,21,25,.35);
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --disp:"Archivo","IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --null:#8D99A6; --null-soft:rgba(141,153,166,.14);
+  --win:#38B9C4; --win-soft:rgba(56,185,196,.14);
+  --cost:#F2735C; --cost-soft:rgba(242,115,92,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}}
+:root[data-theme="dark"]{
+  --paper:#0E1216; --panel:#161C22; --panel-2:#1B232A;
+  --ink:#E4EAEF; --ink-2:#C2CED8; --muted:#93A2AF; --rule:#28323B; --rule-2:#212A32;
+  --null:#8D99A6; --null-soft:rgba(141,153,166,.14);
+  --win:#38B9C4; --win-soft:rgba(56,185,196,.14);
+  --cost:#F2735C; --cost-soft:rgba(242,115,92,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 24px -18px rgba(0,0,0,.9);
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;
+  padding-inline:20px;padding-block:30px 48px;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1000px;margin-inline:auto;display:flex;flex-direction:column;gap:22px;}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,4.4vw,44px);line-height:1.06;
+  letter-spacing:-.023em;margin:8px 0 0;text-wrap:balance;max-width:20ch;}
+.lede{font-size:16px;color:var(--ink-2);max-width:66ch;margin:14px 0 0;}
+.head{border-bottom:1px solid var(--rule);padding-bottom:20px;}
+h2.sec{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:-.012em;margin:14px 0 0;}
+p{margin:10px 0 0;font-size:15px;color:var(--ink-2);max-width:72ch;}
+p b,li b{color:var(--ink);font-weight:500;}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.fig{background:var(--panel);padding:17px 18px;}
+.fig .n{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1.1;}
+.fig .n span{font-size:15px;font-weight:600;color:var(--muted);}
+.fig .l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:7px;}
+.fig .d{font-size:12.5px;color:var(--ink-2);margin-top:6px;}
+.fig.null .n{color:var(--null);} .fig.win .n{color:var(--win);} .fig.cost .n{color:var(--cost);}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:3px;box-shadow:var(--shadow);}
+.card h3{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin:0;padding:12px 16px;
+  border-bottom:1px solid var(--rule-2);background:var(--panel-2);}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th,td{text-align:right;padding:9px 13px;border-bottom:1px solid var(--rule-2);
+  font-variant-numeric:tabular-nums;white-space:nowrap;}
+th:first-child,td:first-child{text-align:left;white-space:normal;}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;}
+tbody tr:last-child td{border-bottom:0;}
+td.k{font-family:var(--mono);color:var(--muted);}
+.bar{position:relative;min-width:180px;}
+.bar i{display:block;height:9px;border-radius:1px;background:var(--null);}
+tr.best i{background:var(--win);} tr.ref i{background:var(--cost);}
+tr.best td:first-child{border-left:2px solid var(--win);}
+.sep{color:var(--win);font-weight:500;} .nsep{color:var(--muted);}
+.callout{border-left:2px solid var(--win);background:var(--panel);padding:18px 22px;border-radius:0 3px 3px 0;}
+.callout.warn{border-left-color:var(--cost);}
+.callout h3{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--win);margin:0 0 8px;}
+.callout.warn h3{color:var(--cost);}
+ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:9px;}
+li{font-size:14.5px;color:var(--ink-2);}
+.foot{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--muted);
+  border-top:1px solid var(--rule);padding-top:18px;}
+.foot b{color:var(--ink-2);font-weight:500;}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <div class="eyebrow">Rung 3 &middot; 7 conditions &times; 15 runs &middot; recorded outcome</div>
+    <h1>Nothing beat plain fine-tuning.</h1>
+    <p class="lede">Rung 3 threw the two standard answers at damage recovery: an ensemble of five
+      models with uncertainty-aware planning, and GrBAL-style meta-learning trained across a
+      distribution of bodies. Both are what the literature reaches for. On the damage they were built
+      for, neither separated from simply retraining one model on 100 samples.</p>
+  </header>
+
+  <section class="figs" id="figs"></section>
+
+  <h2 class="sec">Every condition, on the damaged body</h2>
+  <div class="card"><div class="tw"><table id="main"></table></div></div>
+  <p>Lower is better. The error bars overlap everything: the best model-based condition is
+    <b id="bz"></b> standard errors from the do-nothing baseline, which is not a result. The
+    model-free policy carried over from Rung 2 sits well below all of them.</p>
+
+  <h2 class="sec">The uncertainty penalty</h2>
+  <div class="card"><div class="tw"><table id="lam"></table></div></div>
+  <p>Penalising ensemble disagreement helps by about <b>0.05</b> at its best setting &mdash; far
+    inside the noise &mdash; and costs <b>+2.5 to +2.7</b> when turned up. The knob is real, but
+    what it buys at its best is not measurable here.</p>
+
+  <section class="callout">
+    <h3>The one thing that did work</h3>
+    <p>Meta-learning earned its keep only on damage it had <b>never seen in training</b>. On a 50%
+      length change, meta-learning with the uncertainty penalty beat naive fine-tuning
+      <b id="gz"></b> &mdash; the single comparison in all of Rung 3 that clears the noise floor.</p>
+    <div class="card" style="margin-top:14px"><div class="tw"><table id="gen"></table></div></div>
+    <p>There is a hint that naive fine-tuning on 100 samples is actively <i>worse</i> than not
+      adapting at all on unfamiliar damage (z&nbsp;=&nbsp;+1.93), which would make sense &mdash; it
+      overfits to a body it has barely met. At 15 runs that stays suggestive, not established.</p>
+  </section>
+
+  <section class="callout warn">
+    <h3>Why the rung stalled</h3>
+    <p>The blocker was not the methods, it was the measurement. Identical configurations moved by
+      <b>1.3</b> between the validation and test seed sets &mdash; larger than every effect Rung 3
+      was trying to measure. With 15 evaluation episodes the noise floor sits above the signal, so
+      most of these conditions are untestable rather than equal.</p>
+    <p>The fix is unglamorous and needs no new code: roughly <b>60</b> evaluation episodes, about
+      4&times; the compute. Rung 4 was built at 20 runs per condition with effects an order of
+      magnitude larger than their spread, which is why its numbers resolve.</p>
+  </section>
+
+  <h2 class="sec">What it is worth taking forward</h2>
+  <ul>
+    <li><b>A negative result on a real question.</b> Ensembles and meta-learning are the obvious
+      answers to "adapt to a changed body", and on the damage they were trained for they bought
+      nothing over one retrained model. That is worth knowing before building on them.</li>
+    <li><b>Meta-learning pays off out of distribution, not in it.</b> The only significant effect
+      showed up on damage never seen in training. If meta-learning has a role here, that is where
+      to look for it.</li>
+    <li><b>Design the measurement before the method.</b> Three conditions were built and evaluated
+      before anyone checked whether the noise floor permitted an answer. Rung 4 reversed that order
+      and the results came out legible.</li>
+  </ul>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script>
+const D = {"n":15,"main":[{"k":"a","name":"single model + CEM (stale, no adaptation)","mean":6.482,"sem":0.514},{"k":"b","name":"single + naive fine-tune (100) + CEM","mean":5.56,"sem":0.627},{"k":"c","name":"ensemble + CEM, lambda=0","mean":6.417,"sem":0.757},{"k":"d","name":"ensemble + uncertainty CEM, lambda=0.1","mean":6.055,"sem":0.658},{"k":"e","name":"meta + online adapt (K=25) + CEM","mean":6.414,"sem":0.5},{"k":"f","name":"meta + online adapt + uncertainty CEM, lambda=0.1","mean":6.151,"sem":0.743}],"sac":3.0,"pairs":{"separate":0,"total":15},"best_vs_stale":1.14,"lam":{"ensemble":{"0.0":4.771028070841484,"0.1":4.711317302233226,"1.0":4.899737768221697,"10.0":7.454601315199826},"meta":{"0.0":4.777937530214611,"0.1":4.726522636855683,"1.0":5.651674397471889,"10.0":7.235909880515771}},"gen":{"length":{"rows":[{"k":"b","name":"single + naive fine-tune (100) + CEM","mean":6.568,"sem":0.529},{"k":"f","name":"meta + online adapt + uncertainty CEM, lambda=0.1","mean":4.928,"sem":0.415},{"k":"a","name":"single model + CEM (stale, no adaptation)","mean":5.439,"sem":0.249}],"z_fb":-2.44,"z_ba":1.93},"damping":{"rows":[{"k":"b","name":"single + naive fine-tune (100) + CEM","mean":4.411,"sem":0.332},{"k":"f","name":"meta + online adapt + uncertainty CEM, lambda=0.1","mean":4.066,"sem":0.441},{"k":"a","name":"single model + CEM (stale, no adaptation)","mean":4.062,"sem":0.439}],"z_fb":-0.63,"z_ba":0.63}}};
+const $ = i => document.getElementById(i);
+const best = D.main.reduce((a, b) => b.mean < a.mean ? b : a);
+const worst = Math.max(...D.main.map(r => r.mean + r.sem));
+
+$('figs').innerHTML = [
+  ['null', `${D.pairs.separate} / ${D.pairs.total}`, '', 'Comparisons that separate',
+   'Every pair of model-based conditions, at 15 runs each.'],
+  ['win', '1', '', 'Effect that cleared the noise',
+   'Meta-learning, only on damage it had never trained on.'],
+  ['cost', '+2.7', '', 'Cost of the uncertainty knob',
+   'Turning the disagreement penalty up to 10 instead of 0.1.'],
+].map(([c, n, u, l, d]) =>
+  `<div class="fig ${c}"><div class="n">${n}<span>${u}</span></div><div class="l">${l}</div>
+   <div class="d">${d}</div></div>`).join('');
+
+const bar = (m, s, cls) => `<td class="bar"><i style="width:${(m / worst * 100).toFixed(1)}%"></i></td>
+  <td>${m.toFixed(2)} <span style="color:var(--muted)">&plusmn;${s.toFixed(2)}</span></td>`;
+$('main').innerHTML = `<thead><tr><th>Condition</th><th></th><th>Cost &plusmn; sem</th></tr></thead><tbody>` +
+  D.main.map(r => `<tr class="${r === best ? 'best' : ''}">
+    <td><span class="k">${r.k})</span> ${r.name}</td>${bar(r.mean, r.sem)}</tr>`).join('') +
+  `<tr class="ref"><td><span class="k">g)</span> model-free policy, no adaptation (Rung 2)</td>
+   <td class="bar"><i style="width:${(D.sac / worst * 100).toFixed(1)}%"></i></td>
+   <td>${D.sac.toFixed(2)}</td></tr></tbody>`;
+$('bz').textContent = Math.abs(D.best_vs_stale).toFixed(2);
+
+const lams = Object.keys(D.lam.ensemble);
+$('lam').innerHTML = `<thead><tr><th>Disagreement penalty &lambda;</th>` +
+  lams.map(l => `<th>${l}</th>`).join('') + `</tr></thead><tbody>` +
+  [["ensemble", D.lam.ensemble], ["meta-learned", D.lam.meta]].map(([n, v]) =>
+    `<tr><td>${n}</td>` + lams.map(l => {
+      const dv = v[l] - v["0.0"];
+      const c = dv < -0.01 ? "var(--win)" : dv > 0.5 ? "var(--cost)" : "var(--muted)";
+      return `<td>${v[l].toFixed(2)}<br><span style="font-size:11px;color:${c}">${dv >= 0 ? '+' : ''}${dv.toFixed(2)}</span></td>`;
+    }).join('') + `</tr>`).join('') + `</tbody>`;
+
+const G = D.gen.length;
+$('gz').textContent = `${G.rows.find(r => r.k === 'f').mean.toFixed(2)} against ${G.rows.find(r => r.k === 'b').mean.toFixed(2)} (z = ${G.z_fb.toFixed(2)})`;
+$('gen').innerHTML = `<thead><tr><th>Body change never seen in training</th><th>Cost &plusmn; sem</th></tr></thead><tbody>` +
+  Object.entries(D.gen).map(([b, v]) =>
+    `<tr><td colspan="2" style="background:var(--panel-2);font-family:var(--mono);font-size:10.5px;
+      letter-spacing:.11em;text-transform:uppercase;color:var(--muted)">${b === 'length' ? 'length +50%' : 'damping added'}
+      &mdash; ${Math.abs(v.z_fb) > 1.96 ? '<span class="sep">meta wins, z = ' + v.z_fb.toFixed(2) + '</span>'
+        : '<span class="nsep">no separation, z = ' + v.z_fb.toFixed(2) + '</span>'}</td></tr>` +
+    v.rows.map(r => `<tr><td><span class="k">${r.k})</span> ${r.name}</td>
+      <td>${r.mean.toFixed(2)} <span style="color:var(--muted)">&plusmn;${r.sem.toFixed(2)}</span></td></tr>`).join('')
+  ).join('') + `</tbody>`;
+
+$('foot').innerHTML = `<b>Method.</b> Forward models: 4&ndash;64&ndash;64&ndash;3 MLPs predicting the state
+  delta, matching Rung&nbsp;1. Ensembles are 5 members with different initialisations and bootstrap
+  resampling; planning scores the task cost against the ensemble mean and adds &lambda; &times; the
+  disagreement between members, following the PETS intuition. Meta-learning is GrBAL-style (Nagabandi
+  et al., 2018): mass, length, damping and torque scaling randomised per episode, a MAML inner/outer
+  loop, and online adaptation on a sliding window of K recent transitions at control time. &lambda; and
+  K were selected on a validation seed set and reported on a disjoint test set. All conditions are
+  ${D.n} runs on the damaged body (mass +50%) with CEM planning, horizon 20 &mdash; identical to
+  Rungs&nbsp;1&ndash;2. Significance is a two-sided z on the difference of means; |z| &gt; 1.96
+  separates. The test bodies sit outside the meta-training ranges on the axis they perturb, so every
+  evaluated body is an extrapolation. Every number here is read from that run.`;
+</script>
