@@ -62,12 +62,13 @@ CONDITIONS = {
 }
 
 
-def apply_schedule(env, cond, t):
+def apply_schedule(env, cond, t, onset=config.ONSET_STEP):
     """Trigger / end the disturbance for condition `cond` at step t.
 
     Returns a short string describing what changed this step (for logging).
+    `onset` defaults to the fixed ONSET_STEP; the classifier evaluation passes
+    a randomised onset per trial.
     """
-    onset = config.ONSET_STEP
     if cond["kind"] == "body" and t == onset:
         env.change_body(cond["factors"])
         return "body changed"
@@ -81,7 +82,8 @@ def apply_schedule(env, cond, t):
     return ""
 
 
-def run_episode(model, cond, seed=config.SEED, steps=config.EPISODE_STEPS):
+def run_episode(model, cond, seed=config.SEED, steps=config.EPISODE_STEPS,
+                onset=config.ONSET_STEP):
     """One closed-loop episode. Returns a list of per-step log rows."""
     env = env_setup.make_env(max_steps=steps)
     obs = env_setup.reset_env(env, seed)
@@ -92,7 +94,7 @@ def run_episode(model, cond, seed=config.SEED, steps=config.EPISODE_STEPS):
 
     rows = []
     for t in range(steps):
-        event = apply_schedule(env, cond, t)
+        event = apply_schedule(env, cond, t, onset)
 
         action = planner.choose_action(model, obs)
         with torch.no_grad():

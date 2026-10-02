@@ -102,3 +102,60 @@ detect-then-classify pipeline. It depends on code in `Rung 1/` and `Rung 3/`.
 This folder is a self-contained, minimal version of the core measurement: one
 episode per condition, the Euclidean error norm (Rung 4 used per-step MSE), and every
 parameter in one config file. Treat it as the clean base to extend.
+
+## Quantified classifier (`evaluate_classifier.py`)
+
+The single-episode demo above shows the signature exists. This part turns it
+into a decision rule and measures how often the rule is right over many
+randomised trials.
+
+```
+python evaluate_classifier.py            # full run, ~5 min on 4 cores
+python evaluate_classifier.py --quick    # tiny smoke test -> results_classifier_quick/
+```
+
+### The rule (`classifier.py`)
+
+```
+score      = mean one-step error over [onset + 1 s, onset + 2 s)
+prediction = "body change" if score > threshold else "world event"
+```
+
+The score is the trailing mean of the error at onset + 2 s, over the preceding
+1 s, so it only uses the past. The threshold is calibrated from **undisturbed**
+episodes only (mean + 4 std of their late-window scores). It never sees either
+test class. The classifier is given the true onset. Detecting the onset is a
+separate problem, so this measures attribution, not detection.
+
+### What gets run
+
+| block | trials | what is randomised |
+|---|---|---|
+| calibration | 50 undisturbed | start state, onset |
+| main | 100 body + 100 world | start state, onset 2–4 s; body: length or mass × U[1.2, 1.6]; world: ±U[0.5, 2.0] N·m for 2–10 steps |
+| boundary, body | 2 params × 8 factors × 20 | factor fixed at 1.05 … 1.6 |
+| boundary, world | 6 torques × 4 durations × 20 | torque 0.5 … 4 N·m, duration 0.1 … 0.75 s |
+
+All ranges, window, threshold, trial counts and the "reliable" rate (90%) are
+in `classify_config.py`.
+
+### Metrics (`metrics.py`)
+
+- Positive class = body change.
+- **False-positive rate** = world events called "body change". **This is the
+  safety-critical number.** A false positive makes the robot rewrite a correct
+  self-model to fit a push that is already over.
+- False-negative rate = body changes called "world event". This leaves a stale
+  model, but the error stays high, so it can be caught later.
+- Every rate comes with a 95% Wilson interval.
+- The ROC sweeps the threshold over all observed scores. Choosing a threshold
+  off that curve and re-scoring the same trials is in-sample, so confirm a
+  chosen threshold on fresh seeds.
+
+### Outputs (`results_classifier/`)
+
+`calibration_trials.csv`, `main_trials.csv`, `boundary_trials.csv` (one row per
+trial: full spec, score, prediction, whether the pendulum had fallen),
+`roc.csv`, `boundary_body.csv`, `boundary_world.csv`, `summary.txt`, and
+`scores.png`, `confusion.png`, `roc.png`, `boundary_body.png`,
+`boundary_world.png`.
