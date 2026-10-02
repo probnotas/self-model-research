@@ -1,0 +1,54 @@
+late window: 20-40 steps (1-2 s) after onset
+
+[1] calibration (undisturbed episodes only)
+  undisturbed late-window score: mean 0.01058, std 0.001014, max 0.01354
+  threshold = mean + 4 x std = 0.01464
+  undisturbed episodes above threshold: 0/50  (in-sample: these set the threshold)
+
+[2] main evaluation (100 body-change + 100 world-event trials)
+  body change: param in ('l', 'm'), factor U[1.2, 1.6]
+  world event: |torque| U[0.5, 2.0] N*m, random sign, duration 2-10 steps
+  onset: U[40, 80] steps
+
+  confusion matrix (rows = truth, columns = prediction)
+                         pred: body change   pred: world event
+  true: body change                     99                   1
+  true: world event                      0                 100
+
+  accuracy                99.5%   95% CI [97.2%, 99.9%]  
+  FALSE-POSITIVE RATE      0.0%   95% CI [ 0.0%,  3.7%]  <- SAFETY-CRITICAL: world event called body change
+  false-negative rate      1.0%   95% CI [ 0.2%,  5.4%]  (body change called world event)
+
+  trials where the pendulum had fallen (|theta| > 0.5 rad) by the end of the late window: 10/200 (body 0, world 10)
+  misclassified trials:
+    seed 20002: body m x1.26, score 0.01461, fell=False
+  body trials changing 'l': 62/62 detected
+  body trials changing 'm': 37/38 detected
+
+[3] threshold sweep (ROC) on the main-evaluation scores
+  AUC = 1.0000
+  best TPR with zero false positives in this sample: TPR 100.0% at threshold > 0.01386
+  (picking a threshold from this curve and re-scoring the same trials is in-sample; confirm a chosen value on fresh seeds before reporting it)
+
+[4] boundary analysis (20 trials per setting, same threshold)
+  'reliably' = at least 90% of trials in a setting are correct
+  body 'l': x1.05 0%, x1.1 30%, x1.15 80%, x1.2 90%, x1.3 100%, x1.4 100%, x1.5 100%, x1.6 100%
+    -> smallest length change reliably detected: x1.2
+  body 'm': x1.05 0%, x1.1 10%, x1.15 30%, x1.2 65%, x1.3 100%, x1.4 100%, x1.5 100%, x1.6 100%
+    -> smallest mass change reliably detected: x1.3
+  push 2 steps (0.1 s): 0.5N*m 100%, 1N*m 100%, 1.5N*m 100%, 2N*m 100%, 3N*m 100%, 4N*m 95%
+    -> largest push reliably rejected at this duration: 4 N*m
+  push 5 steps (0.25 s): 0.5N*m 100%, 1N*m 100%, 1.5N*m 100%, 2N*m 95%, 3N*m 65%, 4N*m 50%
+    -> largest push reliably rejected at this duration: 2 N*m
+  push 10 steps (0.5 s): 0.5N*m 100%, 1N*m 95%, 1.5N*m 95%, 2N*m 65%, 3N*m 70%, 4N*m 45%
+    -> largest push reliably rejected at this duration: 1.5 N*m
+  push 15 steps (0.75 s): 0.5N*m 100%, 1N*m 95%, 1.5N*m 90%, 2N*m 90%, 3N*m 80%, 4N*m 60%
+    -> largest push reliably rejected at this duration: 2 N*m
+  boundary trials where the pendulum had fallen by the end of the window: 56/800
+
+[5] figures
+  -> results_classifier/scores.png
+  -> results_classifier/confusion.png
+  -> results_classifier/roc.png
+  -> results_classifier/boundary_body.png
+  -> results_classifier/boundary_world.png

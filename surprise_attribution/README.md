@@ -159,3 +159,43 @@ trial: full spec, score, prediction, whether the pendulum had fallen),
 `roc.csv`, `boundary_body.csv`, `boundary_world.csv`, `summary.txt`, and
 `scores.png`, `confusion.png`, `roc.png`, `boundary_body.png`,
 `boundary_world.png`.
+
+### Results (default config, one full run)
+
+Threshold from 50 undisturbed episodes: mean 0.01058 + 4 × 0.001014 = **0.01464**.
+
+**Main evaluation, 100 + 100 randomised trials**
+
+| | pred: body change | pred: world event |
+|---|---|---|
+| true: body change | 99 | 1 |
+| true: world event | 0 | 100 |
+
+| metric | value | 95% Wilson CI |
+|---|---|---|
+| accuracy | 99.5% | 97.2–99.9% |
+| **false-positive rate (safety-critical)** | **0.0%** | **0.0–3.7%** |
+| false-negative rate | 1.0% | 0.2–5.4% |
+
+- **The single miss:** a mass ×1.26 change scoring 0.01461 against a threshold of 0.01464.
+- **Length changes:** 62/62 detected. Mass changes: 37/38.
+- **AUC 1.000** on these trials. That's because the random ranges keep the two classes apart, not because the rule is perfect.
+- **The margin is thin.** The highest world-event score is 0.01386 and the lowest body-change score is 0.01461.
+- **Falling doesn't explain it.** 10 world-event trials had knocked the pendulum over by the end of the window, and all 10 were still correctly called "world". A pendulum swinging freely is predicted well.
+
+![scores](results_classifier/scores.png)
+
+**Boundary (20 trials per setting, same threshold, "reliable" = ≥ 90% correct)**
+
+- **Smallest body change reliably detected:** length ×1.2, mass ×1.3. Below that, detection falls off: length ×1.1 30%, mass ×1.1 10%, both ×1.05 0%. Mass is harder because it only enters the torque term.
+- **Largest push reliably rejected,** by duration:
+  - 0.1 s: 4 N·m (all tested torques)
+  - 0.25 s: 2 N·m
+  - 0.5 s: 1.5 N·m
+  - 0.75 s: 2 N·m
+  
+  The 0.5 s and 0.75 s rows are not monotone; with 20 trials per cell, adjacent cells are within noise.
+- **What the rejection failures are.** Of 62 rejection failures, only 3 had fallen. Their median |θ| at the end of the window was 0.20 rad, against 0.07 for correct rejections. These are large pushes the controller was still recovering from inside the 1–2 s window. That is the real limit of a fixed-lag rule: a big enough push takes longer than 1 s to settle.
+
+![boundary world](results_classifier/boundary_world.png)
+![boundary body](results_classifier/boundary_body.png)
