@@ -1,0 +1,45 @@
+[test] fresh episodes; alarm threshold 0.04042 (frozen from dev)
+  body/world thresholds from test undisturbed: new 0.01327, previous 0.01327
+
+  PREVIOUS rule (settle, 5 s, undecided -> world): 3x3 confusion (rows = truth, columns = verdict)
+                       -> body    -> world    -> alarm
+  true body                100           0           0
+  true world                 0         200           0
+  true severe               94           6           0
+
+  NEW rule (settle up to 10 s, then persistence -> ALARM): 3x3 confusion (rows = truth, columns = verdict)
+                       -> body    -> world    -> alarm
+  true body                100           0           0
+  true world                 0         200           0
+  true severe               94           0           6
+
+  (a) severe damage (x1.5-1.7): missed = called world
+    previous  alarm 0/100 = 0.0% [95% CI 0.0%, 3.7%]; body 94; MISSED 6/100 = 6.0% [95% CI 2.8%, 12.5%]
+    new       alarm 6/100 = 6.0% [95% CI 2.8%, 12.5%]; body 94; MISSED 0/100 = 0.0% [95% CI 0.0%, 3.7%]
+    x1.55-1.65 subset, previous : alarm 0, body 46, missed 3 (of 49)
+    x1.55-1.65 subset, new      : alarm 3, body 46, missed 0 (of 49)
+
+  (b) big long pushes (2-4 N*m, 0.5-1 s): any alarm is a new false alarm
+    previous  ALARM 0/100 = 0.0% [95% CI 0.0%, 3.7%]; body 0; world 100
+    new       ALARM 0/100 = 0.0% [95% CI 0.0%, 3.7%]; body 0; world 100
+
+  (c) false positives: any world event (ordinary + big) called body or alarm
+    previous  0/200 = 0.0% [95% CI 0.0%, 1.9%]  (body 0, alarm 0)
+    new       0/200 = 0.0% [95% CI 0.0%, 1.9%]  (body 0, alarm 0)
+    undisturbed, previous : body 0, alarm 0 (of 50)  [body/world threshold set on these]
+    undisturbed, new      : body 0, alarm 0 (of 50)  [body/world threshold set on these]
+
+  moderate body changes (x1.2-1.5) detected:
+    previous  100/100 = 100.0% [95% CI 96.3%, 100.0%] (body 100, alarm 0)
+    new       100/100 = 100.0% [95% CI 96.3%, 100.0%] (body 100, alarm 0)
+
+  how the new rule reached its verdicts (path) and how long it took:
+    body     settled 100, persistent   0, decayed   0 | delay median 3.00 s, max 3.00 s
+    world    settled 100, persistent   0, decayed   0 | delay median 3.00 s, max 7.20 s
+    severe   settled  94, persistent   6, decayed   0 | delay median 3.00 s, max 10.00 s
+    bigpush  settled 100, persistent   0, decayed   0 | delay median 4.35 s, max 6.30 s
+    calib    settled  50, persistent   0, decayed   0 | delay median 3.00 s, max 3.00 s
+
+  paired over 400 disturbed test trials (severe counted correct if alarm or body): new right & previous wrong 6, previous right & new wrong 0, exact McNemar p = 0.0312
+
+  figures: results_alarm/confusion_3x3.png, results_alarm/outcomes_by_category.png, results_alarm/error_over_time.png

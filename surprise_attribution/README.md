@@ -275,3 +275,91 @@ the obvious next fix. It is untested.
 ![push rejection](results_rules/compare_boundary_world.png)
 ![body detection](results_rules/compare_boundary_body.png)
 ![roc](results_rules/compare_roc_boundary.png)
+
+## Third output: ALARM for damage the robot can't recover from (`compare_alarm.py`)
+
+```
+python compare_alarm.py dev     # choose the alarm threshold on dev episodes
+python compare_alarm.py test    # evaluate once on fresh episodes, paired with the previous rule
+```
+
+New files only: `alarm_config.py`, `alarm_classifier.py`, `alarm_trials.py`,
+`compare_alarm.py`, `plot_alarm.py`. The earlier rules, their files and their
+results are unchanged.
+
+### The problem
+
+The settle rule returned "undecided, don't adapt" when the pendulum never
+settled within 5 s. On its test set, the most severe body changes (×1.6) landed
+there. So the worst damage was silently ignored.
+
+### The rule (`alarm_classifier.decide`)
+
+1. **Look for settled evidence for up to 10 s** (it was 5 s). If found, judge
+   body vs world exactly as before.
+2. **If the pendulum never settled, check persistence from 5 to 10 s.** If at
+   least 80% of the 1 s blocks have mean error above the alarm threshold, the
+   verdict is **ALARM**.
+3. **Otherwise, WORLD.** Whatever happened has decayed.
+
+### Why time separates a big push from severe damage
+
+Both can stop the pendulum settling. Only damage keeps the *model* wrong. Once
+a push ends, the body obeys the physics the model learned. Its error drops
+back to normal within about 3 s, even before the pendulum fully settles.
+Severe damage keeps the error high for as long as you watch.
+
+![error over time](results_alarm/error_over_time.png)
+
+### Protocol
+
+- **The alarm threshold was chosen on dev** (30 undisturbed + 40 per category)
+  by a criterion written beforehand:
+  1. zero false alarms on dev pushes and undisturbed runs;
+  2. then the fewest missed severe cases;
+  3. ties go to the geometric midpoint, for the most margin.
+- **Every threshold from 0.023 to 0.071 met both conditions.** The chosen value,
+  **0.0404**, was frozen before the test run.
+- **Test:** 50 undisturbed + 100 per category, fresh seeds, both rules on
+  identical episodes.
+- **Trial categories:**
+  - moderate body ×1.2–1.5
+  - ordinary push 0.5–2 N·m, 0.1–0.5 s
+  - severe body ×1.5–1.7
+  - big long push 2–4 N·m, 0.5–1 s
+
+### Test results
+
+| | previous rule | new rule |
+|---|---|---|
+| severe damage missed (called world) | **6/100** | **0/100** (95% CI 0–3.7%) |
+| severe → alarm / → body | 0 / 94 | 6 / 94 |
+| big long pushes → alarm (new false alarms) | 0/100 | 0/100 (95% CI 0–3.7%) |
+| all world events → body or alarm (false positives) | 0/200 | 0/200 (95% CI 0–1.9%) |
+| undisturbed → body or alarm | 0/50 | 0/50 |
+| moderate body changes detected | 100/100 | 100/100 |
+
+![3x3 confusion](results_alarm/confusion_3x3.png)
+
+- **Paired:** the new rule was right where the previous one was wrong 6 times,
+  and never the reverse. Exact McNemar p = 0.031.
+- **Margin:** no world event or undisturbed run had any 1 s block above the
+  alarm threshold. Their highest late-window median was 0.012. All 6 alarms had
+  every block above it, the lowest at 0.048.
+- **Time to verdict:** body and world verdicts 3 s median. Big pushes 4.35 s
+  median, 6.3 s max. They now all settle and get a real verdict; the previous
+  rule left 3 of them undecided. Alarms take 10 s by design.
+
+### What this does and does not show
+
+- **The alarm is a narrow safety net.** It fired only for the 6 severe cases
+  that never settled. The other 94 settled briefly first, and were (correctly)
+  called "body". All 94 also had persistently high error from 5 to 10 s. So a
+  rule that keeps watching after a "body" verdict, and escalates to ALARM on
+  persistence, would flag them as severe. That is not part of this rule and is
+  untested.
+- **The "decayed" branch is almost untested.** On test, every world event
+  settled within 10 s, so "never settled but decayed → world" never fired. It
+  fired on 2 ordinary pushes on dev.
+- **10 s is a long wait** to raise an alarm for catastrophic damage.
+- **One simulated pendulum**, one learned model, single disturbances only.

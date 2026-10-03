@@ -1,0 +1,5 @@
+[dev] choose the alarm threshold
+  body/world threshold (dev undisturbed): 0.01419
+  thresholds with zero false alarms: 0.02314 .. 0.2
+  fewest severe misses among them: 0/40, tied over 0.02314 .. 0.07061
+  chosen alarm threshold: 0.04042
