@@ -68,24 +68,27 @@ def none_spec(rng, block, seed):
                 torque=0.0, duration=0, onset=_onset(rng), seed=int(seed))
 
 
-def calibration_specs():
-    rng = np.random.default_rng(cc.SEED_CALIB)
-    return [none_spec(rng, "calib", cc.SEED_CALIB + i) for i in range(cc.N_CALIB)]
+def calibration_specs(base=None):
+    base = cc.SEED_CALIB if base is None else base
+    rng = np.random.default_rng(base)
+    return [none_spec(rng, "calib", base + i) for i in range(cc.N_CALIB)]
 
 
-def main_specs():
+def main_specs(base=None):
     """N_PER_CLASS body trials and N_PER_CLASS world trials, randomised."""
-    rng = np.random.default_rng(cc.SEED_MAIN)
+    base = cc.SEED_MAIN if base is None else base
+    rng = np.random.default_rng(base)
     n = cc.N_PER_CLASS
-    body = [body_spec(rng, "main", cc.SEED_MAIN + i) for i in range(n)]
-    world = [world_spec(rng, "main", cc.SEED_MAIN + n + i) for i in range(n)]
+    body = [body_spec(rng, "main", base + i) for i in range(n)]
+    world = [world_spec(rng, "main", base + n + i) for i in range(n)]
     return body + world
 
 
-def boundary_specs():
+def boundary_specs(base=None):
     """Fixed-magnitude grids for the boundary analysis (random onset/seed)."""
-    rng = np.random.default_rng(cc.SEED_BOUNDARY)
-    specs, seed = [], cc.SEED_BOUNDARY
+    base = cc.SEED_BOUNDARY if base is None else base
+    rng = np.random.default_rng(base)
+    specs, seed = [], base
     for param in cc.BODY_PARAMS:
         for f in cc.BOUNDARY_BODY_FACTORS:
             for _ in range(cc.N_BOUNDARY):
@@ -140,16 +143,40 @@ def run_trial(spec):
     return out
 
 
-def run_all(specs, label):
-    """Run specs in parallel (N_WORKERS processes), printing progress."""
+def run_trace_trial(spec):
+    """Run one episode and keep the full per-step traces.
+
+    Used by compare_rules.py: instead of computing one score inside the run,
+    it stores the whole error and angular-speed series, so several candidate
+    rules can be scored afterwards on the IDENTICAL episodes. That makes the
+    comparison between rules paired: any difference is the rule, not luck in
+    which episodes each rule happened to see.
+
+    Every episode has the same fixed length (TRACE_STEPS), long enough for
+    the latest onset plus the longest wait any rule is allowed.
+    """
+    rows = run_experiment.run_episode(_MODEL, spec_to_condition(spec), seed=spec["seed"],
+                                      steps=cc.TRACE_STEPS, onset=spec["onset"])
+    out = dict(spec)
+    out["err"] = np.array([r["surprise"] for r in rows], dtype=np.float32)
+    out["theta"] = np.array([r["theta"] for r in rows], dtype=np.float32)
+    out["thdot"] = np.array([r["theta_dot"] for r in rows], dtype=np.float32)
+    return out
+
+
+def run_all(specs, label, fn=run_trial):
+    """Run specs in parallel (N_WORKERS processes), printing progress.
+
+    fn: run_trial (one score per episode) or run_trace_trial (full traces).
+    """
     print(f"  running {len(specs)} {label} trials on {cc.N_WORKERS} workers ...", flush=True)
     if cc.N_WORKERS <= 1:
         _init_worker()
-        return [run_trial(s) for s in specs]
+        return [fn(s) for s in specs]
     ctx = mp.get_context("fork")
     with ctx.Pool(cc.N_WORKERS, initializer=_init_worker) as pool:
         out = []
-        for i, r in enumerate(pool.imap(run_trial, specs, chunksize=2), 1):
+        for i, r in enumerate(pool.imap(fn, specs, chunksize=2), 1):
             out.append(r)
             if i % 50 == 0 or i == len(specs):
                 print(f"    {i}/{len(specs)}", flush=True)

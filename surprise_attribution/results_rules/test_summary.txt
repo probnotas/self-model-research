@@ -1,0 +1,42 @@
+[test] original rule vs 'calm_long' (chosen on dev), on fresh seeds
+
+  == fixed ==  threshold 0.01481
+  confusion: body->body 99, body->world 1, world->body 1, world->world 99
+  accuracy 99.0% [96.4%, 99.7%]
+  FALSE-POSITIVE RATE (safety-critical) 1.0% [0.2%, 5.4%]
+  false-negative rate 1.0% [0.2%, 5.4%]
+  undisturbed above threshold (in-sample): 0/50
+  decision delay after onset: median 2.00 s, max 2.00 s
+  undecided (no settled evidence, acted on as world): body 0, world 0
+  margin (decided trials): highest push score 0.01522, lowest body score 0.01454, threshold 0.01481
+  smallest length change reliably detected: x1.2
+  smallest mass change reliably detected: x1.3
+  largest push reliably rejected at 0.1 s: 4 N*m
+  largest push reliably rejected at 0.25 s: 2 N*m
+  largest push reliably rejected at 0.5 s: 1.5 N*m
+  largest push reliably rejected at 0.75 s: 2 N*m
+  boundary coverage: body 0.684, push 0.885
+
+  == calm_long ==  threshold 0.01371
+  confusion: body->body 100, body->world 0, world->body 0, world->world 100
+  accuracy 100.0% [98.1%, 100.0%]
+  FALSE-POSITIVE RATE (safety-critical) 0.0% [0.0%, 3.7%]
+  false-negative rate 0.0% [0.0%, 3.7%]
+  undisturbed above threshold (in-sample): 0/50
+  decision delay after onset: median 3.00 s, max 5.00 s
+  undecided (no settled evidence, acted on as world): body 3, world 62
+  margin (decided trials): highest push score 0.01302, lowest body score 0.01457, threshold 0.01371
+  smallest length change reliably detected: x1.15
+  smallest mass change reliably detected: x1.2
+  largest push reliably rejected at 0.1 s: 4 N*m
+  largest push reliably rejected at 0.25 s: 4 N*m
+  largest push reliably rejected at 0.5 s: 4 N*m
+  largest push reliably rejected at 0.75 s: 4 N*m
+  boundary coverage: body 0.719, push 1.000
+
+  paired, all 1000 disturbed test trials: new right & old wrong 74, old right & new wrong 6, exact McNemar p = 5.4e-16
+
+  AUC main: old 0.9999, new 1.0000
+  AUC boundary trials (the hard ones): old 0.8570, new 0.9392
+
+  figures: results_rules/compare_boundary_world.png, results_rules/compare_boundary_body.png, results_rules/compare_roc_boundary.png, results_rules/decision_delay.png, results_rules/scores_calm_long.png

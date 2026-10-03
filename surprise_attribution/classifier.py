@@ -48,3 +48,55 @@ def calibrate_threshold(undisturbed_scores):
     """
     s = np.asarray(undisturbed_scores, dtype=float)
     return float(s.mean() + cc.CALIB_SIGMAS * s.std(ddof=1))
+
+
+# ---------------------------------------------------------------------------
+# Improved rule: judge the model only while the pendulum is calm
+# ---------------------------------------------------------------------------
+# Why: the fixed 1-2 s window fails on big pushes because the pendulum is
+# still swinging fast then, and the healthy model is less accurate at speed.
+# That extra error is about the STATE, not about the body. Scoring only calm
+# transitions removes it, so what is left is "is my model still wrong when
+# everything is quiet?", which is exactly the body-change question.
+
+def is_calm(theta, thdot, t):
+    """Transition t (state t-1 -> state t) is calm if BOTH ends are near
+    upright and slow. Checking both ends means the whole step happened in the
+    regime the controller normally operates in.
+
+    theta / thdot[t] are the state AFTER step t, so the state the transition
+    started from is index t - 1.
+    """
+    return (abs(theta[t - 1]) < cc.THETA_CALM and abs(thdot[t - 1]) < cc.OMEGA_CALM and
+            abs(theta[t]) < cc.THETA_CALM and abs(thdot[t]) < cc.OMEGA_CALM)
+
+
+def calm_gated_score(err, theta, thdot, onset, calm_steps=None):
+    """Mean error over the first `calm_steps` SETTLED transitions after onset + MIN_LAG.
+
+    A transition t counts if it, and the SETTLE_STEPS transitions before it,
+    were all calm. So the pendulum has to have been quiet for a while, not
+    just pass through a quiet moment (e.g. the top of a swing).
+
+    Returns (score, decision_step, undecided):
+      score          the number compared to the threshold, or -inf if undecided
+                     (-inf is below every threshold, so undecided is never
+                     called "body change" whatever threshold is chosen)
+      decision_step  the step at which the verdict is available
+      undecided      True if fewer than `calm_steps` settled transitions
+                     occurred before onset + MAX_LAG
+    """
+    n_needed = cc.CALM_STEPS if calm_steps is None else calm_steps
+    picked, run = [], 0
+    for t in range(onset + 1, onset + cc.MAX_LAG):
+        run = run + 1 if is_calm(theta, thdot, t) else 0
+        if t >= onset + cc.MIN_LAG and run > cc.SETTLE_STEPS:
+            picked.append(err[t])
+            if len(picked) == n_needed:
+                return float(np.mean(picked)), t + 1, False
+    return float("-inf"), onset + cc.MAX_LAG, True
+
+
+def pre_onset_level(err, onset):
+    """The episode's own normal error level just before the onset."""
+    return float(np.mean(err[onset - cc.PRE_STEPS:onset]))

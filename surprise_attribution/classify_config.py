@@ -96,3 +96,46 @@ SEED_BOUNDARY = 30_000
 FELL_ANGLE = 0.5
 N_WORKERS = 4              # parallel episode workers (1 = no multiprocessing)
 OUT_DIR = "results_classifier"
+
+# ---------------------------------------------------------------------------
+# 4. Improved rule: wait until calm (compare_rules.py)
+# ---------------------------------------------------------------------------
+# Diagnosis behind it: after a big push the pendulum swings fast for 1-2 s
+# (|theta_dot| up to ~7 rad/s; ~0.05 while balancing), and the healthy model
+# is somewhat less accurate at speed. A fixed 1-2 s window therefore catches
+# the after-swing of the push, not a wrong model. A body change, by contrast,
+# keeps the pendulum calm but keeps the model wrong.
+# So the improved rule only scores transitions where the pendulum is CALM
+# (near upright and slow, at both ends of the transition) AND has been calm
+# for SETTLE_STEPS in a row, starting no earlier than MIN_LAG after onset, and
+# decides as soon as it has CALM_STEPS of them.
+# Why the settle requirement: on dev, the first calm steps right after a
+# pendulum was knocked down and swung back up still had the controller
+# working hard (|u| ~0.6-0.7 vs ~0.44 at rest) and error ~0.015 vs ~0.010,
+# enough to cross the threshold. After 0.5 s of continuous calm it is gone.
+# If the pendulum never gives CALM_STEPS settled steps before MAX_LAG, the
+# rule has no clean evidence and returns "undecided", which is acted on as
+# "world event": do NOT adapt without evidence. Undecided trials are counted
+# and reported separately.
+MIN_LAG = 20               # never decide earlier than 1 s after onset
+MAX_LAG = 100              # never wait longer than 5 s after onset
+SETTLE_STEPS = 10          # 0.5 s of continuous calm before a step can count
+CALM_STEPS = 20            # 1 s worth of settled transitions to average
+OMEGA_CALM = 0.5           # rad/s: "slow" (balancing runs sit around 0.05)
+THETA_CALM = 0.3           # rad:   "near upright"
+# Pre-onset window for the ratio variant (score divided by the episode's own
+# normal error level): [onset - PRE_STEPS, onset).
+PRE_STEPS = 30
+
+# Fixed episode length for trace recording: latest onset + longest wait.
+TRACE_STEPS = ONSET_MAX + MAX_LAG + EPISODE_MARGIN
+
+# Rule selection protocol: candidates are compared on a DEVELOPMENT set and
+# one is chosen by the criterion in compare_rules.py; it is then evaluated
+# once on a TEST set with fresh seeds that played no part in the choice.
+SEED_DEV = 40_000          # dev:  calib +0, main +1000, boundary +2000
+SEED_TEST = 50_000         # test: calib +0, main +1000, boundary +2000
+N_DEV_PER_CLASS = 50       # dev is smaller: it only has to rank the rules
+N_DEV_CALIB = 30
+N_DEV_BOUNDARY = 10
+RESULTS_RULES = "results_rules"

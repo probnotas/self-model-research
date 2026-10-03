@@ -199,3 +199,79 @@ Threshold from 50 undisturbed episodes: mean 0.01058 + 4 × 0.001014 = **0.01464
 
 ![boundary world](results_classifier/boundary_world.png)
 ![boundary body](results_classifier/boundary_body.png)
+
+## Fixing the weak spots (`compare_rules.py`)
+
+```
+python compare_rules.py dev     # score 6 candidate rules on a development set, pick one
+python compare_rules.py test    # evaluate the pick vs the original on fresh seeds
+```
+
+### Why the original rule failed on big pushes
+
+After a big push the pendulum swings fast for 1–2 s, up to about 7 rad/s
+against about 0.05 while balancing. Often it is knocked all the way down and
+swung back up. The healthy model is less accurate at speed, and right after a
+recovery the controller is still working hard. So a fixed 1–2 s window
+measures the push's after-effects, not a wrong model. A body change is the
+opposite: the pendulum stays calm, but the model stays wrong.
+
+### The fix: judge the model only once the body has settled
+
+```
+count transition t only if: t >= onset + 1 s, and the pendulum has been calm
+  (|theta| < 0.3 rad and |theta_dot| < 0.5 rad/s) for at least 0.5 s
+score = mean error over the first 2 s of such transitions
+no such evidence by onset + 5 s  ->  "undecided", acted on as world (don't adapt)
+```
+
+### Protocol
+
+- **Six candidates, chosen on dev.** The six rules (fixed window, wait until
+  calm, each with and without dividing by the episode's own pre-onset error, 1 s
+  or 2 s of averaging) were compared on a **dev** set: 30 undisturbed, 50 + 50
+  main, and 10 per boundary cell.
+- **The selection criterion was set beforehand.** First, zero false positives on
+  dev. Then, best balanced boundary coverage. Then, shortest delay.
+- **The pick was tested once, on fresh seeds.** The test set was 50 + 200 + 800
+  episodes, and both rules were scored on the identical episodes.
+- **A first version failed on dev and was revised there.** It had no settle
+  requirement, and when the pendulum never calmed it fell back to averaging every
+  step. That made false positives worse on dev (7 vs 2). The reason: the first
+  calm moments after a swing-up still carry extra error. It was revised on dev
+  only, and the test set was untouched until the final run.
+- **Dividing by the episode's own baseline was dropped.** It helped push
+  rejection, but it cost body detection on dev, so the criterion did not pick it.
+
+### Test results (fresh seeds, both rules on the same 1,000 disturbed episodes)
+
+| | original (fixed 1–2 s) | improved (settle, 2 s average) |
+|---|---|---|
+| main: false positives (safety-critical) | 1/100 | **0/100** (95% CI 0–3.7%) |
+| main: false negatives | 1/100 | **0/100** |
+| margin: highest push score / lowest body score | 0.01522 / 0.01454 (overlap) | 0.01302 / 0.01457 (gap) |
+| largest push reliably rejected | 1.5–4 N·m, depending on duration | **4 N·m at every duration tested** |
+| smallest length change reliably detected | ×1.2 | **×1.15** |
+| smallest mass change reliably detected | ×1.3 | **×1.2** |
+| AUC on the hard boundary trials | 0.857 | **0.939** |
+| median time to verdict | 2.0 s | 3.0 s (max 5.0 s) |
+
+**Paired over all 1,000 disturbed test trials:** the new rule was right where
+the old one was wrong 74 times, and the reverse happened 6 times. Exact McNemar
+p = 5.4e-16.
+
+**The new weak spot.** 3 of those 6 are the **largest** body changes (×1.6).
+The damage was severe enough that the pendulum never settled within 5 s, so the
+rule returned "undecided, don't adapt" and missed them. A body change that
+stops the robot from ever recovering is exactly the one you least want to miss.
+Treating "never settles" as its own alarm, rather than silently as "world", is
+the obvious next fix. It is untested.
+
+**Other costs.**
+- Verdicts take 3 s instead of 2 s.
+- 62 world-event trials went undecided. They were acted on correctly as "don't adapt", but without positive evidence.
+- The other 3 trials the new rule loses are small changes (×1.1–1.15) sitting right at the threshold.
+
+![push rejection](results_rules/compare_boundary_world.png)
+![body detection](results_rules/compare_boundary_body.png)
+![roc](results_rules/compare_roc_boundary.png)

@@ -1,0 +1,11 @@
+[dev] candidate rules on the development set
+
+  rule                FP   FN  body cov  push cov  balanced  median delay  undecided (body/world)
+  fixed                2    0     0.688     0.850     0.769        2.00 s                0/0
+  fixed_ratio          0    3     0.613     0.942     0.777        2.00 s                0/0
+  calm                 0    0     0.688     0.992     0.840        2.00 s                0/13
+  calm_ratio           0    3     0.613     1.000     0.806        2.00 s                0/13
+  calm_long            0    0     0.719     1.000     0.859        3.00 s                2/29
+  calm_long_ratio      0    2     0.612     1.000     0.806        3.00 s                2/29
+
+  chosen by the criterion: calm_long
