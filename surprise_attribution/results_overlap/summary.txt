@@ -1,0 +1,102 @@
+[overlap] combined loop == existing episode loop for single disturbances (max diff 0)
+  200 paired triplets + 50 undisturbed, fresh seeds; body x1.2-1.6, push 0.5-4.0 N*m for 0.1-1 s, offset -1 to +2 s
+  alarm threshold 0.04042 (frozen); body/world threshold from undisturbed: current rule 0.01328, previous rule 0.01328
+
+== CURRENT rule (3-way: settle <=10 s, else persistence -> ALARM) ==
+
+  confusion per category (verdict counts: body / world / alarm)
+    (1) body only      body  200   world    0   alarm    0   (n=200)
+    (2) push only      body    0   world  200   alarm    0   (n=200)
+    (3) body + push    body  119   world   26   alarm   55   (n=200)
+    (4) undisturbed    body    0   world   50   alarm    0   (n=50)
+
+  body-change detection (body or alarm):
+    (1) without push  200/200 = 100.0% [95% CI 98.1%, 100.0%]
+    (3) with push     174/200 = 87.0% [95% CI 81.6%, 91.0%]
+    paired: MASKED (detected alone, missed with push) 26; rescued (missed alone, detected with push) 0; exact McNemar p = 2.98e-08
+
+  MIMICKING: push only called body or alarm  0/200 = 0.0% [95% CI 0.0%, 1.9%]  <- safety-critical
+    (body 0, alarm 0)
+    undisturbed called body or alarm: 0/50 (body/world threshold set on these)
+
+  by overlap offset (push onset - body onset):
+    bin                            n   det (1)   det (3)  masked   FP (2)
+    before (-1 to -0.25 s)        56      100%       88%       7        0
+    on onset (+/-0.25 s)          38      100%       89%       4        0
+    shortly after (0.25-1 s)      36      100%       81%       7        0
+    during judging (1-2 s)        70      100%       89%       8        0
+
+  by push magnitude:
+    bin                            n   det (1)   det (3)  masked   FP (2)
+    |torque| 0.5-1 N*m            30      100%       87%       4        0
+    |torque| 1-2 N*m              55      100%       89%       6        0
+    |torque| 2-3 N*m              50      100%       86%       7        0
+    |torque| 3-4 N*m              65      100%       86%       9        0
+
+  by push duration:
+    bin                            n   det (1)   det (3)  masked   FP (2)
+    duration 0.1-0.25 s           44      100%       91%       4        0
+    duration 0.3-0.5 s            58      100%       81%      11        0
+    duration 0.55-0.75 s          45      100%       93%       3        0
+    duration 0.8-1 s              53      100%       85%       8        0
+
+  by body-change size:
+    bin                            n   det (1)   det (3)  masked   FP (2)
+    x1.2-1.3                      46      100%       83%       8        0
+    x1.3-1.4                      63      100%       90%       6        0
+    x1.4-1.5                      51      100%       90%       5        0
+    x1.5-1.6                      40      100%       82%       7        0
+
+  worst-case timing (0.25 s bins): offset +0.25 to +0.50 s: masked 4, push-only false positives 0, detection with push 71% (n=14)
+
+  verdict path per category: body_only {'settled': 200, 'persistent': 0, 'decayed': 0}; push_only {'settled': 195, 'persistent': 0, 'decayed': 5}; body_push {'settled': 119, 'persistent': 55, 'decayed': 26}; undisturbed {'settled': 50, 'persistent': 0, 'decayed': 0}
+    delay body_only    median 3.00 s, max 3.00 s
+    delay push_only    median 4.35 s, max 10.00 s
+    delay body_push    median 5.35 s, max 10.00 s
+    delay undisturbed  median 3.00 s, max 3.00 s
+  masked triplets:
+    l x1.56, push +3.82 N*m for 0.85 s, offset -0.25 s -> world via decayed
+    l x1.34, push +3.22 N*m for 0.80 s, offset -0.75 s -> world via decayed
+    m x1.21, push +1.65 N*m for 0.45 s, offset -0.35 s -> world via decayed
+    m x1.27, push -3.25 N*m for 0.50 s, offset +1.80 s -> world via decayed
+    l x1.34, push -1.55 N*m for 0.30 s, offset +1.40 s -> world via decayed
+    l x1.36, push -1.20 N*m for 0.30 s, offset +0.80 s -> world via decayed
+    l x1.52, push -3.34 N*m for 0.45 s, offset +1.60 s -> world via decayed
+    l x1.47, push -2.63 N*m for 0.15 s, offset +1.55 s -> world via decayed
+    l x1.50, push +2.93 N*m for 0.60 s, offset +0.95 s -> world via decayed
+    l x1.54, push +1.59 N*m for 0.85 s, offset +1.10 s -> world via decayed
+    l x1.42, push -0.95 N*m for 0.70 s, offset +0.40 s -> world via decayed
+    l x1.58, push +1.51 N*m for 0.85 s, offset +0.05 s -> world via decayed
+    l x1.54, push -2.61 N*m for 0.55 s, offset +0.60 s -> world via decayed
+    m x1.22, push -3.11 N*m for 0.20 s, offset -0.50 s -> world via decayed
+    m x1.26, push -1.71 N*m for 0.90 s, offset -0.20 s -> world via decayed
+    m x1.25, push +3.76 N*m for 0.35 s, offset +0.30 s -> world via decayed
+    m x1.42, push -3.51 N*m for 0.35 s, offset -0.75 s -> world via decayed
+    l x1.53, push -2.42 N*m for 0.35 s, offset +0.15 s -> world via decayed
+    l x1.39, push -2.13 N*m for 0.25 s, offset -0.70 s -> world via decayed
+    l x1.41, push -0.96 N*m for 0.85 s, offset +1.05 s -> world via decayed
+    l x1.33, push -3.23 N*m for 0.20 s, offset +1.35 s -> world via decayed
+    m x1.20, push +3.87 N*m for 0.95 s, offset -0.45 s -> world via decayed
+    l x1.56, push -0.96 N*m for 0.50 s, offset -0.30 s -> world via decayed
+    l x1.34, push -0.97 N*m for 0.90 s, offset +0.45 s -> world via decayed
+    l x1.24, push +2.81 N*m for 0.40 s, offset +0.30 s -> world via decayed
+    m x1.24, push -2.12 N*m for 0.40 s, offset +1.65 s -> world via decayed
+
+== PREVIOUS rule (settle <=5 s, undecided -> world), same episodes ==
+
+  confusion per category (verdict counts: body / world / alarm)
+    (1) body only      body  200   world    0   alarm    0   (n=200)
+    (2) push only      body    0   world  200   alarm    0   (n=200)
+    (3) body + push    body   87   world  113   alarm    0   (n=200)
+    (4) undisturbed    body    0   world   50   alarm    0   (n=50)
+
+  body-change detection (body or alarm):
+    (1) without push  200/200 = 100.0% [95% CI 98.1%, 100.0%]
+    (3) with push     87/200 = 43.5% [95% CI 36.8%, 50.4%]
+    paired: MASKED (detected alone, missed with push) 113; rescued (missed alone, detected with push) 0; exact McNemar p = 1.93e-34
+
+  MIMICKING: push only called body or alarm  0/200 = 0.0% [95% CI 0.0%, 1.9%]  <- safety-critical
+    (body 0, alarm 0)
+    undisturbed called body or alarm: 0/50 (body/world threshold set on these)
+
+  figures: results_overlap/verdicts_by_category.png, results_overlap/detection_vs_offset.png, results_overlap/masking_by_push.png, results_overlap/example_triplet.png

@@ -363,3 +363,96 @@ Severe damage keeps the error high for as long as you watch.
   fired on 2 ordinary pushes on dev.
 - **10 s is a long wait** to raise an alarm for catastrophic damage.
 - **One simulated pendulum**, one learned model, single disturbances only.
+
+## Simultaneous disturbances: body change + overlapping push (`compare_overlap.py`)
+
+```
+python compare_overlap.py
+```
+
+New files only: `overlap_config.py`, `overlap_trials.py`, `compare_overlap.py`,
+`plot_overlap.py`. The episode loop in `overlap_trials.py` adds a schedule that
+can apply both disturbances. It is checked to reproduce
+`run_experiment.run_episode` bit for bit for single disturbances (max diff 0).
+
+### Design
+
+- **200 paired triplets.** Each shares one draw of seed, onset, body change
+  (length or mass ×1.2–1.6), push (0.5–4 N·m, random sign, 0.1–1 s) and
+  overlap offset (push onset − body onset, uniform −1 to +2 s). Each triplet is
+  run as **(1) body only**, **(2) push only** and **(3) body + push**.
+- **Plus 50 (4) undisturbed controls.**
+- **Masking is measured pair by pair.** It counts body changes detected in (1)
+  but missed in (3): same body change, same start, only the push differs.
+- **The classifier is the 3-way rule, unchanged.** The alarm threshold stays
+  frozen at 0.0404, and the body/world threshold is set as before, from (4).
+  It is told the onset of the first disturbance.
+- **Nothing was tuned, so there is no dev stage.** This one run on fresh seeds
+  is the evaluation. The previous settle rule is scored on the same episodes.
+
+### Results (current rule)
+
+| category | body | world | alarm |
+|---|---|---|---|
+| (1) body only | 200 | 0 | 0 |
+| (2) push only | 0 | **200** | **0** |
+| (3) body + push | 119 | **26** | 55 |
+| (4) undisturbed | 0 | 50 | 0 |
+
+- **Mimicking (push only called body or alarm): 0/200** (95% CI 0–1.9%), at
+  every offset, push size and duration tested. The safety-critical number held.
+- **Masking:** body detection falls from **200/200 without the push to 174/200
+  (87%) with it**. 26 pairs were detected alone and missed with the push; 0 the
+  other way round. Exact McNemar p = 3e-8.
+- **No worst-case timing.** Masking happens at every offset:
+
+  | offset bin | masked |
+  |---|---|
+  | before (−1 to −0.25 s) | 7/56 |
+  | on onset (±0.25 s) | 4/38 |
+  | shortly after (0.25–1 s) | 7/36 |
+  | during the judging window (1–2 s) | 8/70 |
+
+  The worst 0.25 s bin (+0.25 to +0.5 s, 4/14) is too small to single out.
+- **No safe push size.** Masking appears at every size:
+
+  | push size | masked |
+  |---|---|
+  | 0.5–1 N·m | 4/30 |
+  | 1–2 N·m | 6/55 |
+  | 2–3 N·m | 7/50 |
+  | 3–4 N·m | 9/65 |
+
+  There is no size below which masking vanished in this sample.
+- **The previous rule (5 s, no alarm) is far worse under overlap:** 87/200
+  detected, 113 masked. Most of the gain comes from the alarm work.
+
+![detection vs offset](results_overlap/detection_vs_offset.png)
+
+### Why it fails: the push knocks a damaged pendulum down, and it stays down
+
+All 26 masked cases took the same path: never settled within 10 s, and not
+persistent, so "decayed → world".
+
+- **They were fallen for the whole 5–10 s window** (fallen 100% of that time,
+  median). Their paired twins were not: the body change alone stayed up, and the
+  push alone recovered (both fallen 0%, median). The combination makes the
+  pendulum fall; neither cause alone does.
+- **Their late error is raised but flickers.** It sits at median 0.040 (range
+  0.025–0.082), right on the alarm threshold. It exceeds the threshold in a
+  median 40% of 1 s blocks (max 60%), so it never meets the 80% persistence
+  requirement.
+- **Any fix has a thin margin.** 5 push-only trials with a **healthy** body also
+  ended fallen; the swing-up planner cannot always recover. Their late error was
+  0.022–0.024. "Fallen and can't get up" is not damage-specific, and in this
+  sample the lowest masked case (0.025) sits just above the healthy fallen cases.
+
+![example](results_overlap/example_triplet.png)
+
+As instructed, the rule was not redesigned here. Candidate fixes for a next
+step, each to be chosen on dev and confirmed on fresh test seeds:
+- judge persistence on the 5–10 s mean rather than 80% of blocks;
+- compare the error with what the healthy model shows in the same regime
+  (fallen and swinging);
+- treat "healthy body would have recovered by now" as evidence, which needs a
+  model of recovery time.

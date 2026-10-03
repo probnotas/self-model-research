@@ -1,0 +1,17 @@
+breakdown,bin,n,detected_body_only,detected_body_push,masked,push_only_false_positives
+overlap offset (push onset - body onset),before (-1 to -0.25 s),56,56,49,7,0
+overlap offset (push onset - body onset),on onset (+/-0.25 s),38,38,34,4,0
+overlap offset (push onset - body onset),shortly after (0.25-1 s),36,36,29,7,0
+overlap offset (push onset - body onset),during judging (1-2 s),70,70,62,8,0
+push magnitude,|torque| 0.5-1 N*m,30,30,26,4,0
+push magnitude,|torque| 1-2 N*m,55,55,49,6,0
+push magnitude,|torque| 2-3 N*m,50,50,43,7,0
+push magnitude,|torque| 3-4 N*m,65,65,56,9,0
+push duration,duration 0.1-0.25 s,44,44,40,4,0
+push duration,duration 0.3-0.5 s,58,58,47,11,0
+push duration,duration 0.55-0.75 s,45,45,42,3,0
+push duration,duration 0.8-1 s,53,53,45,8,0
+body-change size,x1.2-1.3,46,46,38,8,0
+body-change size,x1.3-1.4,63,63,57,6,0
+body-change size,x1.4-1.5,51,51,46,5,0
+body-change size,x1.5-1.6,40,40,33,7,0
