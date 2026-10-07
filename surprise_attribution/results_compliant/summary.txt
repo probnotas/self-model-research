@@ -22,6 +22,12 @@ versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'g
 == medium_none (stiffness 30.0, noise (0.0, 0.0)) ==
   held-out error 0.0786 | body thr 0.0919 | FP 5/120 (body 1, alarm 4) | masking 117/120 | body-only missed 120/120 | neither flagged 0/120 | gap -0.0271 | AUC 0.955
 
+== medium_low (stiffness 30.0, noise (0.002, 0.02)) ==
+  held-out error 0.0824 | body thr 0.0631 | FP 18/120 (body 2, alarm 16) | masking 120/120 | body-only missed 120/120 | neither flagged 0/120 | gap -0.0281 | AUC 0.373
+
+== medium_medium (stiffness 30.0, noise (0.01, 0.1)) ==
+  held-out error 0.1462 | body thr nan | FP 120/120 (body 0, alarm 120) | masking 1/120 | body-only missed 0/120 | neither flagged 120/120 | gap +nan | AUC nan
+
 SUMMARY (one row per configuration)
   config          heldout       FP     mask  miss(b)  flag(n)  misattr      gap    AUC  settled b/nb
   rigid_none       0.0162     0.0%    15.8%     0.0%     0.0%     4.0%  +0.0014  1.000    187/239
@@ -31,5 +37,7 @@ SUMMARY (one row per configuration)
   stiff_low        0.0263     0.8%    78.3%    64.2%     1.7%    36.2%  -0.0541  0.830     51/185
   stiff_medium     0.1220    96.7%     2.5%     2.5%    99.2%    50.2%  -0.0241  0.767      6/5
   medium_none      0.0786     4.2%    97.5%   100.0%     0.0%    50.4%  -0.0271  0.955      7/185
+  medium_low       0.0824    15.0%   100.0%   100.0%     0.0%    53.8%  -0.0281  0.373     13/192
+  medium_medium    0.1462   100.0%     0.8%     0.0%   100.0%    50.2%     +nan    nan      1/0
 
 figure: results_compliant/sweep.png
