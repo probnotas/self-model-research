@@ -1,0 +1,42 @@
+Body: rigid Gymnasium Pendulum-v1 (NOT a compliant body).
+versions: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000}
+body/world threshold 0.01377 (from 50 separate undisturbed episodes; 0 never settled); alarm threshold 0.04042 (frozen)
+
+CONFUSION MATRIX (rows = ground truth, columns = verdict)
+                    body  world*   alarm     n
+  neither              0     120       0   120
+  body_only          117       0       3   120
+  world_only           0     120       0   120
+  body_world          70      19      31   120
+  * 'world' = no persistent change / don't adapt; the rule has no separate 'none' output,
+    so 'world' is the correct verdict for the 'neither' cell too.
+
+RATES
+  overall misattribution          19/480 = 4.0% (95% CI 2.5%-6.1%)
+  FALSE POSITIVE (world only -> body or alarm)  0/120 = 0.0% (95% CI 0.0%-3.1%)   [type: body 0, alarm 0]   <- safety-critical
+  MASKING (body+world -> world)   19/120 = 15.8% (95% CI 10.4%-23.4%)
+  reference, body only -> world   0/120 = 0.0% (95% CI 0.0%-3.1%)
+  reference, neither -> body/alarm 0/120 = 0.0% (95% CI 0.0%-3.1%)
+
+BY PUSH MAGNITUDE (and duration)
+  push                   false positive (world only)      masking (body+world)
+  1 N*m short                              0/20 = 0%                 0/20 = 0%
+  1 N*m medium                             0/20 = 0%                8/20 = 40%
+  1 N*m all                                0/40 = 0%                8/40 = 20%
+  2 N*m short                              0/20 = 0%                 1/20 = 5%
+  2 N*m medium                             0/20 = 0%               10/20 = 50%
+  2 N*m all                                0/40 = 0%               11/40 = 28%
+  4 N*m short                              0/20 = 0%                 0/20 = 0%
+  4 N*m medium                             0/20 = 0%                 0/20 = 0%
+  4 N*m all                                0/40 = 0%                 0/40 = 0%
+
+MARGIN (values the rule actually used)
+  body present  settled 187/240; settled score min 0.0143 median 0.0313 max 0.0986; settle time median 3.00 s
+  body absent   settled 239/240; settled score min 0.0080 median 0.0107 max 0.0129; settle time median 3.00 s
+  settled-score gap (lowest body-present - highest body-absent): +0.0014 (clean separation); threshold 0.0138
+  body present  never settled 53: late-window fraction of blocks above alarm min 0.00 median 1.00 max 1.00; block median 0.0250-0.0849 (alarm needs fraction >= 0.8)
+  body absent   never settled 1: late-window fraction of blocks above alarm min 0.00 median 0.00 max 0.00; block median 0.0236-0.0236 (alarm needs fraction >= 0.8)
+
+verdict paths per cell: neither: settled 120, persistent 0, decayed 0; body_only: settled 117, persistent 3, decayed 0; world_only: settled 119, persistent 0, decayed 1; body_world: settled 70, persistent 31, decayed 19
+
+per-trial results (incl. 50 calibration rows): results_factorial/trials.csv

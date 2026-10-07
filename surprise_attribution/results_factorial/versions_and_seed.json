@@ -1,0 +1,7 @@
+{
+ "python": "3.11.15",
+ "numpy": "2.4.6",
+ "torch": "2.14.0+cpu",
+ "gymnasium": "1.3.0",
+ "master_seed": 90000
+}
