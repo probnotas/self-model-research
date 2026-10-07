@@ -35,10 +35,13 @@ def sweep(results, path):
             ax.plot(x[have], y, color=COLORS[s], ls=STYLE[s], marker="o", ms=6, lw=2,
                     label=f"{s}" + (" (rigid Pendulum-v1)" if s == "rigid" else f" (k={stiff:g})"))
         ax.set_title(title, loc="left", fontsize=10.5, color=INK)
-        ax.set_ylim((0.45, 1.02) if key == "settled_auc" else (-0.03, 1.03))
+        ax.set_ylim(-0.03, 1.03)   # AUC can fall below 0.5 (inverted); never clip it
         if key == "settled_auc":
             ax.axhline(0.5, color=MUTED, ls=":", lw=1)
         ax.set_xticks(x); ax.set_xticklabels([f"noise: {n}" for n in NOISES])
+        if key in ("masking", "miss_body_only"):
+            ax.text(2, 0.5, "at medium noise these fall\nonly because the rule alarms\non EVERYTHING, incl. undisturbed\nruns (see false-positive panel)",
+                    ha="right", va="center", fontsize=8.5, color=MUTED)
         _style(ax)
     axes[0, 0].legend(frameon=False, fontsize=9, loc="upper left")
     fig.suptitle("Attribution rule on a SIMULATED compliant body (series-elastic + hysteresis + sensor noise)",

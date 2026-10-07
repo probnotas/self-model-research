@@ -853,5 +853,290 @@
     "n": 40
    }
   }
+ },
+ {
+  "config": "soft_none",
+  "stiffness": 4.0,
+  "noise": [
+   0.0,
+   0.0
+  ],
+  "heldout_error": 0.05273643881082535,
+  "body_threshold": 0.12557638005953592,
+  "calib_settled": 50,
+  "calib_n": 50,
+  "calib_score_mean": 0.0906858515739441,
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "world_only": {
+    "body": 0,
+    "world": 94,
+    "alarm": 26
+   },
+   "body_world": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   }
+  },
+  "false_positive": {
+   "k": 26,
+   "n": 120,
+   "rate": 0.21666666666666667,
+   "lo": 0.15236622842757383,
+   "hi": 0.2985452585041196
+  },
+  "fp_body": 0,
+  "fp_alarm": 26,
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "masking": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "miss_body_only": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 266,
+   "n": 480,
+   "rate": 0.5541666666666667,
+   "lo": 0.5094439707800669,
+   "hi": 0.598029218792719
+  },
+  "settled_body": 172,
+  "settled_nobody": 177,
+  "gap": -0.04010389745235443,
+  "body_min": 0.07528716325759888,
+  "nobody_max": 0.11539106070995331,
+  "settled_auc": 0.2020430955196426,
+  "by_push": {
+   "1": {
+    "fp": 0,
+    "mask": 40,
+    "n": 40
+   },
+   "2": {
+    "fp": 10,
+    "mask": 40,
+    "n": 40
+   },
+   "4": {
+    "fp": 16,
+    "mask": 40,
+    "n": 40
+   }
+  }
+ },
+ {
+  "config": "soft_low",
+  "stiffness": 4.0,
+  "noise": [
+   0.002,
+   0.02
+  ],
+  "heldout_error": 0.05851595476269722,
+  "body_threshold": 0.10112225879703506,
+  "calib_settled": 50,
+  "calib_n": 50,
+  "calib_score_mean": 0.06895460791885853,
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "world_only": {
+    "body": 0,
+    "world": 68,
+    "alarm": 52
+   },
+   "body_world": {
+    "body": 0,
+    "world": 119,
+    "alarm": 1
+   }
+  },
+  "false_positive": {
+   "k": 52,
+   "n": 120,
+   "rate": 0.43333333333333335,
+   "lo": 0.34810028273121946,
+   "hi": 0.5227024200762379
+  },
+  "fp_body": 0,
+  "fp_alarm": 52,
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "masking": {
+   "k": 119,
+   "n": 120,
+   "rate": 0.9916666666666667,
+   "lo": 0.9543025846256777,
+   "hi": 0.9985274821693252
+  },
+  "miss_body_only": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 291,
+   "n": 480,
+   "rate": 0.60625,
+   "lo": 0.5618630163878585,
+   "hi": 0.648949778543375
+  },
+  "settled_body": 166,
+  "settled_nobody": 180,
+  "gap": -0.04096783697605133,
+  "body_min": 0.055445194244384766,
+  "nobody_max": 0.0964130312204361,
+  "settled_auc": 0.2863119143239625,
+  "by_push": {
+   "1": {
+    "fp": 0,
+    "mask": 40,
+    "n": 40
+   },
+   "2": {
+    "fp": 19,
+    "mask": 40,
+    "n": 40
+   },
+   "4": {
+    "fp": 33,
+    "mask": 39,
+    "n": 40
+   }
+  }
+ },
+ {
+  "config": "soft_medium",
+  "stiffness": 4.0,
+  "noise": [
+   0.01,
+   0.1
+  ],
+  "heldout_error": 0.13771162927150726,
+  "body_threshold": NaN,
+  "calib_settled": 0,
+  "calib_n": 50,
+  "calib_score_mean": NaN,
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "masking": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 240,
+   "n": 480,
+   "rate": 0.5,
+   "lo": 0.45544725440867795,
+   "hi": 0.544552745591322
+  },
+  "settled_body": 0,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "body_min": NaN,
+  "nobody_max": NaN,
+  "settled_auc": NaN,
+  "by_push": {
+   "1": {
+    "fp": 40,
+    "mask": 0,
+    "n": 40
+   },
+   "2": {
+    "fp": 40,
+    "mask": 0,
+    "n": 40
+   },
+   "4": {
+    "fp": 40,
+    "mask": 0,
+    "n": 40
+   }
+  }
  }
 ]
