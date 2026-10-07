@@ -1,6 +1,8 @@
 """Does the attribution rule survive a (simulated) compliant, noisy body?
 
-    python run_compliant.py          # runs every (stiffness, noise) config; resumes from cache
+    python run_compliant.py                      # every (stiffness, noise) config; resumes from cache
+    python run_compliant.py --only soft_low,soft_medium   # just these (shorter jobs)
+    python run_compliant.py --summary            # rebuild summary/figure from finished configs only
 
 For each configuration in compliant_config.py:
   1. train a forward model on that body's own random-action data (as sensed);
@@ -116,6 +118,12 @@ def run_config(name, cfg, alarm_thr):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--only", default="", help="comma-separated config names, e.g. soft_low")
+    ap.add_argument("--summary", action="store_true", help="only summarise finished configs")
+    args = ap.parse_args()
+    only = set(filter(None, args.only.split(",")))
     os.makedirs(OUT, exist_ok=True)
     assert ce.verify_rigid() == 0.0, "rigid mode of the compliant env differs from the existing env"
     versions = dict(python=platform.python_version(), numpy=np.__version__, torch=torch.__version__,
@@ -132,6 +140,9 @@ def main():
     for sname, k in kc.STIFFNESS.items():
         for nname, nz in kc.NOISE.items():
             name = f"{sname}_{nname}"
+            cached = os.path.exists(os.path.join(OUT, f"{name}.json"))
+            if (only and name not in only and not cached) or (args.summary and not cached):
+                continue
             say(f"\n== {name} (stiffness {k}, noise {nz}) ==")
             r = run_config(name, dict(stiffness=k, noise=nz), alarm_thr)
             results.append(r)
