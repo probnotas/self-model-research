@@ -1,0 +1,95 @@
+{
+ "config": "rigid_none",
+ "stiffness": null,
+ "noise": [
+  0.0,
+  0.0
+ ],
+ "heldout_error": 0.016157668083906174,
+ "body_threshold": 0.013769888678729216,
+ "calib_settled": 50,
+ "calib_n": 50,
+ "calib_score_mean": 0.010725310388952494,
+ "confusion": {
+  "neither": {
+   "body": 0,
+   "world": 120,
+   "alarm": 0
+  },
+  "body_only": {
+   "body": 117,
+   "world": 0,
+   "alarm": 3
+  },
+  "world_only": {
+   "body": 0,
+   "world": 120,
+   "alarm": 0
+  },
+  "body_world": {
+   "body": 70,
+   "world": 19,
+   "alarm": 31
+  }
+ },
+ "false_positive": {
+  "k": 0,
+  "n": 120,
+  "rate": 0.0,
+  "lo": 0.0,
+  "hi": 0.031020271055929513
+ },
+ "fp_body": 0,
+ "fp_alarm": 0,
+ "false_alarm_neither": {
+  "k": 0,
+  "n": 120,
+  "rate": 0.0,
+  "lo": 0.0,
+  "hi": 0.031020271055929513
+ },
+ "masking": {
+  "k": 19,
+  "n": 120,
+  "rate": 0.15833333333333333,
+  "lo": 0.10376896007675636,
+  "hi": 0.2340948918114622
+ },
+ "miss_body_only": {
+  "k": 0,
+  "n": 120,
+  "rate": 0.0,
+  "lo": 0.0,
+  "hi": 0.031020271055929513
+ },
+ "misattribution": {
+  "k": 19,
+  "n": 480,
+  "rate": 0.03958333333333333,
+  "lo": 0.025484891024478592,
+  "hi": 0.06099299760684207
+ },
+ "settled_body": 187,
+ "settled_nobody": 239,
+ "gap": 0.0014060614630579948,
+ "body_min": 0.014261379837989807,
+ "nobody_max": 0.012855318374931812,
+ "settled_auc": 1.0,
+ "by_push": {
+  "1": {
+   "fp": 0,
+   "mask": 8,
+   "n": 40
+  },
+  "2": {
+   "fp": 0,
+   "mask": 11,
+   "n": 40
+  },
+  "4": {
+   "fp": 0,
+   "mask": 0,
+   "n": 40
+  }
+ }
+}
