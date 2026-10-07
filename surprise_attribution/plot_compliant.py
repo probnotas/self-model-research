@@ -29,9 +29,11 @@ def sweep(results, path):
     x = np.arange(len(NOISES))
     for ax, (key, title) in zip(axes.flat, panels):
         for s, rs in by.items():
-            y = [rs[n][key] if key == "settled_auc" else rs[n][key]["rate"] for n in NOISES]
-            ax.plot(x, y, color=COLORS[s], ls=STYLE[s], marker="o", ms=6, lw=2,
-                    label=f"{s}" + (" (rigid Pendulum-v1)" if s == "rigid" else f" (k={rs['none']['stiffness']:g})"))
+            have = [i for i, n in enumerate(NOISES) if n in rs]   # finished configs only
+            y = [rs[NOISES[i]][key] if key == "settled_auc" else rs[NOISES[i]][key]["rate"] for i in have]
+            stiff = next(iter(rs.values()))["stiffness"]
+            ax.plot(x[have], y, color=COLORS[s], ls=STYLE[s], marker="o", ms=6, lw=2,
+                    label=f"{s}" + (" (rigid Pendulum-v1)" if s == "rigid" else f" (k={stiff:g})"))
         ax.set_title(title, loc="left", fontsize=10.5, color=INK)
         ax.set_ylim((0.45, 1.02) if key == "settled_auc" else (-0.03, 1.03))
         if key == "settled_auc":
