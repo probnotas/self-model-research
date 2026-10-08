@@ -1,0 +1,49 @@
+SIMULATED compliant body, not hardware. Recorded data only (results_history/episodes/).
+Regime split: |theta_dot| at the start of the transition, threshold 0.5 rad/s (classify_config.OMEGA_CALM).
+
+== rigid_none ==
+  low               n=  82792  model 0.0108  nothing-changes 0.0503  ratio 0.21  model better on 85% of steps
+  high              n=   2198  model 0.0141  nothing-changes 0.3565  ratio 0.04  model better on 100% of steps
+  low_healthy_only  n=  55250  model 0.0107  nothing-changes 0.0501  ratio 0.21  model better on 85% of steps
+  low_after_push    n=  27542  model 0.0109  nothing-changes 0.0507  ratio 0.22  model better on 85% of steps
+  by |theta_dot| bin (rad/s):
+      0-0.05  n=  43438  model 0.0104  hold 0.0451  ratio 0.23
+    0.05-0.1  n=  25894  model 0.0108  hold 0.0515  ratio 0.21
+     0.1-0.2  n=  11952  model 0.0116  hold 0.0634  ratio 0.18
+     0.2-0.5  n=   1508  model 0.0148  hold 0.0721  ratio 0.21
+       0.5-1  n=    396  model 0.0174  hold 0.1143  ratio 0.15
+         1-2  n=    447  model 0.0118  hold 0.2162  ratio 0.05
+         2-4  n=    539  model 0.0115  hold 0.4315  ratio 0.03
+       4-inf  n=    816  model 0.0155  hold 0.5012  ratio 0.03
+
+== soft_none ==
+  low               n=  82589  model 0.0843  nothing-changes 0.0524  ratio 1.61  model better on 31% of steps
+  high              n=   2401  model 0.0967  nothing-changes 0.3309  ratio 0.29  model better on 88% of steps
+  low_healthy_only  n=  55226  model 0.0911  nothing-changes 0.0498  ratio 1.83  model better on 25% of steps
+  low_after_push    n=  27363  model 0.0706  nothing-changes 0.0577  ratio 1.23  model better on 42% of steps
+  by |theta_dot| bin (rad/s):
+      0-0.05  n=  25970  model 0.0904  hold 0.0461  ratio 1.96
+    0.05-0.1  n=  19544  model 0.0851  hold 0.0522  ratio 1.63
+     0.1-0.2  n=  24662  model 0.0791  hold 0.0573  ratio 1.38
+     0.2-0.5  n=  12413  model 0.0806  hold 0.0563  ratio 1.43
+       0.5-1  n=    551  model 0.0987  hold 0.2224  ratio 0.44
+         1-2  n=    838  model 0.0960  hold 0.2793  ratio 0.34
+         2-4  n=    523  model 0.0803  hold 0.4735  ratio 0.17
+       4-inf  n=    489  model 0.1133  hold 0.3893  ratio 0.29
+
+== soft_low ==
+  low               n=  82909  model 0.0675  nothing-changes 0.0488  ratio 1.38  model better on 36% of steps
+  high              n=   2081  model 0.1068  nothing-changes 0.3107  ratio 0.34  model better on 88% of steps
+  low_healthy_only  n=  55237  model 0.0697  nothing-changes 0.0445  ratio 1.57  model better on 30% of steps
+  low_after_push    n=  27672  model 0.0631  nothing-changes 0.0574  ratio 1.10  model better on 46% of steps
+  by |theta_dot| bin (rad/s):
+      0-0.05  n=  30875  model 0.0662  hold 0.0434  ratio 1.53
+    0.05-0.1  n=  22647  model 0.0660  hold 0.0465  ratio 1.42
+     0.1-0.2  n=  21254  model 0.0697  hold 0.0530  ratio 1.32
+     0.2-0.5  n=   8133  model 0.0706  hold 0.0647  ratio 1.09
+       0.5-1  n=    361  model 0.0928  hold 0.2741  ratio 0.34
+         1-2  n=    843  model 0.1125  hold 0.2319  ratio 0.49
+         2-4  n=    513  model 0.1014  hold 0.4185  ratio 0.24
+       4-inf  n=    364  model 0.1153  hold 0.3778  ratio 0.31
+
+figure: results_regime/regime_episodes.png
