@@ -1,0 +1,17 @@
+{
+ "python": "3.11.15",
+ "numpy": "2.4.6",
+ "torch": "2.14.0+cpu",
+ "gymnasium": "1.3.0",
+ "master_seed": 90000,
+ "model_train_seed": 0,
+ "k_sweep": [
+  2,
+  4,
+  8
+ ],
+ "k_main": 4,
+ "train_threads": 1,
+ "reused_from": "results_compliant",
+ "controller": "single-state model (forward_model.pt / compliant_models/*.pt), unchanged"
+}
