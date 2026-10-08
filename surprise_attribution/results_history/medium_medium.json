@@ -1,0 +1,311 @@
+{
+ "config": "medium_medium",
+ "stiffness": 30.0,
+ "noise": [
+  0.01,
+  0.1
+ ],
+ "heldout": {
+  "single": 0.14528104662895203,
+  "k2": 0.11153452843427658,
+  "k4": 0.10904955118894577,
+  "k8": 0.11883999407291412,
+  "n_targets": 965
+ },
+ "heldout_single_logged": 0.14617298543453217,
+ "train_mse": {
+  "2": 0.0038250323850661516,
+  "4": 0.0020439173094928265,
+  "8": 0.0008322545327246189
+ },
+ "body_threshold": {
+  "old": NaN,
+  "k2": NaN,
+  "k4": NaN,
+  "k8": NaN
+ },
+ "alarm_threshold": 0.040421698207053325,
+ "trace_mismatches": 0,
+ "repro_settled_score_mismatches": 0,
+ "repro_verdict_mismatches": 0,
+ "old": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 1,
+    "alarm": 119
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 1,
+   "n": 120,
+   "rate": 0.008333333333333333,
+   "lo": 0.001472517830674952,
+   "hi": 0.045697415374322405
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 241,
+   "n": 480,
+   "rate": 0.5020833333333333,
+   "lo": 0.4575144301894279,
+   "hi": 0.5466191540249101
+  },
+  "settled_body": 1,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 1,
+   "persistent": 479,
+   "decayed": 0
+  }
+ },
+ "k2": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 1,
+    "alarm": 119
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 1,
+   "n": 120,
+   "rate": 0.008333333333333333,
+   "lo": 0.001472517830674952,
+   "hi": 0.045697415374322405
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 241,
+   "n": 480,
+   "rate": 0.5020833333333333,
+   "lo": 0.4575144301894279,
+   "hi": 0.5466191540249101
+  },
+  "settled_body": 1,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 1,
+   "persistent": 479,
+   "decayed": 0
+  }
+ },
+ "k4": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 1,
+    "alarm": 119
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 1,
+   "n": 120,
+   "rate": 0.008333333333333333,
+   "lo": 0.001472517830674952,
+   "hi": 0.045697415374322405
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 241,
+   "n": 480,
+   "rate": 0.5020833333333333,
+   "lo": 0.4575144301894279,
+   "hi": 0.5466191540249101
+  },
+  "settled_body": 1,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 1,
+   "persistent": 479,
+   "decayed": 0
+  }
+ },
+ "k8": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 1,
+    "alarm": 119
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 1,
+   "n": 120,
+   "rate": 0.008333333333333333,
+   "lo": 0.001472517830674952,
+   "hi": 0.045697415374322405
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 241,
+   "n": 480,
+   "rate": 0.5020833333333333,
+   "lo": 0.4575144301894279,
+   "hi": 0.5466191540249101
+  },
+  "settled_body": 1,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 1,
+   "persistent": 479,
+   "decayed": 0
+  }
+ }
+}
