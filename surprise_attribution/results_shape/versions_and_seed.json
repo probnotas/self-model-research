@@ -1,0 +1,17 @@
+{
+ "python": "3.11.15",
+ "numpy": "2.4.6",
+ "torch": "2.14.0+cpu",
+ "gymnasium": "1.3.0",
+ "master_seed": 90000,
+ "w_sweep": [
+  10,
+  20,
+  40
+ ],
+ "w_main": 20,
+ "z_shape": 2.0,
+ "z_elev": 2.0,
+ "traces": "results_history/episodes (single-state error, recorded by run_history.py)",
+ "old_rule": "logged verdicts in results_compliant"
+}

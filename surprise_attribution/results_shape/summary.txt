@@ -1,0 +1,127 @@
+SIMULATED compliant body (series-elastic + hysteresis + damping + sensor noise): a model of compliance, not real hardware.
+versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000, 'w_sweep': [10, 20, 40], 'w_main': 20, 'z_shape': 2.0, 'z_elev': 2.0, 'traces': 'results_history/episodes (single-state error, recorded by run_history.py)', 'old_rule': 'logged verdicts in results_compliant'}
+
+== rigid_none == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 187/239) 1.000 | detect 221/240 | FP   0 | mask  19 | neither flagged   0 | misattr 4.0%
+  shape      W=10 AUC all 0.651 b-only/w-only 0.816 settled-subset 0.668 | detect 182/240 | FP  60 (short 0/60, medium 60/60) | mask  47 | neither flagged 112 | misattr 47.9%
+  shape_elev W=10                                                        | detect 176/240 | FP  60 (short 0/60, medium 60/60) | mask  47 | neither flagged   4 | misattr 26.7%
+  shape      W=20 AUC all 0.657 b-only/w-only 1.000 settled-subset 0.690 | detect 128/240 | FP   0 (short 0/60, medium 0/60) | mask 103 | neither flagged 117 | misattr 47.7%
+  shape_elev W=20                                                        | detect 127/240 | FP   0 (short 0/60, medium 0/60) | mask 103 | neither flagged   5 | misattr 24.6%
+  shape      W=40 AUC all 0.708 b-only/w-only 1.000 settled-subset 0.737 | detect 135/240 | FP   0 (short 0/60, medium 0/60) | mask 102 | neither flagged 120 | misattr 46.9%
+  shape_elev W=40                                                        | detect 135/240 | FP   0 (short 0/60, medium 0/60) | mask 102 | neither flagged   4 | misattr 22.7%
+
+== rigid_low == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 193/238) 0.930 | detect 127/240 | FP   0 | mask  67 | neither flagged   1 | misattr 23.8%
+  shape      W=10 AUC all 0.634 b-only/w-only 0.797 settled-subset 0.646 | detect 206/240 | FP  60 (short 0/60, medium 60/60) | mask  33 | neither flagged 112 | misattr 42.9%
+  shape_elev W=10                                                        | detect 124/240 | FP  60 (short 0/60, medium 60/60) | mask  33 | neither flagged  11 | misattr 39.0%
+  shape      W=20 AUC all 0.617 b-only/w-only 1.000 settled-subset 0.648 | detect 143/240 | FP   0 (short 0/60, medium 0/60) | mask  94 | neither flagged 120 | misattr 45.2%
+  shape_elev W=20                                                        | detect  65/240 | FP   0 (short 0/60, medium 0/60) | mask  94 | neither flagged   2 | misattr 36.9%
+  shape      W=40 AUC all 0.653 b-only/w-only 0.999 settled-subset 0.667 | detect 158/240 | FP   2 (short 2/60, medium 0/60) | mask  81 | neither flagged 119 | misattr 42.3%
+  shape_elev W=40                                                        | detect 112/240 | FP   0 (short 0/60, medium 0/60) | mask  86 | neither flagged   4 | misattr 27.5%
+
+== rigid_medium == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 192/225) 0.291 | detect  48/240 | FP  15 | mask  72 | neither flagged   1 | misattr 43.3%
+  shape      W=10 AUC all 0.573 b-only/w-only 0.654 settled-subset 0.578 | detect 223/240 | FP  88 (short 31/60, medium 57/60) | mask  11 | neither flagged 110 | misattr 44.8%
+  shape_elev W=10                                                        | detect  56/240 | FP  40 (short 1/60, medium 39/60) | mask  70 | neither flagged   7 | misattr 48.1%
+  shape      W=20 AUC all 0.527 b-only/w-only 0.804 settled-subset 0.563 | detect 200/240 | FP  67 (short 42/60, medium 25/60) | mask  33 | neither flagged 118 | misattr 46.9%
+  shape_elev W=20                                                        | detect   9/240 | FP   4 (short 2/60, medium 2/60) | mask 113 | neither flagged   3 | misattr 49.6%
+  shape      W=40 AUC all 0.527 b-only/w-only 0.783 settled-subset 0.530 | detect 222/240 | FP  80 (short 49/60, medium 31/60) | mask  16 | neither flagged 120 | misattr 45.4%
+  shape_elev W=40                                                        | detect  10/240 | FP   3 (short 2/60, medium 1/60) | mask 110 | neither flagged   6 | misattr 49.8%
+
+== stiff_none == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 134/196) 0.980 | detect 127/240 | FP   3 | mask  84 | neither flagged   0 | misattr 24.2%
+  shape      W=10 AUC all 0.608 b-only/w-only 0.718 settled-subset 0.595 | detect 200/240 | FP  62 (short 3/60, medium 59/60) | mask  37 | neither flagged 118 | misattr 45.8%
+  shape_elev W=10                                                        | detect 169/240 | FP  60 (short 1/60, medium 59/60) | mask  42 | neither flagged   8 | misattr 29.0%
+  shape      W=20 AUC all 0.652 b-only/w-only 0.999 settled-subset 0.653 | detect 147/240 | FP   1 (short 1/60, medium 0/60) | mask  90 | neither flagged 113 | misattr 43.1%
+  shape_elev W=20                                                        | detect 140/240 | FP   1 (short 1/60, medium 0/60) | mask  93 | neither flagged   4 | misattr 21.9%
+  shape      W=40 AUC all 0.677 b-only/w-only 0.998 settled-subset 0.715 | detect 154/240 | FP   2 (short 1/60, medium 1/60) | mask  82 | neither flagged 114 | misattr 42.1%
+  shape_elev W=40                                                        | detect 150/240 | FP   1 (short 0/60, medium 1/60) | mask  85 | neither flagged   0 | misattr 19.0%
+
+== stiff_low == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 51/185) 0.830 | detect  69/240 | FP   1 | mask  94 | neither flagged   2 | misattr 36.2%
+  shape      W=10 AUC all 0.636 b-only/w-only 0.776 settled-subset 0.535 | detect 209/240 | FP  62 (short 2/60, medium 60/60) | mask  26 | neither flagged 118 | misattr 44.0%
+  shape_elev W=10                                                        | detect 174/240 | FP  59 (short 1/60, medium 58/60) | mask  34 | neither flagged  11 | misattr 28.3%
+  shape      W=20 AUC all 0.702 b-only/w-only 0.998 settled-subset 0.494 | detect 172/240 | FP   7 (short 7/60, medium 0/60) | mask  67 | neither flagged 117 | misattr 40.0%
+  shape_elev W=20                                                        | detect 152/240 | FP   0 (short 0/60, medium 0/60) | mask  77 | neither flagged   5 | misattr 19.4%
+  shape      W=40 AUC all 0.711 b-only/w-only 0.992 settled-subset 0.666 | detect 156/240 | FP  12 (short 11/60, medium 1/60) | mask  82 | neither flagged 114 | misattr 43.8%
+  shape_elev W=40                                                        | detect 149/240 | FP   0 (short 0/60, medium 0/60) | mask  86 | neither flagged   8 | misattr 20.6%
+
+== stiff_medium == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 6/5) 0.767 | detect 234/240 | FP 116 | mask   3 | neither flagged 119 | misattr 50.2%
+  shape      W=10 AUC all 0.609 b-only/w-only 0.670 settled-subset 0.667 | detect 233/240 | FP 104 (short 44/60, medium 60/60) | mask   5 | neither flagged 117 | misattr 47.5%
+  shape_elev W=10                                                        | detect 103/240 | FP  56 (short 4/60, medium 52/60) | mask  49 | neither flagged   6 | misattr 41.5%
+  shape      W=20 AUC all 0.621 b-only/w-only 0.868 settled-subset 0.767 | detect 213/240 | FP  58 (short 38/60, medium 20/60) | mask  25 | neither flagged 115 | misattr 41.7%
+  shape_elev W=20                                                        | detect  82/240 | FP   9 (short 5/60, medium 4/60) | mask  71 | neither flagged   6 | misattr 36.0%
+  shape      W=40 AUC all 0.544 b-only/w-only 0.808 settled-subset 0.900 | detect 207/240 | FP  62 (short 39/60, medium 23/60) | mask  24 | neither flagged 118 | misattr 44.4%
+  shape_elev W=40                                                        | detect 100/240 | FP   6 (short 2/60, medium 4/60) | mask  63 | neither flagged   4 | misattr 31.2%
+
+== medium_none == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 7/185) 0.955 | detect   3/240 | FP   5 | mask 117 | neither flagged   0 | misattr 50.4%
+  shape      W=10 AUC all 0.696 b-only/w-only 0.850 settled-subset 0.625 | detect 224/240 | FP  72 (short 13/60, medium 59/60) | mask  16 | neither flagged 119 | misattr 43.1%
+  shape_elev W=10                                                        | detect 170/240 | FP  69 (short 11/60, medium 58/60) | mask  22 | neither flagged  10 | misattr 31.0%
+  shape      W=20 AUC all 0.726 b-only/w-only 0.996 settled-subset 0.573 | detect 199/240 | FP  27 (short 13/60, medium 14/60) | mask  41 | neither flagged 118 | misattr 38.8%
+  shape_elev W=20                                                        | detect 167/240 | FP  16 (short 2/60, medium 14/60) | mask  53 | neither flagged   2 | misattr 19.0%
+  shape      W=40 AUC all 0.688 b-only/w-only 1.000 settled-subset 0.519 | detect 170/240 | FP  10 (short 9/60, medium 1/60) | mask  70 | neither flagged 119 | misattr 41.5%
+  shape_elev W=40                                                        | detect 168/240 | FP   2 (short 1/60, medium 1/60) | mask  70 | neither flagged   5 | misattr 16.5%
+
+== medium_low == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 13/192) 0.373 | detect   0/240 | FP  18 | mask 120 | neither flagged   0 | misattr 53.8%
+  shape      W=10 AUC all 0.701 b-only/w-only 0.812 settled-subset 0.705 | detect 222/240 | FP  72 (short 18/60, medium 54/60) | mask  16 | neither flagged 113 | misattr 42.3%
+  shape_elev W=10                                                        | detect 116/240 | FP  69 (short 15/60, medium 54/60) | mask  24 | neither flagged   2 | misattr 40.6%
+  shape      W=20 AUC all 0.660 b-only/w-only 0.985 settled-subset 0.585 | detect 200/240 | FP  42 (short 14/60, medium 28/60) | mask  40 | neither flagged 116 | misattr 41.2%
+  shape_elev W=20                                                        | detect 124/240 | FP  40 (short 12/60, medium 28/60) | mask  43 | neither flagged  10 | misattr 34.6%
+  shape      W=40 AUC all 0.673 b-only/w-only 0.996 settled-subset 0.457 | detect 164/240 | FP  18 (short 12/60, medium 6/60) | mask  76 | neither flagged 118 | misattr 44.2%
+  shape_elev W=40                                                        | detect 126/240 | FP  16 (short 10/60, medium 6/60) | mask  81 | neither flagged   5 | misattr 28.1%
+
+== medium_medium == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 1/0) nan | detect 239/240 | FP 120 | mask   1 | neither flagged 120 | misattr 50.2%
+  shape      W=10 AUC all 0.599 b-only/w-only 0.684 settled-subset nan | detect 223/240 | FP  93 (short 35/60, medium 58/60) | mask  12 | neither flagged 116 | misattr 47.1%
+  shape_elev W=10                                                        | detect  61/240 | FP  46 (short 3/60, medium 43/60) | mask  71 | neither flagged   7 | misattr 48.3%
+  shape      W=20 AUC all 0.569 b-only/w-only 0.858 settled-subset nan | detect 197/240 | FP  64 (short 40/60, medium 24/60) | mask  37 | neither flagged 117 | misattr 46.7%
+  shape_elev W=20                                                        | detect  13/240 | FP   2 (short 1/60, medium 1/60) | mask 108 | neither flagged   1 | misattr 47.9%
+  shape      W=40 AUC all 0.509 b-only/w-only 0.795 settled-subset nan | detect 208/240 | FP  78 (short 48/60, medium 30/60) | mask  28 | neither flagged 120 | misattr 47.9%
+  shape_elev W=40                                                        | detect  11/240 | FP   3 (short 0/60, medium 3/60) | mask 113 | neither flagged   3 | misattr 49.0%
+
+== soft_none == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 172/177) 0.202 | detect   0/240 | FP  26 | mask 120 | neither flagged   0 | misattr 55.4%
+  shape      W=10 AUC all 0.569 b-only/w-only 0.839 settled-subset 0.543 | detect 226/240 | FP  94 (short 50/60, medium 44/60) | mask  14 | neither flagged 118 | misattr 47.1%
+  shape_elev W=10                                                        | detect  48/240 | FP  60 (short 33/60, medium 27/60) | mask  72 | neither flagged   4 | misattr 53.3%
+  shape      W=20 AUC all 0.528 b-only/w-only 0.796 settled-subset 0.519 | detect 151/240 | FP  37 (short 13/60, medium 24/60) | mask  71 | neither flagged 116 | misattr 50.4%
+  shape_elev W=20                                                        | detect  15/240 | FP  22 (short 6/60, medium 16/60) | mask 106 | neither flagged   4 | misattr 52.3%
+  shape      W=40 AUC all 0.574 b-only/w-only 0.935 settled-subset 0.574 | detect 179/240 | FP  30 (short 10/60, medium 20/60) | mask  61 | neither flagged 116 | misattr 43.1%
+  shape_elev W=40                                                        | detect  21/240 | FP   6 (short 1/60, medium 5/60) | mask  99 | neither flagged   7 | misattr 48.3%
+
+== soft_low == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 166/180) 0.286 | detect   1/240 | FP  52 | mask 119 | neither flagged   0 | misattr 60.6%
+  shape      W=10 AUC all 0.612 b-only/w-only 0.900 settled-subset 0.603 | detect 228/240 | FP 109 (short 58/60, medium 51/60) | mask  12 | neither flagged 119 | misattr 50.0%
+  shape_elev W=10                                                        | detect  55/240 | FP  72 (short 48/60, medium 24/60) | mask  65 | neither flagged   1 | misattr 53.8%
+  shape      W=20 AUC all 0.526 b-only/w-only 0.847 settled-subset 0.512 | detect 186/240 | FP  58 (short 25/60, medium 33/60) | mask  50 | neither flagged 117 | misattr 47.7%
+  shape_elev W=20                                                        | detect  43/240 | FP  50 (short 19/60, medium 31/60) | mask  77 | neither flagged   4 | misattr 52.3%
+  shape      W=40 AUC all 0.584 b-only/w-only 0.990 settled-subset 0.539 | detect 183/240 | FP  17 (short 5/60, medium 12/60) | mask  57 | neither flagged 117 | misattr 39.8%
+  shape_elev W=40                                                        | detect  39/240 | FP   1 (short 0/60, medium 1/60) | mask  81 | neither flagged   5 | misattr 43.1%
+
+== soft_medium == trace check: 0 mismatches of 530
+  old rule      AUC(settled only, 0/0) nan | detect 240/240 | FP 120 | mask   0 | neither flagged 120 | misattr 50.0%
+  shape      W=10 AUC all 0.573 b-only/w-only 0.643 settled-subset nan | detect 223/240 | FP  96 (short 36/60, medium 60/60) | mask  12 | neither flagged 118 | misattr 48.1%
+  shape_elev W=10                                                        | detect  53/240 | FP  39 (short 0/60, medium 39/60) | mask  72 | neither flagged   4 | misattr 47.9%
+  shape      W=20 AUC all 0.531 b-only/w-only 0.783 settled-subset nan | detect 213/240 | FP  81 (short 49/60, medium 32/60) | mask  26 | neither flagged 119 | misattr 47.3%
+  shape_elev W=20                                                        | detect  20/240 | FP   5 (short 5/60, medium 0/60) | mask 103 | neither flagged   8 | misattr 48.5%
+  shape      W=40 AUC all 0.491 b-only/w-only 0.702 settled-subset nan | detect 179/240 | FP  72 (short 43/60, medium 29/60) | mask  46 | neither flagged 114 | misattr 51.5%
+  shape_elev W=40                                                        | detect   8/240 | FP  13 (short 7/60, medium 6/60) | mask 114 | neither flagged   6 | misattr 52.3%
+
+SUMMARY (W = 20): old settle rule vs shape rule, same trials. Counts: detect of 240, others of 120
+  config          AUC old  AUC new  det old  shape  +elev  FP old  shape  +elev  mask old  shape  +elev  neither old  shape  +elev
+  rigid_none        1.000    0.657      221    128    127       0      0      0        19    103    103            0    117      5
+  rigid_low         0.930    0.617      127    143     65       0      0      0        67     94     94            1    120      2
+  rigid_medium      0.291    0.527       48    200      9      15     67      4        72     33    113            1    118      3
+  stiff_none        0.980    0.652      127    147    140       3      1      1        84     90     93            0    113      4
+  stiff_low         0.830    0.702       69    172    152       1      7      0        94     67     77            2    117      5
+  stiff_medium      0.767    0.621      234    213     82     116     58      9         3     25     71          119    115      6
+  medium_none       0.955    0.726        3    199    167       5     27     16       117     41     53            0    118      2
+  medium_low        0.373    0.660        0    200    124      18     42     40       120     40     43            0    116     10
+  medium_medium       nan    0.569      239    197     13     120     64      2         1     37    108          120    117      1
+  soft_none         0.202    0.528        0    151     15      26     37     22       120     71    106            0    116      4
+  soft_low          0.286    0.526        1    186     43      52     58     50       119     50     77            0    117      4
+  soft_medium         nan    0.531      240    213     20     120     81      5         0     26    103          120    119      8
+
+figure: results_shape/sweep_shape.png
