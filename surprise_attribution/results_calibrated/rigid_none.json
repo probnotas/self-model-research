@@ -1,0 +1,235 @@
+{
+ "config": "rigid_none",
+ "baseline": {
+  "n_steps": 9950,
+  "mean": 0.010714452631429923,
+  "std": 0.0047800309982125935,
+  "median": 0.010973033029586077,
+  "mad": 0.0052549646920524535
+ },
+ "old_body_threshold": 0.013769888678729216,
+ "alarm_threshold": 0.040421698207053325,
+ "z_thresholds": {
+  "std": {
+   "body": 0.6392084169416093,
+   "alarm": 6.214864628855313
+  },
+  "mad": {
+   "body": 0.5322311020230204,
+   "alarm": 5.6039701317127895
+  }
+ },
+ "repro_settled_score_mismatches": 0,
+ "repro_verdict_mismatches": 0,
+ "n_trials": 530,
+ "old": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 117,
+    "world": 0,
+    "alarm": 3
+   },
+   "world_only": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_world": {
+    "body": 70,
+    "world": 19,
+    "alarm": 31
+   }
+  },
+  "false_positive": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "fp_body": 0,
+  "fp_alarm": 0,
+  "masking": {
+   "k": 19,
+   "n": 120,
+   "rate": 0.15833333333333333,
+   "lo": 0.10376896007675636,
+   "hi": 0.2340948918114622
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 19,
+   "n": 480,
+   "rate": 0.03958333333333333,
+   "lo": 0.025484891024478592,
+   "hi": 0.06099299760684207
+  },
+  "settled_body": 187,
+  "settled_nobody": 239,
+  "gap": 0.0014060614630579948,
+  "settled_auc": 1.0,
+  "paths": {
+   "settled": 426,
+   "persistent": 34,
+   "decayed": 20
+  }
+ },
+ "new": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 117,
+    "world": 0,
+    "alarm": 3
+   },
+   "world_only": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_world": {
+    "body": 70,
+    "world": 19,
+    "alarm": 31
+   }
+  },
+  "false_positive": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "fp_body": 0,
+  "fp_alarm": 0,
+  "masking": {
+   "k": 19,
+   "n": 120,
+   "rate": 0.15833333333333333,
+   "lo": 0.10376896007675636,
+   "hi": 0.2340948918114622
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 19,
+   "n": 480,
+   "rate": 0.03958333333333333,
+   "lo": 0.025484891024478592,
+   "hi": 0.06099299760684207
+  },
+  "settled_body": 187,
+  "settled_nobody": 239,
+  "gap": 0.29415343184242854,
+  "settled_auc": 1.0,
+  "paths": {
+   "settled": 426,
+   "persistent": 34,
+   "decayed": 20
+  }
+ },
+ "new_mad": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 117,
+    "world": 0,
+    "alarm": 3
+   },
+   "world_only": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_world": {
+    "body": 70,
+    "world": 19,
+    "alarm": 31
+   }
+  },
+  "false_positive": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "fp_body": 0,
+  "fp_alarm": 0,
+  "masking": {
+   "k": 19,
+   "n": 120,
+   "rate": 0.15833333333333333,
+   "lo": 0.10376896007675636,
+   "hi": 0.2340948918114622
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 19,
+   "n": 480,
+   "rate": 0.03958333333333333,
+   "lo": 0.025484891024478592,
+   "hi": 0.06099299760684207
+  },
+  "settled_body": 187,
+  "settled_nobody": 239,
+  "gap": 0.26756840527662074,
+  "settled_auc": 1.0,
+  "paths": {
+   "settled": 426,
+   "persistent": 34,
+   "decayed": 20
+  }
+ }
+}
