@@ -1,0 +1,83 @@
+SIMULATED compliant body (series-elastic + hysteresis + damping + sensor noise): a model of compliance, not real hardware.
+versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000, 'reused_from': 'results_compliant', 'models': 'forward_model.pt (rigid_none), compliant_models/*.pt'}
+
+reference baseline (rigid_none): mean 0.01071 std 0.00478 | median 0.01097 MAD 0.00525 | 9950 steps
+z thresholds (carried over from rigid_none, fixed for all bodies): std: body 0.639, alarm 6.215 | mad: body 0.532, alarm 5.604
+
+== rigid_none == baseline mean 0.01071 std 0.00478 (median 0.01097 MAD 0.00525); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP   0/120 (body 0, alarm 0) | mask  19/120 | miss(no push)   0/120 | flag(neither)   0/120 | misattr 4.0% | gap +0.0014 | AUC 1.000 | paths {'settled': 426, 'persistent': 34, 'decayed': 20}
+  new      FP   0/120 (body 0, alarm 0) | mask  19/120 | miss(no push)   0/120 | flag(neither)   0/120 | misattr 4.0% | gap +0.2942 | AUC 1.000 | paths {'settled': 426, 'persistent': 34, 'decayed': 20}
+  new_mad  FP   0/120 (body 0, alarm 0) | mask  19/120 | miss(no push)   0/120 | flag(neither)   0/120 | misattr 4.0% | gap +0.2676 | AUC 1.000 | paths {'settled': 426, 'persistent': 34, 'decayed': 20}
+
+== rigid_low == baseline mean 0.02545 std 0.01676 (median 0.02123 MAD 0.01520); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP   0/120 (body 0, alarm 0) | mask  67/120 | miss(no push)  46/120 | flag(neither)   1/120 | misattr 23.8% | gap -0.0167 | AUC 0.930 | paths {'settled': 431, 'persistent': 29, 'decayed': 20}
+  new      FP   0/120 (body 0, alarm 0) | mask 100/120 | miss(no push)  51/120 | flag(neither)   1/120 | misattr 31.7% | gap -0.9934 | AUC 0.930 | paths {'settled': 431, 'persistent': 0, 'decayed': 49}
+  new_mad  FP  10/120 (body 10, alarm 0) | mask  64/120 | miss(no push)  20/120 | flag(neither)  11/120 | misattr 21.9% | gap -1.0960 | AUC 0.930 | paths {'settled': 431, 'persistent': 0, 'decayed': 49}
+
+== rigid_medium == baseline mean 0.12786 std 0.09049 (median 0.10924 MAD 0.08986); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP  15/120 (body 0, alarm 15) | mask  72/120 | miss(no push) 120/120 | flag(neither)   1/120 | misattr 43.3% | gap -0.1084 | AUC 0.291 | paths {'settled': 417, 'persistent': 63, 'decayed': 0}
+  new      FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   1/120 | misattr 50.2% | gap -1.1977 | AUC 0.291 | paths {'settled': 417, 'persistent': 0, 'decayed': 63}
+  new_mad  FP   5/120 (body 5, alarm 0) | mask 120/120 | miss(no push) 119/120 | flag(neither)   4/120 | misattr 51.7% | gap -1.2061 | AUC 0.291 | paths {'settled': 417, 'persistent': 0, 'decayed': 63}
+
+== stiff_none == baseline mean 0.05044 std 0.00819 (median 0.04995 MAD 0.00951); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP   3/120 (body 3, alarm 0) | mask  84/120 | miss(no push)  29/120 | flag(neither)   0/120 | misattr 24.2% | gap -0.0126 | AUC 0.980 | paths {'settled': 330, 'persistent': 2, 'decayed': 148}
+  new      FP  12/120 (body 12, alarm 0) | mask  84/120 | miss(no push)  28/120 | flag(neither)   0/120 | misattr 25.8% | gap -1.5335 | AUC 0.980 | paths {'settled': 330, 'persistent': 0, 'decayed': 150}
+  new_mad  FP  14/120 (body 14, alarm 0) | mask  84/120 | miss(no push)  28/120 | flag(neither)   0/120 | misattr 26.2% | gap -1.3205 | AUC 0.980 | paths {'settled': 330, 'persistent': 0, 'decayed': 150}
+
+== stiff_low == baseline mean 0.06506 std 0.02762 (median 0.05914 MAD 0.02613); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP   1/120 (body 1, alarm 0) | mask  94/120 | miss(no push)  77/120 | flag(neither)   2/120 | misattr 36.2% | gap -0.0541 | AUC 0.830 | paths {'settled': 236, 'persistent': 38, 'decayed': 206}
+  new      FP   1/120 (body 1, alarm 0) | mask 109/120 | miss(no push)  98/120 | flag(neither)   2/120 | misattr 43.8% | gap -1.9602 | AUC 0.830 | paths {'settled': 236, 'persistent': 0, 'decayed': 244}
+  new_mad  FP   5/120 (body 5, alarm 0) | mask 105/120 | miss(no push)  97/120 | flag(neither)  17/120 | misattr 46.7% | gap -2.0719 | AUC 0.830 | paths {'settled': 236, 'persistent': 0, 'decayed': 244}
+
+== stiff_medium == baseline mean 0.11158 std 0.07949 (median 0.09485 MAD 0.07576); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP 116/120 (body 0, alarm 116) | mask   3/120 | miss(no push)   3/120 | flag(neither) 119/120 | misattr 50.2% | gap -0.0241 | AUC 0.767 | paths {'settled': 11, 'persistent': 469, 'decayed': 0}
+  new      FP   0/120 (body 0, alarm 0) | mask 119/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 49.8% | gap -0.3026 | AUC 0.767 | paths {'settled': 11, 'persistent': 0, 'decayed': 469}
+  new_mad  FP   1/120 (body 1, alarm 0) | mask 117/120 | miss(no push) 119/120 | flag(neither)   0/120 | misattr 49.4% | gap -0.3175 | AUC 0.767 | paths {'settled': 11, 'persistent': 0, 'decayed': 469}
+
+== medium_none == baseline mean 0.06667 std 0.03343 (median 0.05819 MAD 0.02764); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP   5/120 (body 1, alarm 4) | mask 117/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.4% | gap -0.0271 | AUC 0.955 | paths {'settled': 192, 'persistent': 4, 'decayed': 284}
+  new      FP   4/120 (body 4, alarm 0) | mask 116/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.0% | gap -0.8113 | AUC 0.955 | paths {'settled': 192, 'persistent': 0, 'decayed': 288}
+  new_mad  FP  16/120 (body 16, alarm 0) | mask 115/120 | miss(no push) 119/120 | flag(neither)  23/120 | misattr 56.9% | gap -0.9811 | AUC 0.955 | paths {'settled': 192, 'persistent': 0, 'decayed': 288}
+
+== medium_low == baseline mean 0.04796 std 0.02193 (median 0.04260 MAD 0.01902); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP  18/120 (body 2, alarm 16) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 53.8% | gap -0.0281 | AUC 0.373 | paths {'settled': 205, 'persistent': 16, 'decayed': 259}
+  new      FP   2/120 (body 2, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   1/120 | misattr 50.6% | gap -1.2833 | AUC 0.373 | paths {'settled': 205, 'persistent': 0, 'decayed': 275}
+  new_mad  FP  10/120 (body 10, alarm 0) | mask 118/120 | miss(no push) 120/120 | flag(neither)  23/120 | misattr 56.5% | gap -1.4799 | AUC 0.373 | paths {'settled': 205, 'persistent': 0, 'decayed': 275}
+
+== medium_medium == baseline mean 0.11663 std 0.08368 (median 0.09910 MAD 0.08345); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP 120/120 (body 0, alarm 120) | mask   1/120 | miss(no push)   0/120 | flag(neither) 120/120 | misattr 50.2% | gap +nan | AUC nan | paths {'settled': 1, 'persistent': 479, 'decayed': 0}
+  new      FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.0% | gap +nan | AUC nan | paths {'settled': 1, 'persistent': 0, 'decayed': 479}
+  new_mad  FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.0% | gap +nan | AUC nan | paths {'settled': 1, 'persistent': 0, 'decayed': 479}
+
+== soft_none == baseline mean 0.08999 std 0.04274 (median 0.08136 MAD 0.03372); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP  26/120 (body 0, alarm 26) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 55.4% | gap -0.0401 | AUC 0.202 | paths {'settled': 349, 'persistent': 26, 'decayed': 105}
+  new      FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.0% | gap -0.9384 | AUC 0.202 | paths {'settled': 349, 'persistent': 0, 'decayed': 131}
+  new_mad  FP  16/120 (body 16, alarm 0) | mask 118/120 | miss(no push) 120/120 | flag(neither)  22/120 | misattr 57.5% | gap -1.1893 | AUC 0.202 | paths {'settled': 349, 'persistent': 0, 'decayed': 131}
+
+== soft_low == baseline mean 0.06848 std 0.03809 (median 0.05966 MAD 0.03546); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP  52/120 (body 0, alarm 52) | mask 119/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 60.6% | gap -0.0410 | AUC 0.286 | paths {'settled': 346, 'persistent': 53, 'decayed': 81}
+  new      FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   1/120 | misattr 50.2% | gap -1.0756 | AUC 0.286 | paths {'settled': 346, 'persistent': 0, 'decayed': 134}
+  new_mad  FP   8/120 (body 8, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)  21/120 | misattr 56.0% | gap -1.1554 | AUC 0.286 | paths {'settled': 346, 'persistent': 0, 'decayed': 134}
+
+== soft_medium == baseline mean 0.12318 std 0.08938 (median 0.10453 MAD 0.08912); reproduction vs logged CSV: 0 settled-score and 0 verdict mismatches of 530
+  old      FP 120/120 (body 0, alarm 120) | mask   0/120 | miss(no push)   0/120 | flag(neither) 120/120 | misattr 50.0% | gap +nan | AUC nan | paths {'settled': 0, 'persistent': 480, 'decayed': 0}
+  new      FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.0% | gap +nan | AUC nan | paths {'settled': 0, 'persistent': 0, 'decayed': 480}
+  new_mad  FP   0/120 (body 0, alarm 0) | mask 120/120 | miss(no push) 120/120 | flag(neither)   0/120 | misattr 50.0% | gap +nan | AUC nan | paths {'settled': 0, 'persistent': 0, 'decayed': 480}
+
+SUMMARY: old (raw error, old thresholds) vs new (z vs own baseline, mean/std), same trials
+  config           FP old   new  mask old   new  miss old   new  flag(n) old   new  AUC old    new   gap old  gap new (z)
+  rigid_none            0     0        19    19         0     0            0     0    1.000  1.000   +0.0014       +0.294
+  rigid_low             0     0        67   100        46    51            1     1    0.930  0.930   -0.0167       -0.993
+  rigid_medium         15     0        72   120       120   120            1     1    0.291  0.291   -0.1084       -1.198
+  stiff_none            3    12        84    84        29    28            0     0    0.980  0.980   -0.0126       -1.533
+  stiff_low             1     1        94   109        77    98            2     2    0.830  0.830   -0.0541       -1.960
+  stiff_medium        116     0         3   119         3   120          119     0    0.767  0.767   -0.0241       -0.303
+  medium_none           5     4       117   116       120   120            0     0    0.955  0.955   -0.0271       -0.811
+  medium_low           18     2       120   120       120   120            0     1    0.373  0.373   -0.0281       -1.283
+  medium_medium       120     0         1   120         0   120          120     0      nan    nan      +nan         +nan
+  soft_none            26     0       120   120       120   120            0     0    0.202  0.202   -0.0401       -0.938
+  soft_low             52     0       119   120       120   120            0     1    0.286  0.286   -0.0410       -1.076
+  soft_medium         120     0         0   120         0   120          120     0      nan    nan      +nan         +nan
+  (counts out of 120 per cell)
+
+figure: results_calibrated/sweep_calibrated.png
