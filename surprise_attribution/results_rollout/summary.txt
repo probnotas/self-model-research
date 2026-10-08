@@ -1,0 +1,143 @@
+SIMULATED compliant body (series-elastic + hysteresis + damping + sensor noise): a model of compliance, not real hardware.
+versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000, 'h_sweep': [1, 5, 10, 20, 40, 100], 'h_main': 40, 'start_lag': 20, 'n_starts': 8, 'start_step': 10, 'z': 2.0, 'episodes': 'results_history/episodes', 'models': 'forward_model.pt (rigid_none), compliant_models/*.pt (single-state, unchanged)'}
+
+== rigid_none == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0107  0.0496    -        0.995      0.992    0.0346     0.0109    0.0113     236    5      0
+     5       0.0281  0.0724    -        1.000      1.000    0.0973     0.0268    0.0290     240   18      1
+    10       0.0751  0.0767    -        1.000      1.000    0.2342     0.0754    0.0749     240   20      1
+    20       0.4567  0.0789  YES        1.000      0.999    1.1298     0.4499    0.4404     237   19      2
+    40       2.9626  0.0787  YES        1.000      1.000    3.7597     2.9516    2.8914     192    0      0
+   100       4.7369  0.0795  YES        1.000      1.000    7.8115     4.6942    4.5839     198    2      1
+
+== rigid_low == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0244  0.0546    -        0.870      0.863    0.0401     0.0254    0.0265     156    3      5
+     5       0.0339  0.0701    -        0.998      0.981    0.0889     0.0356    0.0370     236   27      3
+    10       0.0711  0.0745    -        1.000      0.988    0.1959     0.0689    0.0696     239   25      4
+    20       0.3455  0.0750  YES        0.999      0.975    0.9003     0.3291    0.3128     239   23      4
+    40       2.7304  0.0794  YES        1.000      1.000    3.5541     2.7079    2.6244     193    0      0
+   100       4.2290  0.0817  YES        1.000      1.000    7.4238     4.2349    4.1034     209    0      3
+
+== rigid_medium == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.1207  0.1537    -        0.387      0.413    0.1185     0.1317    0.1273      11    3      4
+     5       0.1609  0.1578  YES        0.391      0.454    0.1503     0.1560    0.1536      37    5      2
+    10       0.2295  0.1596  YES        0.440      0.488    0.2168     0.2281    0.2233      65    5      4
+    20       0.7292  0.1594  YES        0.476      0.493    0.6939     0.7218    0.7401      40    8      6
+    40       2.9619  0.1602  YES        0.641      0.675    3.1128     2.9608    2.9425      25    2      1
+   100       5.3679  0.1591  YES        0.682      0.762    6.3736     5.6602    5.2931      38    8     10
+
+== stiff_none == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0501  0.0643    -        0.989      0.989    0.0808     0.0506    0.0486     210   10      0
+     5       0.1371  0.0780  YES        1.000      0.999    0.2622     0.1386    0.1315     218    5      5
+    10       0.2492  0.0870  YES        0.999      0.995    0.5312     0.2533    0.2407     193    5      7
+    20       0.5444  0.0871  YES        0.998      0.996    1.3890     0.5600    0.5273     178    9      8
+    40       1.5762  0.0888  YES        0.988      0.990    2.4476     1.6140    1.3880     150    3      4
+   100       1.6612  0.0906  YES        0.870      0.923    2.0056     1.6755    1.5653     126    3      2
+
+== stiff_low == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0643  0.0707    -        0.997      0.999    0.1279     0.0641    0.0486     177    2      9
+     5       0.1748  0.0873  YES        1.000      0.999    0.3931     0.1730    0.1258     183    7     12
+    10       0.3267  0.0945  YES        1.000      0.999    0.7296     0.3258    0.2644     180    7     11
+    20       0.8303  0.0959  YES        0.953      0.967    1.4700     0.8269    0.6539     153   15     10
+    40       2.1195  0.1021  YES        0.582      0.802    2.3132     2.1060    1.6935      89    4      9
+   100       1.7601  0.1066  YES        0.463      0.702    1.6591     1.7563    1.6299      82    4      4
+
+== stiff_medium == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.1110  0.1722    -        0.581      0.594    0.1215     0.1142    0.1132      39    3      4
+     5       0.1218  0.3112    -        0.688      0.726    0.1595     0.1189    0.1129      77    2      2
+    10       0.1201  0.4466    -        0.628      0.679    0.1817     0.1194    0.1160      44    3      6
+    20       0.1290  0.6445    -        0.597      0.655    0.1995     0.1243    0.1221      14    4      5
+    40       0.1317  0.7561    -        0.606      0.659    0.2047     0.1284    0.1249      11    5      4
+   100       0.1538  0.7894    -        0.611      0.667    0.1802     0.1522    0.1511      12    5      5
+
+== medium_none == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0635  0.0397  YES        0.962      0.973    0.1016     0.0680    0.0658     152    3      6
+     5       0.1244  0.0737  YES        0.999      0.990    0.2916     0.1258    0.1311     203   29      9
+    10       0.1965  0.0833  YES        0.991      0.983    0.5195     0.2000    0.2011     195   23     14
+    20       0.4283  0.0942  YES        0.959      0.961    0.9644     0.4373    0.3936     163    8     15
+    40       1.3983  0.0949  YES        0.452      0.675    1.2920     1.2984    1.1056      57    3      8
+   100       1.4955  0.0991  YES        0.063      0.439    0.8287     1.4483    1.3032      16    1      6
+
+== medium_low == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0466  0.0438  YES        0.954      0.837    0.0792     0.0487    0.0561     188   39      5
+     5       0.0896  0.0687  YES        0.998      0.978    0.2311     0.0916    0.1052     229   63      8
+    10       0.1463  0.0765  YES        1.000      0.996    0.4325     0.1483    0.1577     226   44     12
+    20       0.3255  0.0807  YES        0.990      0.992    0.8948     0.3368    0.3158     175   12     15
+    40       1.4510  0.0813  YES        0.481      0.698    1.4329     1.4293    1.2748      64    0      6
+   100       1.5833  0.0817  YES        0.085      0.446    0.9365     1.5784    1.5221      16    0      3
+
+== medium_medium == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.1142  0.1314    -        0.496      0.512    0.1136     0.1158    0.1164      10    2      5
+     5       0.1271  0.1382    -        0.453      0.443    0.1241     0.1261    0.1279      17    3      2
+    10       0.1374  0.1381    -        0.399      0.409    0.1285     0.1346    0.1368      20    2      2
+    20       0.1364  0.1457    -        0.396      0.392    0.1299     0.1365    0.1371       9    1      1
+    40       0.1383  0.1482    -        0.366      0.340    0.1313     0.1372    0.1384       4    1      1
+   100       0.2548  0.1478  YES        0.416      0.356    0.2379     0.2436    0.2489       3    1      0
+
+== soft_none == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0854  0.0455  YES        0.389      0.637    0.0834     0.0873    0.0767       0    0      3
+     5       0.1994  0.1131  YES        0.273      0.537    0.1863     0.2011    0.1818       0    4      1
+    10       0.2958  0.1309  YES        0.273      0.589    0.2757     0.2962    0.2631       1    9      4
+    20       0.7627  0.1279  YES        0.413      0.685    0.7068     0.7381    0.3582       7    4      3
+    40       1.5523  0.1241  YES        0.744      0.853    1.6606     1.5615    0.3804       5    2      1
+   100       1.7553  0.1280  YES        0.727      0.852    1.8038     1.7532    0.3003       2    0      1
+
+== soft_low == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.0691  0.0444  YES        0.401      0.420    0.0638     0.0691    0.0701       6    7      2
+     5       0.1516  0.0900  YES        0.322      0.402    0.1430     0.1572    0.1538       6    2      2
+    10       0.2472  0.1024  YES        0.354      0.653    0.2421     0.2619    0.2099       2    3      6
+    20       0.7486  0.0955  YES        0.387      0.669    0.7263     0.7909    0.4218       1    3      3
+    40       1.5887  0.0970  YES        0.480      0.740    1.6117     1.6150    0.8525       6    1      3
+   100       1.7050  0.1050  YES        0.450      0.724    1.6983     1.7037    0.9390       6    1      4
+
+== soft_medium == H=1 vs recorded one-step error: 0 mismatches; non-finite rollouts: 0
+     H healthy roll    hold  div AUC b/undist AUC b/push  med body med undist  med push  detect   FP undist
+     1       0.1201  0.1368    -        0.447      0.416    0.1158     0.1215    0.1254       4    7      3
+     5       0.1568  0.2230    -        0.247      0.187    0.1388     0.1669    0.1865       9   17      7
+    10       0.1799  0.3016    -        0.207      0.168    0.1522     0.1851    0.2041      21   20     10
+    20       0.1860  0.3130    -        0.270      0.205    0.1665     0.1993    0.2233      35   24     12
+    40       0.1744  0.3067    -        0.280      0.207    0.1584     0.1873    0.2103      41   29     12
+   100       0.1661  0.3033    -        0.222      0.153    0.1482     0.1733    0.1860      38   27     10
+
+SUMMARY: AUC body-only vs undisturbed (main test) and body-only vs push-only, by horizon H
+  config              H=1     H=5    H=10    H=20    H=40   H=100   |     H=1     H=5    H=10    H=20    H=40   H=100   | shape4b b/push W=20
+  rigid_none        0.995   1.000   1.000   1.000   1.000   1.000   |   0.992   1.000   1.000   0.999   1.000   1.000   | 1.000
+  rigid_low         0.870   0.998   1.000   0.999   1.000   1.000   |   0.863   0.981   0.988   0.975   1.000   1.000   | 1.000
+  rigid_medium      0.387   0.391   0.440   0.476   0.641   0.682   |   0.413   0.454   0.488   0.493   0.675   0.762   | 0.804
+  stiff_none        0.989   1.000   0.999   0.998   0.988   0.870   |   0.989   0.999   0.995   0.996   0.990   0.923   | 0.999
+  stiff_low         0.997   1.000   1.000   0.953   0.582   0.463   |   0.999   0.999   0.999   0.967   0.802   0.702   | 0.998
+  stiff_medium      0.581   0.688   0.628   0.597   0.606   0.611   |   0.594   0.726   0.679   0.655   0.659   0.667   | 0.868
+  medium_none       0.962   0.999   0.991   0.959   0.452   0.063   |   0.973   0.990   0.983   0.961   0.675   0.439   | 0.996
+  medium_low        0.954   0.998   1.000   0.990   0.481   0.085   |   0.837   0.978   0.996   0.992   0.698   0.446   | 0.985
+  medium_medium     0.496   0.453   0.399   0.396   0.366   0.416   |   0.512   0.443   0.409   0.392   0.340   0.356   | 0.858
+  soft_none         0.389   0.273   0.273   0.413   0.744   0.727   |   0.637   0.537   0.589   0.685   0.853   0.852   | 0.796
+  soft_low          0.401   0.322   0.354   0.387   0.480   0.450   |   0.420   0.402   0.653   0.669   0.740   0.724   | 0.847
+  soft_medium       0.447   0.247   0.207   0.270   0.280   0.222   |   0.416   0.187   0.168   0.205   0.207   0.153   | 0.783
+  (left block: body-only vs undisturbed; right block: body-only vs push-only; H=1 = one-step error)
+
+DIVERGENCE: healthy median rollout error / 'nothing changes' predictor, by H
+  rigid_none         0.22    0.39    0.98    5.79   37.63   59.55
+  rigid_low          0.45    0.48    0.95    4.61   34.39   51.79
+  rigid_medium       0.79    1.02    1.44    4.57   18.49   33.75
+  stiff_none         0.78    1.76    2.86    6.25   17.75   18.34
+  stiff_low          0.91    2.00    3.46    8.65   20.75   16.51
+  stiff_medium       0.64    0.39    0.27    0.20    0.17    0.19
+  medium_none        1.60    1.69    2.36    4.55   14.73   15.09
+  medium_low         1.07    1.30    1.91    4.03   17.86   19.38
+  medium_medium      0.87    0.92    1.00    0.94    0.93    1.72
+  soft_none          1.88    1.76    2.26    5.96   12.51   13.72
+  soft_low           1.56    1.68    2.41    7.84   16.37   16.24
+  soft_medium        0.88    0.70    0.60    0.59    0.57    0.55
+  (> 1 = the free-running model predicts the motion worse than assuming nothing changes)
+
+figure: results_rollout/auc_vs_horizon.png
