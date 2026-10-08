@@ -1,0 +1,311 @@
+{
+ "config": "rigid_medium",
+ "stiffness": null,
+ "noise": [
+  0.01,
+  0.1
+ ],
+ "heldout": {
+  "single": 0.12672390043735504,
+  "k2": 0.11359362304210663,
+  "k4": 0.11017279326915741,
+  "k8": 0.12404794991016388,
+  "n_targets": 965
+ },
+ "heldout_single_logged": 0.1265152394771576,
+ "train_mse": {
+  "2": 0.0043158154003322124,
+  "4": 0.003106808289885521,
+  "8": 0.0017438539071008563
+ },
+ "body_threshold": {
+  "old": 0.18668250115269136,
+  "k2": 0.16328202657932328,
+  "k4": 0.15522648000703784,
+  "k8": 0.17594795551391518
+ },
+ "alarm_threshold": 0.040421698207053325,
+ "trace_mismatches": 0,
+ "repro_settled_score_mismatches": 0,
+ "repro_verdict_mismatches": 0,
+ "old": {
+  "confusion": {
+   "neither": {
+    "body": 1,
+    "world": 119,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "world_only": {
+    "body": 0,
+    "world": 105,
+    "alarm": 15
+   },
+   "body_world": {
+    "body": 0,
+    "world": 72,
+    "alarm": 48
+   }
+  },
+  "false_positive": {
+   "k": 15,
+   "n": 120,
+   "rate": 0.125,
+   "lo": 0.07723428880969682,
+   "hi": 0.19603091448225032
+  },
+  "fp_body": 0,
+  "fp_alarm": 15,
+  "masking": {
+   "k": 72,
+   "n": 120,
+   "rate": 0.6,
+   "lo": 0.5105585981828253,
+   "hi": 0.6832373476059888
+  },
+  "miss_body_only": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "false_alarm_neither": {
+   "k": 1,
+   "n": 120,
+   "rate": 0.008333333333333333,
+   "lo": 0.001472517830674952,
+   "hi": 0.045697415374322405
+  },
+  "misattribution": {
+   "k": 208,
+   "n": 480,
+   "rate": 0.43333333333333335,
+   "lo": 0.38970453475031785,
+   "hi": 0.4780207703908689
+  },
+  "settled_body": 192,
+  "settled_nobody": 225,
+  "gap": -0.1083771288394928,
+  "settled_auc": 0.29053240740740743,
+  "paths": {
+   "settled": 417,
+   "persistent": 63,
+   "decayed": 0
+  }
+ },
+ "k2": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 1,
+    "world": 119,
+    "alarm": 0
+   },
+   "world_only": {
+    "body": 0,
+    "world": 105,
+    "alarm": 15
+   },
+   "body_world": {
+    "body": 1,
+    "world": 71,
+    "alarm": 48
+   }
+  },
+  "false_positive": {
+   "k": 15,
+   "n": 120,
+   "rate": 0.125,
+   "lo": 0.07723428880969682,
+   "hi": 0.19603091448225032
+  },
+  "fp_body": 0,
+  "fp_alarm": 15,
+  "masking": {
+   "k": 71,
+   "n": 120,
+   "rate": 0.5916666666666667,
+   "lo": 0.5022061864748179,
+   "hi": 0.6754400971649285
+  },
+  "miss_body_only": {
+   "k": 119,
+   "n": 120,
+   "rate": 0.9916666666666667,
+   "lo": 0.9543025846256777,
+   "hi": 0.9985274821693252
+  },
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 205,
+   "n": 480,
+   "rate": 0.4270833333333333,
+   "lo": 0.3835820343371168,
+   "hi": 0.47174251816105617
+  },
+  "settled_body": 192,
+  "settled_nobody": 225,
+  "gap": -0.06751411408185959,
+  "settled_auc": 0.6527777777777778,
+  "paths": {
+   "settled": 417,
+   "persistent": 63,
+   "decayed": 0
+  }
+ },
+ "k4": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 12,
+    "world": 108,
+    "alarm": 0
+   },
+   "world_only": {
+    "body": 0,
+    "world": 105,
+    "alarm": 15
+   },
+   "body_world": {
+    "body": 14,
+    "world": 58,
+    "alarm": 48
+   }
+  },
+  "false_positive": {
+   "k": 15,
+   "n": 120,
+   "rate": 0.125,
+   "lo": 0.07723428880969682,
+   "hi": 0.19603091448225032
+  },
+  "fp_body": 0,
+  "fp_alarm": 15,
+  "masking": {
+   "k": 58,
+   "n": 120,
+   "rate": 0.48333333333333334,
+   "lo": 0.3958348942305447,
+   "hi": 0.5718657814713197
+  },
+  "miss_body_only": {
+   "k": 108,
+   "n": 120,
+   "rate": 0.9,
+   "lo": 0.8333168001483641,
+   "hi": 0.9418669830068925
+  },
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 181,
+   "n": 480,
+   "rate": 0.3770833333333333,
+   "lo": 0.334862723765844,
+   "hi": 0.42125580758821896
+  },
+  "settled_body": 192,
+  "settled_nobody": 225,
+  "gap": -0.07087008655071259,
+  "settled_auc": 0.7765046296296296,
+  "paths": {
+   "settled": 417,
+   "persistent": 63,
+   "decayed": 0
+  }
+ },
+ "k8": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 120,
+    "alarm": 0
+   },
+   "body_only": {
+    "body": 24,
+    "world": 96,
+    "alarm": 0
+   },
+   "world_only": {
+    "body": 0,
+    "world": 105,
+    "alarm": 15
+   },
+   "body_world": {
+    "body": 13,
+    "world": 59,
+    "alarm": 48
+   }
+  },
+  "false_positive": {
+   "k": 15,
+   "n": 120,
+   "rate": 0.125,
+   "lo": 0.07723428880969682,
+   "hi": 0.19603091448225032
+  },
+  "fp_body": 0,
+  "fp_alarm": 15,
+  "masking": {
+   "k": 59,
+   "n": 120,
+   "rate": 0.49166666666666664,
+   "lo": 0.4038741586989492,
+   "hi": 0.5799761791519831
+  },
+  "miss_body_only": {
+   "k": 96,
+   "n": 120,
+   "rate": 0.8,
+   "lo": 0.7196316465662729,
+   "hi": 0.8617561908001696
+  },
+  "false_alarm_neither": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "misattribution": {
+   "k": 170,
+   "n": 480,
+   "rate": 0.3541666666666667,
+   "lo": 0.3126932319826662,
+   "hi": 0.39795587301367974
+  },
+  "settled_body": 192,
+  "settled_nobody": 225,
+  "gap": -0.0503930002450943,
+  "settled_auc": 0.8535416666666666,
+  "paths": {
+   "settled": 417,
+   "persistent": 63,
+   "decayed": 0
+  }
+ }
+}
