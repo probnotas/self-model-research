@@ -1,0 +1,311 @@
+{
+ "config": "soft_medium",
+ "stiffness": 4.0,
+ "noise": [
+  0.01,
+  0.1
+ ],
+ "heldout": {
+  "single": 0.1345268338918686,
+  "k2": 0.11775814741849899,
+  "k4": 0.11780451983213425,
+  "k8": 0.12525899708271027,
+  "n_targets": 965
+ },
+ "heldout_single_logged": 0.13771162927150726,
+ "train_mse": {
+  "2": 0.004270209930837154,
+  "4": 0.002187641803175211,
+  "8": 0.0008133005467243493
+ },
+ "body_threshold": {
+  "old": NaN,
+  "k2": NaN,
+  "k4": NaN,
+  "k8": NaN
+ },
+ "alarm_threshold": 0.040421698207053325,
+ "trace_mismatches": 0,
+ "repro_settled_score_mismatches": 0,
+ "repro_verdict_mismatches": 0,
+ "old": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 240,
+   "n": 480,
+   "rate": 0.5,
+   "lo": 0.45544725440867795,
+   "hi": 0.544552745591322
+  },
+  "settled_body": 0,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 0,
+   "persistent": 480,
+   "decayed": 0
+  }
+ },
+ "k2": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 240,
+   "n": 480,
+   "rate": 0.5,
+   "lo": 0.45544725440867795,
+   "hi": 0.544552745591322
+  },
+  "settled_body": 0,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 0,
+   "persistent": 480,
+   "decayed": 0
+  }
+ },
+ "k4": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 240,
+   "n": 480,
+   "rate": 0.5,
+   "lo": 0.45544725440867795,
+   "hi": 0.544552745591322
+  },
+  "settled_body": 0,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 0,
+   "persistent": 480,
+   "decayed": 0
+  }
+ },
+ "k8": {
+  "confusion": {
+   "neither": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "world_only": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   },
+   "body_world": {
+    "body": 0,
+    "world": 0,
+    "alarm": 120
+   }
+  },
+  "false_positive": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "fp_body": 0,
+  "fp_alarm": 120,
+  "masking": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "miss_body_only": {
+   "k": 0,
+   "n": 120,
+   "rate": 0.0,
+   "lo": 0.0,
+   "hi": 0.031020271055929513
+  },
+  "false_alarm_neither": {
+   "k": 120,
+   "n": 120,
+   "rate": 1.0,
+   "lo": 0.9689797289440706,
+   "hi": 1.0
+  },
+  "misattribution": {
+   "k": 240,
+   "n": 480,
+   "rate": 0.5,
+   "lo": 0.45544725440867795,
+   "hi": 0.544552745591322
+  },
+  "settled_body": 0,
+  "settled_nobody": 0,
+  "gap": NaN,
+  "settled_auc": NaN,
+  "paths": {
+   "settled": 0,
+   "persistent": 480,
+   "decayed": 0
+  }
+ }
+}

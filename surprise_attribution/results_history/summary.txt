@@ -1,0 +1,103 @@
+SIMULATED compliant body (series-elastic + hysteresis + damping + sensor noise): a model of compliance, not real hardware.
+versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000, 'model_train_seed': 0, 'k_sweep': [2, 4, 8], 'k_main': 4, 'train_threads': 1, 'reused_from': 'results_compliant', 'controller': 'single-state model (forward_model.pt / compliant_models/*.pt), unchanged'}
+
+== rigid_none == held-out error: single 0.0162 (logged, all targets 0.0162) | k2 0.0186 | k4 0.0213 | k8 0.0225
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.0138 | FP   0/120 (body 0, alarm 0) | mask  19 | miss(no push)   0 | flag(neither)   0 | misattr 4.0% | gap +0.0014 | AUC 1.000
+  k2      thr 0.0208 | FP   0/120 (body 0, alarm 0) | mask  15 | miss(no push)   0 | flag(neither)   0 | misattr 3.1% | gap +0.0026 | AUC 1.000
+  k4      thr 0.0219 | FP   0/120 (body 0, alarm 0) | mask  47 | miss(no push)  60 | flag(neither)   0 | misattr 22.3% | gap -0.0074 | AUC 0.661
+  k8      thr 0.0346 | FP   1/120 (body 1, alarm 0) | mask  30 | miss(no push)   1 | flag(neither)   0 | misattr 6.7% | gap -0.0089 | AUC 0.993
+
+== rigid_low == held-out error: single 0.0311 (logged, all targets 0.0311) | k2 0.0332 | k4 0.0359 | k8 0.0383
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.0354 | FP   0/120 (body 0, alarm 0) | mask  67 | miss(no push)  46 | flag(neither)   1 | misattr 23.8% | gap -0.0167 | AUC 0.930
+  k2      thr 0.0378 | FP   0/120 (body 0, alarm 0) | mask  51 | miss(no push)  42 | flag(neither)   1 | misattr 19.6% | gap -0.0151 | AUC 0.928
+  k4      thr 0.0444 | FP   2/120 (body 0, alarm 2) | mask  69 | miss(no push) 107 | flag(neither)   1 | misattr 37.3% | gap -0.0243 | AUC 0.499
+  k8      thr 0.0498 | FP   0/120 (body 0, alarm 0) | mask  69 | miss(no push)  68 | flag(neither)   1 | misattr 28.7% | gap -0.0196 | AUC 0.888
+
+== rigid_medium == held-out error: single 0.1267 (logged, all targets 0.1265) | k2 0.1136 | k4 0.1102 | k8 0.1240
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.1867 | FP  15/120 (body 0, alarm 15) | mask  72 | miss(no push) 120 | flag(neither)   1 | misattr 43.3% | gap -0.1084 | AUC 0.291
+  k2      thr 0.1633 | FP  15/120 (body 0, alarm 15) | mask  71 | miss(no push) 119 | flag(neither)   0 | misattr 42.7% | gap -0.0675 | AUC 0.653
+  k4      thr 0.1552 | FP  15/120 (body 0, alarm 15) | mask  58 | miss(no push) 108 | flag(neither)   0 | misattr 37.7% | gap -0.0709 | AUC 0.777
+  k8      thr 0.1759 | FP  15/120 (body 0, alarm 15) | mask  59 | miss(no push)  96 | flag(neither)   0 | misattr 35.4% | gap -0.0504 | AUC 0.854
+
+== stiff_none == held-out error: single 0.0066 (logged, all targets 0.0074) | k2 0.0067 | k4 0.0072 | k8 0.0102
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.0568 | FP   3/120 (body 3, alarm 0) | mask  84 | miss(no push)  29 | flag(neither)   0 | misattr 24.2% | gap -0.0126 | AUC 0.980
+  k2      thr 0.0671 | FP   2/120 (body 2, alarm 0) | mask  80 | miss(no push)  27 | flag(neither)   0 | misattr 22.7% | gap -0.0018 | AUC 1.000
+  k4      thr 0.1088 | FP   0/120 (body 0, alarm 0) | mask  98 | miss(no push)  30 | flag(neither)   0 | misattr 26.7% | gap -0.0788 | AUC 0.896
+  k8      thr 0.1326 | FP  29/120 (body 29, alarm 0) | mask  80 | miss(no push)  43 | flag(neither)   0 | misattr 31.7% | gap -0.0249 | AUC 0.904
+
+== stiff_low == held-out error: single 0.0254 (logged, all targets 0.0263) | k2 0.0228 | k4 0.0233 | k8 0.0303
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.0830 | FP   1/120 (body 1, alarm 0) | mask  94 | miss(no push)  77 | flag(neither)   2 | misattr 36.2% | gap -0.0541 | AUC 0.830
+  k2      thr 0.0597 | FP  29/120 (body 29, alarm 0) | mask  81 | miss(no push)  91 | flag(neither)   0 | misattr 41.9% | gap -0.0318 | AUC 0.773
+  k4      thr 0.0853 | FP   4/120 (body 4, alarm 0) | mask  87 | miss(no push)  73 | flag(neither)   0 | misattr 34.2% | gap -0.0300 | AUC 0.862
+  k8      thr 0.1533 | FP  16/120 (body 16, alarm 0) | mask 100 | miss(no push) 102 | flag(neither)   0 | misattr 45.4% | gap -0.0348 | AUC 0.842
+
+== stiff_medium == held-out error: single 0.1205 (logged, all targets 0.1220) | k2 0.1038 | k4 0.1074 | k8 0.1267
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr nan | FP 116/120 (body 0, alarm 116) | mask   3 | miss(no push)   3 | flag(neither) 119 | misattr 50.2% | gap -0.0241 | AUC 0.767
+  k2      thr nan | FP 116/120 (body 0, alarm 116) | mask   3 | miss(no push)   3 | flag(neither) 119 | misattr 50.2% | gap -0.0757 | AUC 0.767
+  k4      thr nan | FP 116/120 (body 0, alarm 116) | mask   3 | miss(no push)   3 | flag(neither) 119 | misattr 50.2% | gap -0.0274 | AUC 0.600
+  k8      thr nan | FP 116/120 (body 0, alarm 116) | mask   3 | miss(no push)   3 | flag(neither) 119 | misattr 50.2% | gap -0.0702 | AUC 0.867
+
+== medium_none == held-out error: single 0.0775 (logged, all targets 0.0786) | k2 0.0170 | k4 0.0105 | k8 0.0150
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.0919 | FP   5/120 (body 1, alarm 4) | mask 117 | miss(no push) 120 | flag(neither)   0 | misattr 50.4% | gap -0.0271 | AUC 0.955
+  k2      thr 0.0977 | FP   2/120 (body 2, alarm 0) | mask 115 | miss(no push) 118 | flag(neither)   2 | misattr 49.4% | gap -0.0062 | AUC 0.998
+  k4      thr 0.0987 | FP   1/120 (body 1, alarm 0) | mask 116 | miss(no push) 118 | flag(neither)   0 | misattr 49.0% | gap -0.0050 | AUC 0.983
+  k8      thr 0.1453 | FP  21/120 (body 21, alarm 0) | mask 118 | miss(no push) 120 | flag(neither)   0 | misattr 54.0% | gap -0.0533 | AUC 0.615
+
+== medium_low == held-out error: single 0.0817 (logged, all targets 0.0824) | k2 0.0299 | k4 0.0264 | k8 0.0329
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.0631 | FP  18/120 (body 2, alarm 16) | mask 120 | miss(no push) 120 | flag(neither)   0 | misattr 53.8% | gap -0.0281 | AUC 0.373
+  k2      thr 0.0722 | FP   0/120 (body 0, alarm 0) | mask 115 | miss(no push) 112 | flag(neither)   0 | misattr 47.3% | gap +0.0055 | AUC 1.000
+  k4      thr 0.0603 | FP   0/120 (body 0, alarm 0) | mask 115 | miss(no push) 116 | flag(neither)   0 | misattr 48.1% | gap -0.0025 | AUC 0.994
+  k8      thr 0.1664 | FP   6/120 (body 6, alarm 0) | mask 115 | miss(no push) 112 | flag(neither)   0 | misattr 48.5% | gap -0.0087 | AUC 0.998
+
+== medium_medium == held-out error: single 0.1453 (logged, all targets 0.1462) | k2 0.1115 | k4 0.1090 | k8 0.1188
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr nan | FP 120/120 (body 0, alarm 120) | mask   1 | miss(no push)   0 | flag(neither) 120 | misattr 50.2% | gap +nan | AUC nan
+  k2      thr nan | FP 120/120 (body 0, alarm 120) | mask   1 | miss(no push)   0 | flag(neither) 120 | misattr 50.2% | gap +nan | AUC nan
+  k4      thr nan | FP 120/120 (body 0, alarm 120) | mask   1 | miss(no push)   0 | flag(neither) 120 | misattr 50.2% | gap +nan | AUC nan
+  k8      thr nan | FP 120/120 (body 0, alarm 120) | mask   1 | miss(no push)   0 | flag(neither) 120 | misattr 50.2% | gap +nan | AUC nan
+
+== soft_none == held-out error: single 0.0519 (logged, all targets 0.0527) | k2 0.0118 | k4 0.0118 | k8 0.0130
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.1256 | FP  26/120 (body 0, alarm 26) | mask 120 | miss(no push) 120 | flag(neither)   0 | misattr 55.4% | gap -0.0401 | AUC 0.202
+  k2      thr 0.0902 | FP   0/120 (body 0, alarm 0) | mask 120 | miss(no push) 120 | flag(neither)   0 | misattr 50.0% | gap -0.0216 | AUC 0.302
+  k4      thr 0.1611 | FP   0/120 (body 0, alarm 0) | mask 120 | miss(no push) 120 | flag(neither)   0 | misattr 50.0% | gap -0.0495 | AUC 0.047
+  k8      thr 0.2163 | FP   1/120 (body 1, alarm 0) | mask 119 | miss(no push) 120 | flag(neither)   0 | misattr 50.0% | gap -0.0294 | AUC 0.479
+
+== soft_low == held-out error: single 0.0578 (logged, all targets 0.0585) | k2 0.0352 | k4 0.0281 | k8 0.0304
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr 0.1011 | FP  52/120 (body 0, alarm 52) | mask 119 | miss(no push) 120 | flag(neither)   0 | misattr 60.6% | gap -0.0410 | AUC 0.286
+  k2      thr 0.1047 | FP   0/120 (body 0, alarm 0) | mask 120 | miss(no push) 120 | flag(neither)   0 | misattr 50.0% | gap -0.0230 | AUC 0.506
+  k4      thr 0.0999 | FP   0/120 (body 0, alarm 0) | mask 119 | miss(no push) 120 | flag(neither)   0 | misattr 49.8% | gap -0.0416 | AUC 0.110
+  k8      thr 0.2102 | FP   6/120 (body 6, alarm 0) | mask 112 | miss(no push) 120 | flag(neither)   0 | misattr 49.6% | gap -0.0363 | AUC 0.215
+
+== soft_medium == held-out error: single 0.1345 (logged, all targets 0.1377) | k2 0.1178 | k4 0.1178 | k8 0.1253
+  reproduction: error traces 0 mismatches; logged CSV 0 settled-score, 0 verdict mismatches of 530
+  single  thr nan | FP 120/120 (body 0, alarm 120) | mask   0 | miss(no push)   0 | flag(neither) 120 | misattr 50.0% | gap +nan | AUC nan
+  k2      thr nan | FP 120/120 (body 0, alarm 120) | mask   0 | miss(no push)   0 | flag(neither) 120 | misattr 50.0% | gap +nan | AUC nan
+  k4      thr nan | FP 120/120 (body 0, alarm 120) | mask   0 | miss(no push)   0 | flag(neither) 120 | misattr 50.0% | gap +nan | AUC nan
+  k8      thr nan | FP 120/120 (body 0, alarm 120) | mask   0 | miss(no push)   0 | flag(neither) 120 | misattr 50.0% | gap +nan | AUC nan
+
+SUMMARY: single-state (old) vs 4-step history (new), same trials; counts of 120
+  config          held single  held k4  AUC old     k2     k4     k8  FP old   k4  mask old   k4  miss old   k4   gap old   gap k4
+  rigid_none           0.0162   0.0213    1.000  1.000  0.661  0.993       0    0        19   47         0   60   +0.0014  -0.0074
+  rigid_low            0.0311   0.0359    0.930  0.928  0.499  0.888       0    2        67   69        46  107   -0.0167  -0.0243
+  rigid_medium         0.1267   0.1102    0.291  0.653  0.777  0.854      15   15        72   58       120  108   -0.1084  -0.0709
+  stiff_none           0.0066   0.0072    0.980  1.000  0.896  0.904       3    0        84   98        29   30   -0.0126  -0.0788
+  stiff_low            0.0254   0.0233    0.830  0.773  0.862  0.842       1    4        94   87        77   73   -0.0541  -0.0300
+  stiff_medium         0.1205   0.1074    0.767  0.767  0.600  0.867     116  116         3    3         3    3   -0.0241  -0.0274
+  medium_none          0.0775   0.0105    0.955  0.998  0.983  0.615       5    1       117  116       120  118   -0.0271  -0.0050
+  medium_low           0.0817   0.0264    0.373  1.000  0.994  0.998      18    0       120  115       120  116   -0.0281  -0.0025
+  medium_medium        0.1453   0.1090      nan    nan    nan    nan     120  120         1    1         0    0      +nan     +nan
+  soft_none            0.0519   0.0118    0.202  0.302  0.047  0.479      26    0       120  120       120  120   -0.0401  -0.0495
+  soft_low             0.0578   0.0281    0.286  0.506  0.110  0.215      52    0       119  119       120  120   -0.0410  -0.0416
+  soft_medium          0.1345   0.1178      nan    nan    nan    nan     120  120         0    0         0    0      +nan     +nan
+
+figure: results_history/sweep_history.png
