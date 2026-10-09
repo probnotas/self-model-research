@@ -1,0 +1,32 @@
+SIMULATED compliant body, not hardware. Recorded trials only; nothing simulated or trained.
+versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000, 'window': [20, 100], 'z': 2.0, 'episodes': 'results_history/episodes (recorded; controller = original single-state model)'}
+
+=== signal: motion  (two-sided |z| vs healthy calibration, window onset+20..+100, body if |z| >= 2) ===
+  config          AUC b/undist (1-sided) AUC b/push AUC b+p/push detect/240 b-only b+push FP/120 short medium undist    median z: undist / body / push body quieter
+  rigid_none             1.000     0.100      0.581        0.762        240    120    120     62    22     40      7        0.01 / -6.36 /  6.84         90%
+  rigid_low              0.990     0.039      0.538        0.736        229    114    115     63    23     40      6        0.00 / -4.24 /  3.80         97%
+  rigid_medium           0.599     0.223      0.380        0.668         88     16     72     52    20     32      7       -0.02 / -0.94 /  1.12         87%
+  stiff_none             0.987     0.328      0.873        0.913        232    116    116     67    24     43      5        0.24 / -5.70 /  0.35         67%
+  stiff_low              0.991     0.891      0.932        0.878        233    117    116     73    29     44     14        0.25 /  9.65 /  1.07         11%
+  stiff_medium           0.673     0.565      0.722        0.722         10      6      4      0     0      0      1        0.22 /  0.49 /  0.07         45%
+  medium_none            1.000     0.983      0.993        0.978        240    120    120     61    25     36     10       -0.13 / 14.81 /  0.47          2%
+  medium_low             0.999     0.942      0.966        0.975        240    120    120     53    20     33     12        0.21 / 19.51 /  1.06          6%
+  medium_medium          0.546     0.505      0.525        0.544         24      7     17      7     3      4      5       -0.17 / -0.22 / -0.03         61%
+  soft_none              0.912     0.044      0.619        0.742        168     77     91     64    24     40      4        0.32 / -2.30 /  2.51         99%
+  soft_low               0.851     0.048      0.425        0.761        109     25     84     61    20     41      4        0.16 / -1.64 /  3.54        100%
+  soft_medium            0.499     0.310      0.370        0.529         31      6     25     25     8     17      4        0.41 / -0.43 /  0.86         68%
+
+=== signal: model_error  (two-sided |z| vs healthy calibration, window onset+20..+100, body if |z| >= 2) ===
+  config          AUC b/undist (1-sided) AUC b/push AUC b+p/push detect/240 b-only b+push FP/120 short medium undist    median z: undist / body / push body quieter
+  rigid_none             1.000     1.000      1.000        1.000        240    120    120     29    10     19      2       -0.02 / 19.89 /  0.55          0%
+  rigid_low              0.979     0.988      0.972        0.979        226    111    115     10     5      5      9        0.20 /  5.07 /  0.27          0%
+  rigid_medium           0.613     0.200      0.630        0.651         37     12     25      5     1      4      3        0.11 / -0.96 / -0.12         89%
+  stiff_none             1.000     1.000      0.654        0.626        235    120    115     92    36     56      6        0.11 / 28.12 / -2.33          0%
+  stiff_low              0.991     1.000      0.630        0.430        210    120     90     90    38     52     17        0.05 / 11.46 / -5.32          0%
+  stiff_medium           0.676     0.639      0.678        0.717         66     26     40      5     1      4      5        0.22 /  0.91 /  0.11         34%
+  medium_none            0.983     0.983      0.851        0.866        219    111    108     37    12     25      8        0.04 /  5.29 / -0.55          1%
+  medium_low             0.972     0.967      0.933        0.821        220    113    107     54    21     33      9        0.22 /  8.26 /  1.36          3%
+  medium_medium          0.433     0.423      0.493        0.544         14      8      6      6     2      4      3        0.11 / -0.14 /  0.12         57%
+  soft_none              0.797     0.074      0.331        0.572         66      1     65     60    22     38      5        0.01 / -1.18 / -1.50        100%
+  soft_low               0.422     0.246      0.411        0.560         29      0     29      7     1      6      4        0.28 / -0.64 / -0.31         89%
+  soft_medium            0.469     0.359      0.400        0.493         10      3      7     11     4      7      2        0.21 / -0.18 /  0.53         62%
