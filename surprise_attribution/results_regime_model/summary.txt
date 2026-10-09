@@ -1,0 +1,44 @@
+SIMULATED compliant body, not hardware. Recorded episodes only; controller unchanged.
+versions/seed: {'python': '3.11.15', 'numpy': '2.4.6', 'torch': '2.14.0+cpu', 'gymnasium': '1.3.0', 'master_seed': 90000, 'model_train_seed': 0, 'subsample_seed': 0, 'subsample_n': 2000, 'window': [20, 100], 'z': 2.0, 'train_threads': 1, 'train': 'pre-onset calm transitions of all 530 recorded trials (results_history/episodes)'}
+
+== rigid_none == train transitions: all 36863, subsample 2000; held-out balancing transitions 9950
+  FLOOR (held-out balancing, mean / median): motion ('nothing changes') 0.0500 / 0.0422
+    original    0.0107 / 0.0110   (ratio to motion 0.21)
+    regime_all  0.0005 / 0.0005   (ratio to motion 0.01)
+    regime_2k   0.0009 / 0.0008   (ratio to motion 0.02)
+  OUTSIDE balancing (post-push, |thdot| >= 0.5, n=2198): motion 0.3565 | original 0.0141 | regime_all 0.2897 | regime_2k 0.2817
+  DETECTION (window score onset+20..+100; threshold mean+2sd of calibration):
+    original    AUC body/undisturbed 1.000 | body/push 1.000 | settled AUC 1.000 | detect 240/240 (body-only 120/120) | FP  28/120 | mask   0/120 | undisturbed flagged   1/120
+                medians: body-only 0.0331, undisturbed 0.0107, push-only 0.0110, body+push 0.0535
+    regime_all  AUC body/undisturbed 1.000 | body/push 0.645 | settled AUC 1.000 | detect 240/240 (body-only 120/120) | FP  77/120 | mask   0/120 | undisturbed flagged   4/120
+                medians: body-only 0.0311, undisturbed 0.0005, push-only 0.0167, body+push 0.0826
+    regime_2k   AUC body/undisturbed 1.000 | body/push 0.626 | settled AUC 1.000 | detect 240/240 (body-only 120/120) | FP  72/120 | mask   0/120 | undisturbed flagged   4/120
+                medians: body-only 0.0312, undisturbed 0.0009, push-only 0.0192, body+push 0.0924
+
+== soft_none == train transitions: all 36714, subsample 2000; held-out balancing transitions 9950
+  FLOOR (held-out balancing, mean / median): motion ('nothing changes') 0.0477 / 0.0323
+    original    0.0900 / 0.0814   (ratio to motion 1.89)
+    regime_all  0.0278 / 0.0225   (ratio to motion 0.58)
+    regime_2k   0.0290 / 0.0238   (ratio to motion 0.61)
+  OUTSIDE balancing (post-push, |thdot| >= 0.5, n=2377): motion 0.3339 | original 0.0966 | regime_all 0.4433 | regime_2k 0.4433
+  DETECTION (window score onset+20..+100; threshold mean+2sd of calibration):
+    original    AUC body/undisturbed 0.074 | body/push 0.538 | settled AUC 0.202 | detect   0/240 (body-only 0/120) | FP   3/120 | mask 120/120 | undisturbed flagged   5/120
+                medians: body-only 0.0832, undisturbed 0.0901, push-only 0.0814, body+push 0.0697
+    regime_all  AUC body/undisturbed 0.236 | body/push 0.115 | settled AUC 0.320 | detect  69/240 (body-only 0/120) | FP  66/120 | mask  51/120 | undisturbed flagged   1/120
+                medians: body-only 0.0218, undisturbed 0.0279, push-only 0.1590, body+push 0.2358
+    regime_2k   AUC body/undisturbed 0.232 | body/push 0.111 | settled AUC 0.318 | detect  69/240 (body-only 0/120) | FP  67/120 | mask  51/120 | undisturbed flagged   3/120
+                medians: body-only 0.0228, undisturbed 0.0297, push-only 0.2640, body+push 0.3388
+
+== soft_low == train transitions: all 36796, subsample 2000; held-out balancing transitions 9950
+  FLOOR (held-out balancing, mean / median): motion ('nothing changes') 0.0429 / 0.0338
+    original    0.0685 / 0.0597   (ratio to motion 1.60)
+    regime_all  0.0327 / 0.0267   (ratio to motion 0.76)
+    regime_2k   0.0332 / 0.0271   (ratio to motion 0.77)
+  OUTSIDE balancing (post-push, |thdot| >= 0.5, n=2068): motion 0.3123 | original 0.1070 | regime_all 0.5888 | regime_2k 0.5270
+  DETECTION (window score onset+20..+100; threshold mean+2sd of calibration):
+    original    AUC body/undisturbed 0.246 | body/push 0.374 | settled AUC 0.286 | detect   7/240 (body-only 0/120) | FP   0/120 | mask 113/120 | undisturbed flagged   4/120
+                medians: body-only 0.0644, undisturbed 0.0697, push-only 0.0663, body+push 0.0647
+    regime_all  AUC body/undisturbed 0.337 | body/push 0.153 | settled AUC 0.391 | detect  74/240 (body-only 0/120) | FP  63/120 | mask  46/120 | undisturbed flagged   2/120
+                medians: body-only 0.0305, undisturbed 0.0333, push-only 0.2265, body+push 0.4359
+    regime_2k   AUC body/undisturbed 0.363 | body/push 0.165 | settled AUC 0.413 | detect  74/240 (body-only 0/120) | FP  63/120 | mask  46/120 | undisturbed flagged   2/120
+                medians: body-only 0.0310, undisturbed 0.0334, push-only 0.1227, body+push 0.3341
