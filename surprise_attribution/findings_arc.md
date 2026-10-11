@@ -1,8 +1,8 @@
-# An arc of elimination: why surprise attribution fails on a compliant body
+# An arc of elimination: surprise attribution on a compliant body
 
 *In simulation only. The compliant body is a simulated series-elastic joint, not hardware.*
 
-This document tells the story of five experiment runs as one argument. Each run tested one explanation for a failure, ruled it out or narrowed it, and handed a sharper question to the next. Nothing here is a working detector for a compliant body. What the arc does produce is a narrower and better-supported statement of *why* the detector fails.
+This document tells the story of the experiments as one argument. Each tested one explanation for a failure, ruled it out or narrowed it, and handed a sharper question to the next. The arc ends with a mechanism (on the soft body, a body change makes the robot *quieter*, not more surprised) and a pre-registered replication on fresh trials of a score built on that mechanism.
 
 Every number below is copied from a results file in `surprise_attribution/`. A few numbers were computed directly from the per-trial CSVs rather than taken from a summary; those are marked *(from the per-trial CSV)*. Anything not logged is marked as such.
 
@@ -13,6 +13,11 @@ Every number below is copied from a results file in `surprise_attribution/`. A f
 | 3 | Per-body calibration (z-scoring) | `results_calibrated/` |
 | 4a | History-input forward model | `results_history/` |
 | 4b | Shape feature, no settle gate | `results_shape/` |
+| 5 | Rollout (multi-step) error | `results_rollout/` |
+| — | Diagnostic: error by motion regime | `results_regime/` |
+| 6 | Regime-matched model | `results_regime_model/` |
+| 7 | Behaviour-change score (exploratory) | `results_twosided/` |
+| **R** | **Pre-registered replication, fresh seed** | **`results_replication/`** |
 
 ---
 
@@ -228,9 +233,10 @@ The factorial files don't log the pendulum's angle, so *why* those trials never 
 
 ---
 
-## 7. The core finding, by elimination
 
-On a simulated soft series-elastic joint, under this controller, the four experiments rule out four explanations for why surprise attribution fails:
+## 7. Interim conclusion after Experiment 4b (later refined)
+
+After 4b, the four experiments had ruled out four explanations:
 
 | explanation | ruled out by | evidence |
 |---|---|---|
@@ -239,38 +245,154 @@ On a simulated soft series-elastic joint, under this controller, the four experi
 | model lacks memory of hidden state | Exp 4a | model 4× more accurate on soft (0.0519 → 0.0118); soft AUC still 0.047–0.479 |
 | settle mechanism | Exp 4b | no gate at all; soft body changes still look like undisturbed runs (median r 0.03 vs −0.01) |
 
-**What remains:** on the soft body, a mass or length change of the sizes tested barely changes the one-step prediction error during balancing. It doesn't change its level relative to normal balancing error, or its shape over time. **In this simulation, one-step prediction error is the wrong observable for detecting a body change on a compliant body.** It's a good observable for detecting *pushes* on every body tested, and for detecting body changes on rigid, stiff and (without the settle gate) medium joints.
-
-**How far this claim goes:**
-- It covers one-step error, from models trained on random-action data, during closed-loop balancing, under one controller, in simulation.
-- It doesn't show that the body change is undetectable by *any* means, or that a real compliant joint behaves this way.
-- Several plausible routes remain untested (section 8). A route that isn't eliminated is still open.
+The interim conclusion was: *in this simulation, one-step prediction error is the wrong observable for detecting a body change on a compliant body.* Sections 8–11 tested that conclusion directly and refined it.
 
 ---
 
-## 8. Open question: what observable would reveal it?
+## 8. Experiment 5: rollout (multi-step) error
 
-These are the next hypotheses. None has been tested.
+**Tested:** whether the problem is the one-step horizon. The same models were run free along the recorded actions for H = 1, 5, 10, 20, 40 and 100 steps, starting 1 s after onset when every push is over. Each trial averaged 8 start points. This was fully offline.
 
-1. **Multi-step (rollout) error.** A changed mass or length may change slow dynamics (period, sag, how the spring settles) more than the next 0.05 s step. Prediction error over a horizon of 0.5–2 s could make a small per-step difference add up.
-2. **Model-parameter drift.** Instead of reading error, let a copy of the model adapt online and watch *how far its parameters have to move* to keep fitting. A push needs a brief, reversible move; a body change needs a lasting one.
-3. **A different residual.** Compare commanded torque or acceleration against what the model expects for the observed motion, rather than the predicted state. On a compliant joint the spring may absorb a body change in the state while the torque needed to hold position still shifts.
-4. **A baseline matched to the regime.** Train the model, or at least its normal-error baseline, on healthy *closed-loop balancing* data instead of random actions. Exp 4a showed that balancing is where the random-action model is worst, so a body change may only stand out against a baseline from that regime.
+- **Checks:** H = 1 reproduced the recorded one-step error exactly (0 mismatches).
+- **Divergence measure:** the healthy rollout error compared with a "nothing changes" predictor.
 
-**A test that would end the arc:** on the soft body, find an observable whose body-only vs undisturbed AUC is clearly above 0.5 while keeping push-only separable. Exp 4b showed that one-step error fails the first half of that test on soft. The second half already passes.
+**Found** (`results_rollout/summary.txt`). AUC is body-only vs undisturbed.
+
+| config | H=1 | 5 | 10 | 20 | 40 | 100 |
+|---|---|---|---|---|---|---|
+| medium, none | 0.962 | 0.999 | 0.991 | 0.959 | 0.452 | 0.063 |
+| soft, none | 0.389 | 0.273 | 0.273 | 0.413 | 0.744 | 0.727 |
+| soft, low | 0.401 | 0.322 | 0.354 | 0.387 | 0.480 | 0.450 |
+| soft, medium | 0.447 | 0.247 | 0.207 | 0.270 | 0.280 | 0.222 |
+
+**What happened on each body:**
+- **Medium:** AUC peaks at H = 5–10, then collapses once the rollout blows up.
+- **Soft/none:** reaches 0.744 only at H = 40, where the healthy rollout is already 12.5× worse than "nothing changes". It detects 5 of 240 body changes at the healthy threshold.
+- **Soft/low:** never exceeds 0.5.
+
+**The key fact:** on soft, the model's one-step error during balancing is already 1.88× (soft/none) and 1.56× (soft/low) worse than predicting no change at all.
+
+**Lesson:** the horizon isn't the issue. The model doesn't track the soft body's balancing motion at any horizon.
+
+---
+
+## 9. Diagnostic: is the soft model broken everywhere, or only when quiet?
+
+**Tested:** the model's one-step error against "nothing changes", split by motion regime at |θ̇| = 0.5 rad/s (the repo's `OMEGA_CALM`). Recorded data only.
+
+- **Low-motion data:** the healthy episodes. They contain no high-motion steps, since all start within 0.2 rad of upright and balance.
+- **High-motion data:** the post-push steps of push-only trials, when the body is unchanged and the push is off.
+
+**Found** (`results_regime/summary.txt`):
+
+| config | regime | model error | "nothing changes" | ratio |
+|---|---|---|---|---|
+| rigid, none | low motion | 0.0108 | 0.0503 | 0.21 |
+| rigid, none | high motion | 0.0141 | 0.3565 | 0.04 |
+| soft, none | low motion | 0.0843 | 0.0524 | **1.61** |
+| soft, none | high motion | 0.0967 | 0.3309 | **0.29** |
+| soft, low | low motion | 0.0675 | 0.0488 | **1.38** |
+| soft, low | high motion | 0.1068 | 0.3107 | **0.34** |
+
+**Lesson:** the soft model isn't globally broken; it beats "nothing changes" whenever the pendulum really moves. It has a flat error floor of about 0.08–0.10 at every motion level, 7–9× the rigid model's. During balancing that floor is larger than the motion itself.
+
+---
+
+## 10. Experiment 6: a regime-matched model
+
+**Tested:** a forward model trained only on healthy balancing data.
+
+- **Training data:** the pre-onset balancing transitions of every recorded trial (36,714–36,863 per configuration). These steps are never scored, so nothing leaks into the test. A second model on a random 2,000 transitions controls for data size.
+- **Training settings:** the same architecture, settings and seed as before.
+- **Controller unchanged:** the new model only scores the recorded trajectories.
+
+**Found** (`results_regime_model/summary.txt`):
+
+| config | motion | floor, original | floor, regime-matched | AUC body vs undisturbed, original → regime | AUC body vs push, original → regime |
+|---|---|---|---|---|---|
+| soft, none | 0.0477 | 0.0900 | **0.0278** | 0.074 → 0.236 | 0.538 → 0.115 |
+| soft, low | 0.0429 | 0.0685 | **0.0327** | 0.246 → 0.337 | 0.374 → 0.153 |
+
+**The floor dropped below the motion, but detection still failed.** The reason is in the motion itself: on the soft body, a body change cuts the pendulum's movement to about a third (median 0.0501 → 0.0150). Across trials, error tracks motion (r = 0.68–0.72), so the error *falls* after a body change.
+
+**Outside balancing, the regime models are poor,** worse than "nothing changes" after pushes (0.44 vs motion 0.33). That is what broke push separation here.
+
+**Lesson:** this explains the inverted AUCs since Exp 2. On the soft body, a body change makes the pendulum *quieter*, and every score built on "more error means body change" reads quieter as "less surprising".
+
+---
+
+## 11. Experiment 7: a behaviour-change score, then a pre-registered replication
+
+**Tested:** whether *behaviour that differs from the body's own healthy baseline* separates body changes.
+
+- **Signal:** the motion itself (‖s_{t+1} − s_t‖, no model), averaged over the window 1–5 s after onset.
+- **Score:** a z-score against the body's 50 healthy calibration episodes.
+- **Rules:** two-sided (rule A, |z| ≥ 2) and, after the exploratory run, signed (rule B, z ≤ −2, "quieter = body").
+
+**Exploratory run, seed 90000** (`results_twosided/`). Soft/none reached AUC 0.912 body vs undisturbed with rule A, and 99% of body-change trials were quieter than normal. By then these trials had been analysed about seven ways, so this counted as a hypothesis only.
+
+**Pre-registration.** `PREREG_replication.md` (commit `29193c5`) fixed the following before any fresh trial existed:
+- **Seed:** 777000.
+- **Configurations:** soft/none and soft/low as targets; rigid/none and medium/none as controls.
+- **Rules A, B and C:** C is the self-model's error, scored two-sided.
+- **Success criteria, on both soft configurations:**
+  - **S1:** rule A AUC body vs undisturbed ≥ 0.75.
+  - **S2:** rule B AUC body vs push ≥ 0.75, with ≤ 15/120 false positives.
+
+**Fresh-trial result** (`results_replication/summary.txt`). Outcome: **REPLICATED.**
+
+| config | rule A: AUC body vs undisturbed | rule B: AUC body vs undisturbed | rule B: AUC body vs push | rule B: body-only detected | rule B: false positives | rule B: masking | rule C (self-model): AUC body vs undisturbed / vs push |
+|---|---|---|---|---|---|---|---|
+| **soft, none** | **0.899** | 0.959 | **0.984** | 87/120 | **3/120** | 97/120 | 0.717 / 0.337 |
+| **soft, low** | **0.831** | 0.944 | **0.969** | 24/120 | **0/120** | 110/120 | 0.449 / 0.346 |
+| rigid, none (control) | 0.994 | 0.901 | 0.915 | 108/120 | 3/120 | 88/120 | 1.000 / 1.000 |
+| medium, none (control) | 1.000 | 0.017 | 0.019 | 2/120 | 2/120 | 119/120 | 0.984 / 0.873 |
+
+**Median motion z after onset** (undisturbed / body change / push):
+- soft/none: +0.36 / −2.55 / +2.71
+- soft/low: +0.14 / −1.60 / +4.99
+- medium/none: +0.00 / +13.94 / +5.39 (the opposite direction)
+
+---
+
+## 12. The finding
+
+**On a simulated soft series-elastic joint, a body change doesn't show up as surprise. It shows up as a lasting drop in how much the robot moves while balancing.**
+
+- **The pre-registered test on fresh trials confirmed it.** A signed motion score separates body changes from undisturbed runs (AUC 0.944–0.959) and from pushes (0.969–0.984), with 0–3 false positives in 120 pushes.
+
+**What this does not show:**
+1. **The self-model isn't the detector here.** Its own error, scored the same way, fails on soft (0.717 and 0.449 vs undisturbed; 0.337 and 0.346 vs pushes). The signal is behavioural, and the arc's real contribution is finding that.
+2. **It isn't a complete detector.**
+   - soft/low catches only 24 of 120 body-only changes;
+   - when a push lands at the same moment, masking is 97–110 of 120.
+3. **The direction depends on the body.** Medium joints get louder (z +13.94), so "quieter = body" is specific to this soft joint. A real system would need to learn the direction for its own body.
+4. **It's simulation, with one controller and one model per body.**
+
+---
+
+## 13. Open questions
+
+1. **Learn the direction per body.** Can a robot work out which way its behaviour shifts after a body change from a few labelled examples, or from its own physics?
+2. **Combine the signals.** On rigid and medium joints the self-model's error works; on soft, motion works. Is there a single rule that works across stiffness?
+3. **Simultaneous pushes.** Masking is the largest remaining failure.
+4. **Hardware.** None of this has touched a real joint.
 
 ---
 
 ## Caveats
 
 1. **Simulated compliance, not hardware.** The joint parameters (`J_MOTOR` 0.05, `B_MOTOR` 0.5, `B_JOINT` 0.3, `HYST` 0.3, `SPRING_ZETA` 0.3, `N_SUBSTEPS` 10) were chosen, not measured from a device. The spring damper was added after a balance-only pilot whose numbers aren't logged.
-2. **One training seed per model.** In Exp 4a the AUC swings between k values (for example rigid/none 1.000 → 0.661 → 0.993). These may be model-to-model noise; with one seed per k it can't be told apart from a real effect of k.
-3. **Controller held fixed.** Every experiment after Exp 2 used the single-state model's controller, so that trajectories stay paired. A different controller would produce different trajectories and settling behaviour. That hasn't been tested.
-4. **Medium-noise compliant configurations are degenerate.** Calibration episodes never settle (stiff 0/50, medium 1/50, soft 0/50), so the settle-based rule has no threshold. The rigid medium-noise body did calibrate (50/50).
-5. **Rigid-tuned settings.** The calm limits, settle windows and alarm threshold were tuned on the rigid body and never re-tuned. Exp 3 changed the threshold units; Exp 4b removed the gate.
-6. **One run per configuration, fixed seed.** The confidence intervals cover trial-to-trial variation, not reruns.
-7. **Test conditions are narrow.** Body changes were mass ×1.3–1.7 and length ×1.2–1.5. Pushes were square pulses of 0.2 s or 0.5 s; no slow, fading pushes were tested.
-8. **Some mechanism statements are interpretations.** These include: hidden actuator state explains the held-out gain; the rigid/medium gain comes from averaging noise; the history model partly adapts to the body change from its input. Each is labelled as an interpretation where it appears.
+2. **One training seed per model.** In Exp 4a the AUC swings between k values (for example rigid/none 1.000 → 0.661 → 0.993). These may be model-to-model noise.
+3. **Controller held fixed.** Every experiment after Exp 2 used the single-state model's controller, including the replication. A different controller would produce different trajectories, and it may change how much a body change alters the motion.
+4. **Medium-noise compliant configurations are degenerate.** Calibration episodes never settle (stiff 0/50, medium 1/50, soft 0/50), so the settle-based rule has no threshold. They weren't part of the replication.
+5. **Rigid-tuned settings.** The calm limits, settle windows and alarm threshold were tuned on the rigid body and never re-tuned for the settle-based rule.
+6. **Many analyses of the seed-90000 trials.** Experiments 2–7 all used the same 6,360 trials, which is why only the fresh-trial replication (seed 777000) supports a claim. Everything before it is exploratory.
+7. **Narrow test conditions.**
+   - Body changes: mass ×1.3–1.7 and length ×1.2–1.5.
+   - Pushes: square pulses of 0.2 s or 0.5 s; no slow, fading pushes.
+   - Replication configurations: soft/none, soft/low, rigid/none and medium/none only.
+8. **Some mechanism statements are interpretations.** These include: hidden actuator state explains the held-out gain in 4a; *why* a heavier or longer link on a soft spring moves less. Each is labelled where it appears.
 
 ---
 
@@ -278,20 +400,25 @@ These are the next hypotheses. None has been tested.
 
 **Shared by all experiments:**
 - **Versions:** Python 3.11.15, numpy 2.4.6, torch 2.14.0+cpu, gymnasium 1.3.0, logged in each folder's `versions_and_seed.json`.
-- **Seeds:** master seed 90000; forward-model training seed 0.
-- **Paired trials:** every experiment after Exp 1 re-scores or reproduces the same 530 trials per configuration. Each run checked itself against the logged results with 0 mismatches.
+- **Seeds:**
+  - master seed 90000 for experiments 1–7;
+  - **777000 for the replication**;
+  - forward-model training seed 0;
+  - regime-model subsample seed 0.
 
 | experiment | code (in `surprise_attribution/`) | results |
 |---|---|---|
-| 1 Factorial, rigid | `run_factorial.py`, `factorial_config.py` | `results_factorial/` (`summary.txt`, `trials.csv`) |
-| 2 Compliant grid | `run_compliant.py`, `compliant_config.py`, `compliant_env.py`, `compliant_trials.py` | `results_compliant/` (`summary.txt/json`, `trials_<config>.csv`, `sweep.png`); models in `compliant_models/` |
-| 3 Calibration | `run_calibrated.py`, `calibrated_config.py` | `results_calibrated/` (`summary.txt/json`, `trials_<config>.csv`, `sweep_calibrated.png`) |
-| 4a History | `run_history.py`, `history_config.py`, `history_model.py` | `results_history/` (`summary.txt/json`, `trials_<config>.csv`, `sweep_history.png`); models in `history_models/` |
-| 4b Shape | `run_shape.py`, `shape_config.py` | `results_shape/` (`summary.txt/json`, `trials_<config>.csv`, `sweep_shape.png`) |
+| 1 Factorial, rigid | `run_factorial.py`, `factorial_config.py` | `results_factorial/` |
+| 2 Compliant grid | `run_compliant.py`, `compliant_config.py`, `compliant_env.py`, `compliant_trials.py` | `results_compliant/`; models in `compliant_models/` |
+| 3 Calibration | `run_calibrated.py`, `calibrated_config.py` | `results_calibrated/` |
+| 4a History | `run_history.py`, `history_config.py`, `history_model.py` | `results_history/`; models in `history_models/` |
+| 4b Shape | `run_shape.py`, `shape_config.py` | `results_shape/` |
+| 5 Rollout | `run_rollout.py`, `rollout_config.py` | `results_rollout/` |
+| Diagnostic | `diag_regime.py` | `results_regime/` |
+| 6 Regime-matched model | `run_regime_model.py` | `results_regime_model/`; models in `regime_models/` |
+| 7 Behaviour change | `run_twosided.py` | `results_twosided/` |
+| **Replication** | **`PREREG_replication.md`, `run_replication.py`** | **`results_replication/`** |
 
-**The rule under test:** `alarm_classifier.py` and `classifier.py`, unchanged throughout. The frozen alarm threshold is in `results_alarm/chosen_alarm.json`.
+**The original rule:** `alarm_classifier.py` and `classifier.py`. The frozen alarm threshold is in `results_alarm/chosen_alarm.json`.
 
-**Not committed (regenerable):**
-- `results_calibrated/traces/` and `results_history/episodes/` are per-step traces, excluded from git because of their size.
-- `run_calibrated.py` and `run_history.py` recreate them exactly.
-- Exp 4b reads `results_history/episodes/`, so run 4a first.
+**Not committed (regenerable):** the per-step traces in `results_calibrated/traces/`, `results_history/episodes/` and `results_replication/episodes/`. The run scripts recreate them exactly. Experiments 4b, 5, 6, 7 and the diagnostic read `results_history/episodes/`, so run 4a first.
