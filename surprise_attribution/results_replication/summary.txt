@@ -1,0 +1,26 @@
+SIMULATED compliant body, not hardware. FRESH trials, master seed 777000. Rules: PREREG_replication.md.
+
+== soft_none ==  [TARGET]
+  A_motion_two_sided        AUC body/undist 0.899 | body/push 0.579 | detect 182/240 (b-only 87, b+push 95) | FP  64/120 | mask  25/120 | undist   4/120 | median z undist/body/push +0.36/-2.55/+2.71
+  B_motion_signed           AUC body/undist 0.959 | body/push 0.984 | detect 110/240 (b-only 87, b+push 23) | FP   3/120 | mask  97/120 | undist   4/120 | median z undist/body/push +0.36/-2.55/+2.71
+  C_model_error_two_sided   AUC body/undist 0.717 | body/push 0.337 | detect  70/240 (b-only 1, b+push 69) | FP  55/120 | mask  51/120 | undist   4/120 | median z undist/body/push -0.05/-1.11/-1.14
+
+== soft_low ==  [TARGET]
+  A_motion_two_sided        AUC body/undist 0.831 | body/push 0.388 | detect 104/240 (b-only 24, b+push 80) | FP  65/120 | mask  40/120 | undist   5/120 | median z undist/body/push +0.14/-1.60/+4.99
+  B_motion_signed           AUC body/undist 0.944 | body/push 0.969 | detect  34/240 (b-only 24, b+push 10) | FP   0/120 | mask 110/120 | undist   1/120 | median z undist/body/push +0.14/-1.60/+4.99
+  C_model_error_two_sided   AUC body/undist 0.449 | body/push 0.346 | detect  27/240 (b-only 0, b+push 27) | FP   8/120 | mask  93/120 | undist   3/120 | median z undist/body/push +0.09/-0.56/-0.27
+
+== rigid_none ==  [control]
+  A_motion_two_sided        AUC body/undist 0.994 | body/push 0.585 | detect 239/240 (b-only 119, b+push 120) | FP  66/120 | mask   0/120 | undist  14/120 | median z undist/body/push -0.32/-7.31/+7.36
+  B_motion_signed           AUC body/undist 0.901 | body/push 0.915 | detect 140/240 (b-only 108, b+push 32) | FP   3/120 | mask  88/120 | undist  10/120 | median z undist/body/push -0.32/-7.31/+7.36
+  C_model_error_two_sided   AUC body/undist 1.000 | body/push 1.000 | detect 240/240 (b-only 120, b+push 120) | FP  36/120 | mask   0/120 | undist   7/120 | median z undist/body/push +0.10/+22.48/+0.56
+
+== medium_none ==  [control]
+  A_motion_two_sided        AUC body/undist 1.000 | body/push 0.989 | detect 240/240 (b-only 120, b+push 120) | FP  64/120 | mask   0/120 | undist   9/120 | median z undist/body/push +0.00/+13.94/+5.39
+  B_motion_signed           AUC body/undist 0.017 | body/push 0.019 | detect   3/240 (b-only 2, b+push 1) | FP   2/120 | mask 119/120 | undist   5/120 | median z undist/body/push +0.00/+13.94/+5.39 (not applicable on medium; reported for completeness)
+  C_model_error_two_sided   AUC body/undist 0.984 | body/push 0.873 | detect 219/240 (b-only 114, b+push 105) | FP  49/120 | mask  15/120 | undist  12/120 | median z undist/body/push -0.08/+6.48/-0.68
+
+PRE-REGISTERED SUCCESS TEST (both soft configs):
+  soft_none: S1 (A AUC body/undist 0.899 >= 0.75) PASS | S2 (B AUC body/push 0.984 >= 0.75 and FP 3 <= 15) PASS
+  soft_low: S1 (A AUC body/undist 0.831 >= 0.75) PASS | S2 (B AUC body/push 0.969 >= 0.75 and FP 0 <= 15) PASS
+  OUTCOME: REPLICATED
