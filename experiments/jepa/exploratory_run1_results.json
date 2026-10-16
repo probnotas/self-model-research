@@ -1,0 +1,119 @@
+{
+ "soft_none": {
+  "train": {
+   "n_pairs": 39487,
+   "std_init": 0.03652175888419151,
+   "std_final": 0.11657408624887466,
+   "valid": true,
+   "heldout_loss": 0.0006518223090097308
+  },
+  "jepa": {
+   "med_undist": 0.0005681722541339695,
+   "med_body": 0.003619582043029368,
+   "med_push": 1.2747110724449158,
+   "auc_body_undist": 0.9915277777777778,
+   "auc_body_push": 0.481875,
+   "detect_body_only": 114,
+   "fp_push": 68,
+   "undist_flag": 5,
+   "r_motion": -0.5027694765898426,
+   "r_motion_undist_only": 0.42450125495752306
+  },
+  "raw": {
+   "med_undist": 0.08978370577096939,
+   "med_body": 0.08309711515903473,
+   "med_push": 0.08291302621364594,
+   "auc_body_undist": 0.10569444444444444,
+   "auc_body_push": 0.5232638888888889,
+   "detect_body_only": 0,
+   "fp_push": 5,
+   "undist_flag": 4,
+   "r_motion": 0.8742333902323024,
+   "r_motion_undist_only": 0.9055767364152267
+  },
+  "rung6_B": {
+   "auc_body_undist": 0.9585416666666666,
+   "auc_body_push": 0.9839583333333334,
+   "detect_body_only": 87,
+   "fp_push": 3
+  }
+ },
+ "soft_low": {
+  "train": {
+   "n_pairs": 39487,
+   "std_init": 0.023032400757074356,
+   "std_final": 0.08139559626579285,
+   "valid": true,
+   "heldout_loss": 6.3091836636886e-05
+  },
+  "jepa": {
+   "med_undist": 5.807033448945731e-05,
+   "med_body": 0.000341722639859654,
+   "med_push": 0.21966247260570526,
+   "auc_body_undist": 0.9999305555555555,
+   "auc_body_push": 0.4831944444444444,
+   "detect_body_only": 120,
+   "fp_push": 68,
+   "undist_flag": 12,
+   "r_motion": -0.5275543029439966,
+   "r_motion_undist_only": 0.45240086841504645
+  },
+  "raw": {
+   "med_undist": 0.06894540786743164,
+   "med_body": 0.06465911120176315,
+   "med_push": 0.06654340028762817,
+   "auc_body_undist": 0.24534722222222222,
+   "auc_body_push": 0.3915972222222222,
+   "detect_body_only": 0,
+   "fp_push": 7,
+   "undist_flag": 4,
+   "r_motion": 0.8480819126412651,
+   "r_motion_undist_only": 0.8934026089557447
+  },
+  "rung6_B": {
+   "auc_body_undist": 0.9439583333333333,
+   "auc_body_push": 0.9685416666666666,
+   "detect_body_only": 24,
+   "fp_push": 0
+  }
+ },
+ "rigid_none": {
+  "train": {
+   "n_pairs": 39487,
+   "std_init": 0.01845027320086956,
+   "std_final": 0.5948743224143982,
+   "valid": true,
+   "heldout_loss": 0.001354448264464736
+  },
+  "jepa": {
+   "med_undist": 0.0005595520487986505,
+   "med_body": 10.03271770477295,
+   "med_push": 19.90744400024414,
+   "auc_body_undist": 1.0,
+   "auc_body_push": 0.5424305555555555,
+   "detect_body_only": 120,
+   "fp_push": 74,
+   "undist_flag": 8,
+   "r_motion": 0.9538596679278739,
+   "r_motion_undist_only": 0.3022804024165468
+  },
+  "raw": {
+   "med_undist": 0.010721065104007721,
+   "med_body": 0.03348121419548988,
+   "med_push": 0.010973706841468811,
+   "auc_body_undist": 1.0,
+   "auc_body_push": 1.0,
+   "detect_body_only": 120,
+   "fp_push": 38,
+   "undist_flag": 2,
+   "r_motion": 0.41193346371026907,
+   "r_motion_undist_only": 0.07347492815294573
+  },
+  "rung6_B": {
+   "auc_body_undist": 0.9009722222222222,
+   "auc_body_push": 0.9151388888888888,
+   "detect_body_only": 108,
+   "fp_push": 3
+  }
+ }
+}
