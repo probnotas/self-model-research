@@ -1,0 +1,1034 @@
+{
+ "versions": {
+  "python": "3.11.15",
+  "numpy": "2.4.6",
+  "torch": "2.14.0+cpu",
+  "train_seed_master": 90000,
+  "test_seed_master": 777000,
+  "seeds": [
+   0,
+   1,
+   2
+  ]
+ },
+ "soft_none": {
+  "n_train_pairs": 39487,
+  "recovery": {
+   "n_push": 120,
+   "recovered": 59,
+   "median_time_s": 0.0,
+   "by_combo": {
+    "1Nm_short": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 0.0
+    },
+    "1Nm_medium": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 0.0
+    },
+    "2Nm_short": {
+     "n": 20,
+     "recovered": 19,
+     "median_time_s": 0.15000000000000002
+    },
+    "2Nm_medium": {
+     "n": 20,
+     "recovered": 0,
+     "median_time_s": null
+    },
+    "4Nm_short": {
+     "n": 20,
+     "recovered": 0,
+     "median_time_s": null
+    },
+    "4Nm_medium": {
+     "n": 20,
+     "recovered": 0,
+     "median_time_s": null
+    }
+   }
+  },
+  "context": {
+   "raw_one_step_early": {
+    "auc_body_undist": 0.10569444444444444,
+    "auc_body_push": 0.5232638888888889,
+    "med_undist": 0.08978370985714718,
+    "med_body": 0.08309710985049606,
+    "med_push": 0.08291303135920317,
+    "ratio_body_undist": 0.9255254653957827,
+    "caught_body_only": 0,
+    "fp_push": 5,
+    "undist_flagged": 4,
+    "r_motion": 0.874233436451436,
+    "r_motion_undist": 0.9055767615216452
+   },
+   "rung6_B": {
+    "auc_body_undist": 0.9585416666666666,
+    "auc_body_push": 0.9839583333333334,
+    "caught_body_only": 87,
+    "fp_push": 3
+   }
+  },
+  "seeds": {
+   "0": {
+    "jepa": {
+     "train": {
+      "std_init": 0.037082914263010025,
+      "heldout_loss": 0.006603294517844915,
+      "std_final": 0.36279794573783875,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 0.9983333333333333,
+      "auc_body_push": 0.48944444444444446,
+      "med_undist": 0.005723588757348352,
+      "med_body": 0.052546377377166206,
+      "med_push": 17.252860190859067,
+      "ratio_body_undist": 9.180669612173553,
+      "caught_body_only": 118,
+      "fp_push": 67,
+      "undist_flagged": 5,
+      "r_motion": -0.5253441412124336,
+      "r_motion_undist": 0.4121539953980961
+     },
+     "late": {
+      "auc_body_undist": 0.9997222222222222,
+      "auc_body_push": 0.49125,
+      "med_undist": 0.005713360883382848,
+      "med_body": 0.04890203095892502,
+      "med_push": 0.7683992610778659,
+      "ratio_body_undist": 8.559240691613798,
+      "caught_body_only": 120,
+      "fp_push": 67,
+      "undist_flagged": 13,
+      "r_motion": -0.5709655337641105,
+      "r_motion_undist": 0.5230423631326859
+     },
+     "late_fp_by_torque": {
+      "1": 2,
+      "2": 25,
+      "4": 40
+     },
+     "late_fp_by_duration": {
+      "short": 26,
+      "medium": 41
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       6,
+       59
+      ],
+      "not_recovered": [
+       61,
+       61
+      ]
+     },
+     "ratio_auc_body_push": 0.76625,
+     "ratio_auc_body_undist": 0.49069444444444443
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 4.91577411594335e-05
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.4909722222222222,
+      "med_undist": 4.4897693004486425e-05,
+      "med_body": 0.0005959692000260475,
+      "med_push": 0.7000901745632291,
+      "ratio_body_undist": 13.273938150151611,
+      "caught_body_only": 120,
+      "fp_push": 66,
+      "undist_flagged": 5,
+      "r_motion": -0.49837513060578065,
+      "r_motion_undist": 0.54052386065238
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.49166666666666664,
+      "med_undist": 4.295878680295573e-05,
+      "med_body": 0.0005807754308170842,
+      "med_push": 0.5019726461172104,
+      "ratio_body_undist": 13.519362953171774,
+      "caught_body_only": 120,
+      "fp_push": 66,
+      "undist_flagged": 11,
+      "r_motion": -0.5673292816505547,
+      "r_motion_undist": 0.5916475868079548
+     },
+     "ratio_auc_body_push": 0.6548611111111111,
+     "ratio_auc_body_undist": 0.513125
+    }
+   },
+   "1": {
+    "jepa": {
+     "train": {
+      "std_init": 0.0319739393889904,
+      "heldout_loss": 0.0012484134640544653,
+      "std_final": 0.13808929920196533,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 0.9782638888888889,
+      "auc_body_push": 0.47333333333333333,
+      "med_undist": 0.0010164311378559887,
+      "med_body": 0.005203722905815766,
+      "med_push": 1.2861954357620562,
+      "ratio_body_undist": 5.119602019269354,
+      "caught_body_only": 110,
+      "fp_push": 68,
+      "undist_flagged": 6,
+      "r_motion": -0.4809236273214841,
+      "r_motion_undist": 0.3940061167342448
+     },
+     "late": {
+      "auc_body_undist": 0.9867361111111111,
+      "auc_body_push": 0.48409722222222223,
+      "med_undist": 0.0010422120164389525,
+      "med_body": 0.004755371592309529,
+      "med_push": 0.23939203962683678,
+      "ratio_body_undist": 4.56276795632981,
+      "caught_body_only": 109,
+      "fp_push": 64,
+      "undist_flagged": 6,
+      "r_motion": -0.5195303065317165,
+      "r_motion_undist": 0.5262265476294492
+     },
+     "late_fp_by_torque": {
+      "1": 1,
+      "2": 23,
+      "4": 40
+     },
+     "late_fp_by_duration": {
+      "short": 23,
+      "medium": 41
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       3,
+       59
+      ],
+      "not_recovered": [
+       61,
+       61
+      ]
+     },
+     "ratio_auc_body_push": 0.7739583333333333,
+     "ratio_auc_body_undist": 0.46576388888888887
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 5.380270886234939e-05
+     },
+     "early": {
+      "auc_body_undist": 0.9997916666666666,
+      "auc_body_push": 0.4897222222222222,
+      "med_undist": 4.498203730918249e-05,
+      "med_body": 0.0005140800252092959,
+      "med_push": 0.6234506279230119,
+      "ratio_body_undist": 11.428562509869984,
+      "caught_body_only": 120,
+      "fp_push": 67,
+      "undist_flagged": 5,
+      "r_motion": -0.47625817826287853,
+      "r_motion_undist": 0.6560214402723396
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.49166666666666664,
+      "med_undist": 4.556147451012293e-05,
+      "med_body": 0.0004983377985672633,
+      "med_push": 0.4448415364325047,
+      "ratio_body_undist": 10.937701290956719,
+      "caught_body_only": 120,
+      "fp_push": 66,
+      "undist_flagged": 11,
+      "r_motion": -0.5464447583149403,
+      "r_motion_undist": 0.6663698434339881
+     },
+     "ratio_auc_body_push": 0.6697916666666667,
+     "ratio_auc_body_undist": 0.5072916666666667
+    }
+   },
+   "2": {
+    "jepa": {
+     "train": {
+      "std_init": 0.03283056989312172,
+      "heldout_loss": 0.0007462875219061971,
+      "std_final": 0.09434252232313156,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 0.9579861111111111,
+      "auc_body_push": 0.46125,
+      "med_undist": 0.0006297333843917841,
+      "med_body": 0.002478427838627795,
+      "med_push": 0.7362468875711783,
+      "ratio_body_undist": 3.935678018756361,
+      "caught_body_only": 99,
+      "fp_push": 67,
+      "undist_flagged": 6,
+      "r_motion": -0.4372315496252338,
+      "r_motion_undist": 0.3880914685898669
+     },
+     "late": {
+      "auc_body_undist": 0.9570138888888889,
+      "auc_body_push": 0.4715972222222222,
+      "med_undist": 0.0006615552768516864,
+      "med_body": 0.002241022785340192,
+      "med_push": 0.30544006245210764,
+      "ratio_body_undist": 3.387506477168657,
+      "caught_body_only": 97,
+      "fp_push": 64,
+      "undist_flagged": 4,
+      "r_motion": -0.48001017539152746,
+      "r_motion_undist": 0.5061555315855328
+     },
+     "late_fp_by_torque": {
+      "1": 1,
+      "2": 23,
+      "4": 40
+     },
+     "late_fp_by_duration": {
+      "short": 23,
+      "medium": 41
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       3,
+       59
+      ],
+      "not_recovered": [
+       61,
+       61
+      ]
+     },
+     "ratio_auc_body_push": 0.7604861111111111,
+     "ratio_auc_body_undist": 0.45166666666666666
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 5.6745786423562095e-05
+     },
+     "early": {
+      "auc_body_undist": 0.9995833333333334,
+      "auc_body_push": 0.4905555555555556,
+      "med_undist": 5.022416600581891e-05,
+      "med_body": 0.000500249797255492,
+      "med_push": 0.6862213890999556,
+      "ratio_body_undist": 9.960340549956243,
+      "caught_body_only": 119,
+      "fp_push": 65,
+      "undist_flagged": 4,
+      "r_motion": -0.48662832480168305,
+      "r_motion_undist": 0.6148244495740263
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.49166666666666664,
+      "med_undist": 5.104215798837686e-05,
+      "med_body": 0.0004844648404650798,
+      "med_push": 0.48675404518842696,
+      "ratio_body_undist": 9.491464694251375,
+      "caught_body_only": 120,
+      "fp_push": 65,
+      "undist_flagged": 8,
+      "r_motion": -0.5551214320069005,
+      "r_motion_undist": 0.660157645975997
+     },
+     "ratio_auc_body_push": 0.6580555555555555,
+     "ratio_auc_body_undist": 0.5047916666666666
+    }
+   }
+  }
+ },
+ "soft_low": {
+  "n_train_pairs": 39487,
+  "recovery": {
+   "n_push": 120,
+   "recovered": 58,
+   "median_time_s": 0.0,
+   "by_combo": {
+    "1Nm_short": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 0.0
+    },
+    "1Nm_medium": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 0.0
+    },
+    "2Nm_short": {
+     "n": 20,
+     "recovered": 18,
+     "median_time_s": 0.1
+    },
+    "2Nm_medium": {
+     "n": 20,
+     "recovered": 0,
+     "median_time_s": null
+    },
+    "4Nm_short": {
+     "n": 20,
+     "recovered": 0,
+     "median_time_s": null
+    },
+    "4Nm_medium": {
+     "n": 20,
+     "recovered": 0,
+     "median_time_s": null
+    }
+   }
+  },
+  "context": {
+   "raw_one_step_early": {
+    "auc_body_undist": 0.24534722222222222,
+    "auc_body_push": 0.3915972222222222,
+    "med_undist": 0.0689454113249667,
+    "med_body": 0.06465910816332326,
+    "med_push": 0.06654339781525778,
+    "ratio_body_undist": 0.9378304795160273,
+    "caught_body_only": 0,
+    "fp_push": 7,
+    "undist_flagged": 4,
+    "r_motion": 0.8480818919395603,
+    "r_motion_undist": 0.8934026134844593
+   },
+   "rung6_B": {
+    "auc_body_undist": 0.9439583333333333,
+    "auc_body_push": 0.9685416666666666,
+    "caught_body_only": 24,
+    "fp_push": 0
+   }
+  },
+  "seeds": {
+   "0": {
+    "jepa": {
+     "train": {
+      "std_init": 0.029718667268753052,
+      "heldout_loss": 0.00014590253704227507,
+      "std_final": 0.06225483864545822,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 0.9806944444444444,
+      "auc_body_push": 0.47270833333333334,
+      "med_undist": 0.00012903184886852158,
+      "med_body": 0.0007012841029023775,
+      "med_push": 0.15639165237080305,
+      "ratio_body_undist": 5.434969033242007,
+      "caught_body_only": 108,
+      "fp_push": 64,
+      "undist_flagged": 3,
+      "r_motion": -0.44779671583070807,
+      "r_motion_undist": 0.08906229836118354
+     },
+     "late": {
+      "auc_body_undist": 0.9856944444444444,
+      "auc_body_push": 0.47638888888888886,
+      "med_undist": 0.00013334283699805382,
+      "med_body": 0.0007777145015234055,
+      "med_push": 0.11212452325969935,
+      "ratio_body_undist": 5.832443039551922,
+      "caught_body_only": 107,
+      "fp_push": 62,
+      "undist_flagged": 0,
+      "r_motion": -0.4827696899942072,
+      "r_motion_undist": 0.10408397010261097
+     },
+     "late_fp_by_torque": {
+      "1": 0,
+      "2": 22,
+      "4": 40
+     },
+     "late_fp_by_duration": {
+      "short": 22,
+      "medium": 40
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       0,
+       58
+      ],
+      "not_recovered": [
+       62,
+       62
+      ]
+     },
+     "ratio_auc_body_push": 0.7524305555555556,
+     "ratio_auc_body_undist": 0.5289583333333333
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 0.000189551297808066
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.48333333333333334,
+      "med_undist": 0.00019272852450740173,
+      "med_body": 0.000940889001776668,
+      "med_push": 0.6579976808279753,
+      "ratio_body_undist": 4.8819395270186545,
+      "caught_body_only": 120,
+      "fp_push": 68,
+      "undist_flagged": 8,
+      "r_motion": -0.5159964186888383,
+      "r_motion_undist": 0.18713428000313675
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.48333333333333334,
+      "med_undist": 0.00018564259697086526,
+      "med_body": 0.0010507745766881271,
+      "med_push": 0.5374684554338456,
+      "ratio_body_undist": 5.660201881645922,
+      "caught_body_only": 120,
+      "fp_push": 63,
+      "undist_flagged": 2,
+      "r_motion": -0.5490069237143121,
+      "r_motion_undist": 0.17350548000799415
+     },
+     "ratio_auc_body_push": 0.7140972222222223,
+     "ratio_auc_body_undist": 0.5611805555555556
+    }
+   },
+   "1": {
+    "jepa": {
+     "train": {
+      "std_init": 0.02610951103270054,
+      "heldout_loss": 4.3941414332948625e-05,
+      "std_final": 0.034231726080179214,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 0.9979166666666667,
+      "auc_body_push": 0.48243055555555553,
+      "med_undist": 3.819063962779978e-05,
+      "med_body": 0.00027291515761653786,
+      "med_push": 0.1450538806151599,
+      "ratio_body_undist": 7.146126911628815,
+      "caught_body_only": 119,
+      "fp_push": 67,
+      "undist_flagged": 8,
+      "r_motion": -0.4728248367869819,
+      "r_motion_undist": 0.29633828456405464
+     },
+     "late": {
+      "auc_body_undist": 0.9977083333333333,
+      "auc_body_push": 0.48215277777777776,
+      "med_undist": 3.8982762473551704e-05,
+      "med_body": 0.0002963695087714768,
+      "med_push": 0.12989535059779883,
+      "ratio_body_undist": 7.602578420976504,
+      "caught_body_only": 117,
+      "fp_push": 63,
+      "undist_flagged": 1,
+      "r_motion": -0.5097169111487727,
+      "r_motion_undist": 0.23392281439497695
+     },
+     "late_fp_by_torque": {
+      "1": 1,
+      "2": 22,
+      "4": 40
+     },
+     "late_fp_by_duration": {
+      "short": 23,
+      "medium": 40
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       1,
+       58
+      ],
+      "not_recovered": [
+       62,
+       62
+      ]
+     },
+     "ratio_auc_body_push": 0.7041666666666667,
+     "ratio_auc_body_undist": 0.5206944444444445
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 0.0001943432871485129
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.4832638888888889,
+      "med_undist": 0.0001962417614322476,
+      "med_body": 0.0008508442071615719,
+      "med_push": 0.5285408977419137,
+      "ratio_body_undist": 4.335693895895474,
+      "caught_body_only": 120,
+      "fp_push": 68,
+      "undist_flagged": 6,
+      "r_motion": -0.5136864967905054,
+      "r_motion_undist": 0.17004325360298697
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.48333333333333334,
+      "med_undist": 0.00019105552826658822,
+      "med_body": 0.0009491039633758192,
+      "med_push": 0.4074037490785122,
+      "ratio_body_undist": 4.96768647307338,
+      "caught_body_only": 120,
+      "fp_push": 64,
+      "undist_flagged": 2,
+      "r_motion": -0.5482578122004439,
+      "r_motion_undist": 0.155206253045029
+     },
+     "ratio_auc_body_push": 0.7327083333333333,
+     "ratio_auc_body_undist": 0.5571527777777778
+    }
+   },
+   "2": {
+    "jepa": {
+     "train": {
+      "std_init": 0.024799769744277,
+      "heldout_loss": 4.487718251766637e-05,
+      "std_final": 0.052735283970832825,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 0.9993055555555556,
+      "auc_body_push": 0.48277777777777775,
+      "med_undist": 4.161210814537242e-05,
+      "med_body": 0.0002918260042903853,
+      "med_push": 0.15816389401443304,
+      "ratio_body_undist": 7.01300696592654,
+      "caught_body_only": 119,
+      "fp_push": 68,
+      "undist_flagged": 8,
+      "r_motion": -0.4905077222501187,
+      "r_motion_undist": 0.4939880501813925
+     },
+     "late": {
+      "auc_body_undist": 0.999375,
+      "auc_body_push": 0.48277777777777775,
+      "med_undist": 4.0467959830152726e-05,
+      "med_body": 0.0003150630015011302,
+      "med_push": 0.14339825939387082,
+      "ratio_body_undist": 7.785492592744356,
+      "caught_body_only": 117,
+      "fp_push": 63,
+      "undist_flagged": 1,
+      "r_motion": -0.5252392990163803,
+      "r_motion_undist": 0.44702900287468866
+     },
+     "late_fp_by_torque": {
+      "1": 1,
+      "2": 22,
+      "4": 40
+     },
+     "late_fp_by_duration": {
+      "short": 23,
+      "medium": 40
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       1,
+       58
+      ],
+      "not_recovered": [
+       62,
+       62
+      ]
+     },
+     "ratio_auc_body_push": 0.724375,
+     "ratio_auc_body_undist": 0.5338194444444444
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 0.00018819134857039899
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.48333333333333334,
+      "med_undist": 0.00019223984641030255,
+      "med_body": 0.001031296777591706,
+      "med_push": 0.5998527761548758,
+      "ratio_body_undist": 5.364635879861151,
+      "caught_body_only": 120,
+      "fp_push": 67,
+      "undist_flagged": 10,
+      "r_motion": -0.533456920592734,
+      "r_motion_undist": 0.18552290517123965
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.48333333333333334,
+      "med_undist": 0.00018430491949402496,
+      "med_body": 0.001142343527644698,
+      "med_push": 0.4807292458415031,
+      "ratio_body_undist": 6.198117395785151,
+      "caught_body_only": 120,
+      "fp_push": 64,
+      "undist_flagged": 1,
+      "r_motion": -0.5675394050853566,
+      "r_motion_undist": 0.1814864335596448
+     },
+     "ratio_auc_body_push": 0.7314583333333333,
+     "ratio_auc_body_undist": 0.5602083333333333
+    }
+   }
+  }
+ },
+ "rigid_none": {
+  "n_train_pairs": 39487,
+  "recovery": {
+   "n_push": 120,
+   "recovered": 115,
+   "median_time_s": 0.1,
+   "by_combo": {
+    "1Nm_short": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 0.0
+    },
+    "1Nm_medium": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 0.0
+    },
+    "2Nm_short": {
+     "n": 20,
+     "recovered": 18,
+     "median_time_s": 0.05
+    },
+    "2Nm_medium": {
+     "n": 20,
+     "recovered": 18,
+     "median_time_s": 1.8250000000000002
+    },
+    "4Nm_short": {
+     "n": 20,
+     "recovered": 19,
+     "median_time_s": 1.9000000000000001
+    },
+    "4Nm_medium": {
+     "n": 20,
+     "recovered": 20,
+     "median_time_s": 1.25
+    }
+   }
+  },
+  "context": {
+   "raw_one_step_early": {
+    "auc_body_undist": 1.0,
+    "auc_body_push": 1.0,
+    "med_undist": 0.010721065349207493,
+    "med_body": 0.03348121136659756,
+    "med_push": 0.010973706908407621,
+    "ratio_body_undist": 3.1229369727769183,
+    "caught_body_only": 120,
+    "fp_push": 38,
+    "undist_flagged": 2,
+    "r_motion": 0.4119334553877132,
+    "r_motion_undist": 0.07347496063242671
+   },
+   "rung6_B": {
+    "auc_body_undist": 0.9009722222222222,
+    "auc_body_push": 0.9151388888888888,
+    "caught_body_only": 108,
+    "fp_push": 3
+   }
+  },
+  "seeds": {
+   "0": {
+    "jepa": {
+     "train": {
+      "std_init": 0.019676098600029945,
+      "heldout_loss": 0.002747500082477927,
+      "std_final": 0.2608380913734436,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5111111111111111,
+      "med_undist": 0.0025113645700002964,
+      "med_body": 3.6822395421309917,
+      "med_push": 9.269722388261652,
+      "ratio_body_undist": 1466.2305848053584,
+      "caught_body_only": 120,
+      "fp_push": 62,
+      "undist_flagged": 0,
+      "r_motion": 0.6851760157267024,
+      "r_motion_undist": 0.14804804483500347
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9891666666666666,
+      "med_undist": 0.0025993889253004454,
+      "med_body": 3.14275937006576,
+      "med_push": 0.002563431090420636,
+      "ratio_body_undist": 1209.0377624820073,
+      "caught_body_only": 120,
+      "fp_push": 7,
+      "undist_flagged": 4,
+      "r_motion": 0.9875205697544297,
+      "r_motion_undist": 0.17578240089971117
+     },
+     "late_fp_by_torque": {
+      "1": 1,
+      "2": 4,
+      "4": 2
+     },
+     "late_fp_by_duration": {
+      "short": 4,
+      "medium": 3
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       2,
+       115
+      ],
+      "not_recovered": [
+       5,
+       5
+      ]
+     },
+     "ratio_auc_body_push": 0.8082638888888889,
+     "ratio_auc_body_undist": 0.5597916666666667
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 5.767232778453035e-06
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5259027777777778,
+      "med_undist": 5.4129689651460925e-06,
+      "med_body": 0.008024955780456366,
+      "med_push": 0.2065307585749679,
+      "ratio_body_undist": 1482.5423593094217,
+      "caught_body_only": 120,
+      "fp_push": 74,
+      "undist_flagged": 5,
+      "r_motion": 0.959407979769329,
+      "r_motion_undist": 0.4671958842964693
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "med_undist": 5.459494175283908e-06,
+      "med_body": 0.006998520327615552,
+      "med_push": 5.47770316416063e-06,
+      "ratio_body_undist": 1281.899037331899,
+      "caught_body_only": 120,
+      "fp_push": 12,
+      "undist_flagged": 6,
+      "r_motion": 0.9895122002768469,
+      "r_motion_undist": 0.38787931364195455
+     },
+     "ratio_auc_body_push": 0.8415972222222222,
+     "ratio_auc_body_undist": 0.5874305555555556
+    }
+   },
+   "1": {
+    "jepa": {
+     "train": {
+      "std_init": 0.018046198412775993,
+      "heldout_loss": 0.002109276596456766,
+      "std_final": 0.4089190661907196,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5313888888888889,
+      "med_undist": 0.0015611523161169318,
+      "med_body": 5.830180493321313,
+      "med_push": 23.435983568748,
+      "ratio_body_undist": 3734.5366196059417,
+      "caught_body_only": 120,
+      "fp_push": 68,
+      "undist_flagged": 2,
+      "r_motion": 0.9538218303813291,
+      "r_motion_undist": 0.2956102098451123
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "med_undist": 0.0016748008903959997,
+      "med_body": 5.538287795972865,
+      "med_push": 0.001690599560533883,
+      "ratio_body_undist": 3306.833563160669,
+      "caught_body_only": 120,
+      "fp_push": 12,
+      "undist_flagged": 11,
+      "r_motion": 0.9754505299667985,
+      "r_motion_undist": 0.1585251103271512
+     },
+     "late_fp_by_torque": {
+      "1": 3,
+      "2": 5,
+      "4": 4
+     },
+     "late_fp_by_duration": {
+      "short": 6,
+      "medium": 6
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       7,
+       115
+      ],
+      "not_recovered": [
+       5,
+       5
+      ]
+     },
+     "ratio_auc_body_push": 0.8049305555555556,
+     "ratio_auc_body_undist": 0.5180555555555556
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 2.785296373986057e-06
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5231944444444444,
+      "med_undist": 2.019666020380839e-06,
+      "med_body": 0.0077374883128868525,
+      "med_push": 0.3319588460493954,
+      "ratio_body_undist": 3831.073174874641,
+      "caught_body_only": 120,
+      "fp_push": 76,
+      "undist_flagged": 5,
+      "r_motion": 0.9605905804749018,
+      "r_motion_undist": 0.47302371140505783
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "med_undist": 2.2273207628131783e-06,
+      "med_body": 0.0067273056050180455,
+      "med_push": 2.1390243243502027e-06,
+      "ratio_body_undist": 3020.357784714062,
+      "caught_body_only": 120,
+      "fp_push": 14,
+      "undist_flagged": 10,
+      "r_motion": 0.9919557698589043,
+      "r_motion_undist": 0.19871785444219872
+     },
+     "ratio_auc_body_push": 0.858125,
+     "ratio_auc_body_undist": 0.5350694444444445
+    }
+   },
+   "2": {
+    "jepa": {
+     "train": {
+      "std_init": 0.015336042270064354,
+      "heldout_loss": 0.0006892986129969358,
+      "std_final": 0.42130807042121887,
+      "valid": true
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5409027777777777,
+      "med_undist": 0.0001360359852867532,
+      "med_body": 4.761314417611652,
+      "med_push": 10.700652060622122,
+      "ratio_body_undist": 35000.40380914781,
+      "caught_body_only": 120,
+      "fp_push": 71,
+      "undist_flagged": 4,
+      "r_motion": 0.953849647450487,
+      "r_motion_undist": 0.3638216827334231
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "med_undist": 0.00021867948829253694,
+      "med_body": 4.715846512337048,
+      "med_push": 0.00018092247655317808,
+      "ratio_body_undist": 21565.106764967633,
+      "caught_body_only": 120,
+      "fp_push": 9,
+      "undist_flagged": 4,
+      "r_motion": 0.9748754646204788,
+      "r_motion_undist": 0.15417021854751511
+     },
+     "late_fp_by_torque": {
+      "1": 2,
+      "2": 4,
+      "4": 3
+     },
+     "late_fp_by_duration": {
+      "short": 6,
+      "medium": 3
+     },
+     "late_fp_by_recovery": {
+      "recovered": [
+       4,
+       115
+      ],
+      "not_recovered": [
+       5,
+       5
+      ]
+     },
+     "ratio_auc_body_push": 0.8596527777777778,
+     "ratio_auc_body_undist": 0.4938194444444444
+    },
+    "raw": {
+     "train": {
+      "heldout_loss": 2.4930025119829224e-06
+     },
+     "early": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5253472222222222,
+      "med_undist": 1.4359317110468338e-06,
+      "med_body": 0.005843875352547911,
+      "med_push": 0.22809381489049793,
+      "ratio_body_undist": 4069.7446177907477,
+      "caught_body_only": 120,
+      "fp_push": 78,
+      "undist_flagged": 6,
+      "r_motion": 0.9585069585632675,
+      "r_motion_undist": 0.44244679233907913
+     },
+     "late": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "med_undist": 1.5756704212321893e-06,
+      "med_body": 0.005541883069236064,
+      "med_push": 1.4319170995591435e-06,
+      "ratio_body_undist": 3517.1587881317582,
+      "caught_body_only": 120,
+      "fp_push": 17,
+      "undist_flagged": 18,
+      "r_motion": 0.9865156707372514,
+      "r_motion_undist": 0.2900598470403304
+     },
+     "ratio_auc_body_push": 0.869375,
+     "ratio_auc_body_undist": 0.5228472222222222
+    }
+   }
+  }
+ },
+ "criteria": {
+  "per_seed": {
+   "0": {
+    "valid": true,
+    "P": false,
+    "L": false
+   },
+   "1": {
+    "valid": true,
+    "P": false,
+    "L": false
+   },
+   "2": {
+    "valid": true,
+    "P": false,
+    "L": false
+   }
+  },
+  "P_holds": false,
+  "L_holds": false
+ }
+}
