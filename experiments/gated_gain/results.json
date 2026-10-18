@@ -1,0 +1,594 @@
+{
+ "versions": {
+  "python": "3.11.15",
+  "numpy": "2.4.6",
+  "torch": "2.14.0+cpu",
+  "test_master_seed": 888000,
+  "train_master_seed": 90000,
+  "model_seeds": [
+   0,
+   1,
+   2
+  ],
+  "preregistration": "PREREG.md (commit 8ade83e)"
+ },
+ "soft_none": {
+  "fell": {
+   "neither": 0,
+   "body_only": 0,
+   "world_only": 60,
+   "body_world": 68
+  },
+  "rung6_B": {
+   "called_body": {
+    "neither": 7,
+    "body_only": 90,
+    "world_only": 3,
+    "body_world": 24
+   },
+   "auc_body_push": 0.9747222222222223
+  },
+  "seeds": {
+   "0": {
+    "heldout_mse": 0.11175034195184708,
+    "verdicts": {
+     "neither": {
+      "body": 1,
+      "world": 119,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 0,
+      "world": 60,
+      "fell": 60
+     },
+     "body_world": {
+      "body": 52,
+      "world": 0,
+      "fell": 68
+     }
+    },
+    "auc_upright_body_push": 1.0,
+    "auc_upright_body_undist": 0.9990277777777777,
+    "median_gain": {
+     "neither": 0.8750994270983379,
+     "body_only": 0.4896501271141336,
+     "world_only": 0.37434892164835826,
+     "body_world": 0.047324148225633945
+    },
+    "median_gain_upright": {
+     "neither": 0.8750994270983379,
+     "body_only": 0.4896501271141336,
+     "world_only": 0.8759285232714712,
+     "body_world": 0.47882575625613133
+    },
+    "r_motion_undist": 0.15193975683656186
+   },
+   "1": {
+    "heldout_mse": 0.1102994903922081,
+    "verdicts": {
+     "neither": {
+      "body": 1,
+      "world": 119,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 0,
+      "world": 60,
+      "fell": 60
+     },
+     "body_world": {
+      "body": 52,
+      "world": 0,
+      "fell": 68
+     }
+    },
+    "auc_upright_body_push": 1.0,
+    "auc_upright_body_undist": 0.9989583333333333,
+    "median_gain": {
+     "neither": 0.8742081422728606,
+     "body_only": 0.4992385464970286,
+     "world_only": 0.3474311645270102,
+     "body_world": 0.008031589134927786
+    },
+    "median_gain_upright": {
+     "neither": 0.8742081422728606,
+     "body_only": 0.4992385464970286,
+     "world_only": 0.8772168854955374,
+     "body_world": 0.4886594265766516
+    },
+    "r_motion_undist": 0.14648261649002892
+   },
+   "2": {
+    "heldout_mse": 0.11399290710687637,
+    "verdicts": {
+     "neither": {
+      "body": 1,
+      "world": 119,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 119,
+      "world": 1,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 0,
+      "world": 60,
+      "fell": 60
+     },
+     "body_world": {
+      "body": 52,
+      "world": 0,
+      "fell": 68
+     }
+    },
+    "auc_upright_body_push": 1.0,
+    "auc_upright_body_undist": 0.99875,
+    "median_gain": {
+     "neither": 0.8753026439065803,
+     "body_only": 0.4961487698183932,
+     "world_only": 0.3458392156848116,
+     "body_world": -0.007449593068867646
+    },
+    "median_gain_upright": {
+     "neither": 0.8753026439065803,
+     "body_only": 0.4961487698183932,
+     "world_only": 0.8762880886220614,
+     "body_world": 0.4842653349635836
+    },
+    "r_motion_undist": 0.14813674412394187
+   }
+  }
+ },
+ "soft_low": {
+  "fell": {
+   "neither": 0,
+   "body_only": 0,
+   "world_only": 60,
+   "body_world": 69
+  },
+  "rung6_B": {
+   "called_body": {
+    "neither": 0,
+    "body_only": 30,
+    "world_only": 0,
+    "body_world": 8
+   },
+   "auc_body_push": 0.9861805555555555
+  },
+  "seeds": {
+   "0": {
+    "heldout_mse": 0.1373322606086731,
+    "verdicts": {
+     "neither": {
+      "body": 7,
+      "world": 113,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 111,
+      "world": 9,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 59,
+      "fell": 60
+     },
+     "body_world": {
+      "body": 50,
+      "world": 1,
+      "fell": 69
+     }
+    },
+    "auc_upright_body_push": 0.9933333333333333,
+    "auc_upright_body_undist": 0.9883333333333333,
+    "median_gain": {
+     "neither": 0.742054666021266,
+     "body_only": 0.5269002212948868,
+     "world_only": 0.28931880522267855,
+     "body_world": 0.013789124739710402
+    },
+    "median_gain_upright": {
+     "neither": 0.742054666021266,
+     "body_only": 0.5269002212948868,
+     "world_only": 0.7523740056242703,
+     "body_world": 0.5173932457995155
+    },
+    "r_motion_undist": 0.03390759680319234
+   },
+   "1": {
+    "heldout_mse": 0.13695873320102692,
+    "verdicts": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 111,
+      "world": 9,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 59,
+      "fell": 60
+     },
+     "body_world": {
+      "body": 50,
+      "world": 1,
+      "fell": 69
+     }
+    },
+    "auc_upright_body_push": 0.9941666666666666,
+    "auc_upright_body_undist": 0.9888194444444445,
+    "median_gain": {
+     "neither": 0.7399860380470867,
+     "body_only": 0.5190374736341554,
+     "world_only": 0.28251212633020845,
+     "body_world": -0.00042248962327446054
+    },
+    "median_gain_upright": {
+     "neither": 0.7399860380470867,
+     "body_only": 0.5190374736341554,
+     "world_only": 0.7530840591631299,
+     "body_world": 0.509506031799949
+    },
+    "r_motion_undist": 0.03371663035442105
+   },
+   "2": {
+    "heldout_mse": 0.1364585906267166,
+    "verdicts": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 111,
+      "world": 9,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 59,
+      "fell": 60
+     },
+     "body_world": {
+      "body": 50,
+      "world": 1,
+      "fell": 69
+     }
+    },
+    "auc_upright_body_push": 0.9934722222222222,
+    "auc_upright_body_undist": 0.988125,
+    "median_gain": {
+     "neither": 0.743660285724814,
+     "body_only": 0.5266570658589709,
+     "world_only": 0.2920701641397946,
+     "body_world": 0.008665054163873046
+    },
+    "median_gain_upright": {
+     "neither": 0.743660285724814,
+     "body_only": 0.5266570658589709,
+     "world_only": 0.7551455760321468,
+     "body_world": 0.5158526233757652
+    },
+    "r_motion_undist": 0.033675255008325036
+   }
+  }
+ },
+ "rigid_none": {
+  "fell": {
+   "neither": 0,
+   "body_only": 22,
+   "world_only": 1,
+   "body_world": 64
+  },
+  "rung6_B": {
+   "called_body": {
+    "neither": 1,
+    "body_only": 105,
+    "world_only": 0,
+    "body_world": 32
+   },
+   "auc_body_push": 0.8890972222222222
+  },
+  "seeds": {
+   "0": {
+    "heldout_mse": 8.193789835786447e-05,
+    "verdicts": {
+     "neither": {
+      "body": 8,
+      "world": 112,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 98,
+      "world": 0,
+      "fell": 22
+     },
+     "world_only": {
+      "body": 6,
+      "world": 113,
+      "fell": 1
+     },
+     "body_world": {
+      "body": 56,
+      "world": 0,
+      "fell": 64
+     }
+    },
+    "auc_upright_body_push": 1.0,
+    "auc_upright_body_undist": 1.0,
+    "median_gain": {
+     "neither": 1.0000933555156188,
+     "body_only": 0.6846506577383275,
+     "world_only": 1.0001070085848136,
+     "body_world": 0.5201741005795502
+    },
+    "median_gain_upright": {
+     "neither": 1.0000933555156188,
+     "body_only": 0.7015126213777896,
+     "world_only": 1.0001073759244,
+     "body_world": 0.7004062979945245
+    },
+    "r_motion_undist": 0.25662986949143496
+   },
+   "1": {
+    "heldout_mse": 8.349823474418372e-06,
+    "verdicts": {
+     "neither": {
+      "body": 3,
+      "world": 117,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 98,
+      "world": 0,
+      "fell": 22
+     },
+     "world_only": {
+      "body": 2,
+      "world": 117,
+      "fell": 1
+     },
+     "body_world": {
+      "body": 56,
+      "world": 0,
+      "fell": 64
+     }
+    },
+    "auc_upright_body_push": 1.0,
+    "auc_upright_body_undist": 1.0,
+    "median_gain": {
+     "neither": 0.9997785546533575,
+     "body_only": 0.683981447219037,
+     "world_only": 0.9997738738490296,
+     "body_world": 0.48070404805142664
+    },
+    "median_gain_upright": {
+     "neither": 0.9997785546533575,
+     "body_only": 0.7009467466344852,
+     "world_only": 0.9997743340718349,
+     "body_world": 0.7002905852701298
+    },
+    "r_motion_undist": 0.2976917971455362
+   },
+   "2": {
+    "heldout_mse": 0.0001355025015072897,
+    "verdicts": {
+     "neither": {
+      "body": 1,
+      "world": 119,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 98,
+      "world": 0,
+      "fell": 22
+     },
+     "world_only": {
+      "body": 4,
+      "world": 115,
+      "fell": 1
+     },
+     "body_world": {
+      "body": 56,
+      "world": 0,
+      "fell": 64
+     }
+    },
+    "auc_upright_body_push": 0.9999142514148517,
+    "auc_upright_body_undist": 1.0,
+    "median_gain": {
+     "neither": 1.0009576677874263,
+     "body_only": 0.685285093837676,
+     "world_only": 1.0009742954053622,
+     "body_world": 0.4316886750639388
+    },
+    "median_gain_upright": {
+     "neither": 1.0009576677874263,
+     "body_only": 0.7022950026412009,
+     "world_only": 1.000976651168769,
+     "body_world": 0.7016782799631996
+    },
+    "r_motion_undist": 0.21831344536598124
+   }
+  }
+ },
+ "medium_none": {
+  "fell": {
+   "neither": 1,
+   "body_only": 120,
+   "world_only": 64,
+   "body_world": 120
+  },
+  "rung6_B": {
+   "called_body": {
+    "neither": 1,
+    "body_only": 0,
+    "world_only": 2,
+    "body_world": 3
+   },
+   "auc_body_push": 0.010625
+  },
+  "seeds": {
+   "0": {
+    "heldout_mse": 0.04109815135598183,
+    "verdicts": {
+     "neither": {
+      "body": 10,
+      "world": 109,
+      "fell": 1
+     },
+     "body_only": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     },
+     "world_only": {
+      "body": 3,
+      "world": 53,
+      "fell": 64
+     },
+     "body_world": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     }
+    },
+    "auc_upright_body_push": null,
+    "auc_upright_body_undist": null,
+    "median_gain": {
+     "neither": 0.9505332915125243,
+     "body_only": 0.09898535151074228,
+     "world_only": 0.1607231415469415,
+     "body_world": 0.05142175985935269
+    },
+    "median_gain_upright": {
+     "neither": 0.9506154885035815,
+     "body_only": null,
+     "world_only": 0.9468761930878615,
+     "body_world": null
+    },
+    "r_motion_undist": -0.3209559798495546
+   },
+   "1": {
+    "heldout_mse": 0.04195849597454071,
+    "verdicts": {
+     "neither": {
+      "body": 11,
+      "world": 108,
+      "fell": 1
+     },
+     "body_only": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     },
+     "world_only": {
+      "body": 3,
+      "world": 53,
+      "fell": 64
+     },
+     "body_world": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     }
+    },
+    "auc_upright_body_push": null,
+    "auc_upright_body_undist": null,
+    "median_gain": {
+     "neither": 0.9420233000125442,
+     "body_only": 0.1194579435259161,
+     "world_only": 0.2117884532092889,
+     "body_world": 0.07116943822334437
+    },
+    "median_gain_upright": {
+     "neither": 0.9423362791089779,
+     "body_only": null,
+     "world_only": 0.9383508195377142,
+     "body_world": null
+    },
+    "r_motion_undist": -0.318883221765625
+   },
+   "2": {
+    "heldout_mse": 0.04031479358673096,
+    "verdicts": {
+     "neither": {
+      "body": 11,
+      "world": 108,
+      "fell": 1
+     },
+     "body_only": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     },
+     "world_only": {
+      "body": 3,
+      "world": 53,
+      "fell": 64
+     },
+     "body_world": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     }
+    },
+    "auc_upright_body_push": null,
+    "auc_upright_body_undist": null,
+    "median_gain": {
+     "neither": 0.952382709932664,
+     "body_only": 0.2939084499519412,
+     "world_only": 0.49310061149652573,
+     "body_world": 0.22393826178669268
+    },
+    "median_gain_upright": {
+     "neither": 0.9524614240222877,
+     "body_only": null,
+     "world_only": 0.9473370947391507,
+     "body_world": null
+    },
+    "r_motion_undist": -0.30317693293812165
+   }
+  }
+ },
+ "criteria": {
+  "per_seed": {
+   "0": {
+    "S": true,
+    "D": true,
+    "A": true
+   },
+   "1": {
+    "S": false,
+    "D": true,
+    "A": true
+   },
+   "2": {
+    "S": false,
+    "D": true,
+    "A": true
+   }
+  },
+  "S": false,
+  "D": true,
+  "A": true,
+  "PASS": false
+ }
+}
