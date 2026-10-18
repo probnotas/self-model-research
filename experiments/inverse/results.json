@@ -1,0 +1,996 @@
+{
+ "versions": {
+  "python": "3.11.15",
+  "numpy": "2.4.6",
+  "torch": "2.14.0+cpu",
+  "train_master_seed": 90000,
+  "test_master_seed": 777000,
+  "seeds": [
+   0,
+   1,
+   2
+  ]
+ },
+ "soft_none": {
+  "n_train": 39487,
+  "seeds": {
+   "0": {
+    "heldout_mse": 0.11171066015958786,
+    "early": {
+     "M": {
+      "auc_body_undist": 0.34270833333333334,
+      "auc_body_push": 0.18340277777777778,
+      "caught_body_only": 5,
+      "fp_push": 62,
+      "undist_flagged": 6,
+      "r_motion": 0.5519368454944965,
+      "r_motion_undist": 0.589405272284432,
+      "fp_by_recovery": {
+       "recovered": [
+        1,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9940972222222222,
+      "auc_body_push": 0.5136805555555556,
+      "caught_body_only": 119,
+      "fp_push": 64,
+      "undist_flagged": 7,
+      "r_motion": -0.7454288738003648,
+      "r_motion_undist": -0.11715212183103738,
+      "median_z": {
+       "neither": 0.5102881463078839,
+       "body_only": -5.096652773957748,
+       "world_only": -4.093769392195257,
+       "body_world": -5.398852346702702
+      },
+      "median_gain": {
+       "neither": 0.8680668733182247,
+       "body_only": 0.49547748006563136,
+       "world_only": 0.5485821862581589
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        59
+       ],
+       "not_recovered": [
+        60,
+        61
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 0.2740972222222222,
+      "auc_body_push": 0.13472222222222222,
+      "caught_body_only": 5,
+      "fp_push": 61,
+      "undist_flagged": 8,
+      "r_motion": 0.620675630523603,
+      "r_motion_undist": 0.5894737729667311,
+      "fp_by_recovery": {
+       "recovered": [
+        0,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9970138888888889,
+      "auc_body_push": 0.49,
+      "caught_body_only": 120,
+      "fp_push": 65,
+      "undist_flagged": 8,
+      "r_motion": -0.8213080047293465,
+      "r_motion_undist": -0.3791728384226036,
+      "median_z": {
+       "neither": 0.4173639260951213,
+       "body_only": -6.283563776990775,
+       "world_only": -28.223270727289616,
+       "body_world": -33.15803202395258
+      },
+      "median_gain": {
+       "neither": 0.8790600835090348,
+       "body_only": 0.48969817914921726,
+       "world_only": 0.07211432785814473
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     }
+    }
+   },
+   "1": {
+    "heldout_mse": 0.1102994903922081,
+    "early": {
+     "M": {
+      "auc_body_undist": 0.3334722222222222,
+      "auc_body_push": 0.17819444444444443,
+      "caught_body_only": 5,
+      "fp_push": 62,
+      "undist_flagged": 5,
+      "r_motion": 0.5528417687939962,
+      "r_motion_undist": 0.5643524060843869,
+      "fp_by_recovery": {
+       "recovered": [
+        1,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9954861111111111,
+      "auc_body_push": 0.4976388888888889,
+      "caught_body_only": 120,
+      "fp_push": 65,
+      "undist_flagged": 6,
+      "r_motion": -0.7438782519194376,
+      "r_motion_undist": -0.11816655730250633,
+      "median_z": {
+       "neither": 0.48618360905261326,
+       "body_only": -5.107991831369555,
+       "world_only": -5.501299076630676,
+       "body_world": -5.962944385982642
+      },
+      "median_gain": {
+       "neither": 0.8663165937142187,
+       "body_only": 0.5115529260162547,
+       "world_only": 0.49932481646899274
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 0.265625,
+      "auc_body_push": 0.13027777777777777,
+      "caught_body_only": 5,
+      "fp_push": 61,
+      "undist_flagged": 8,
+      "r_motion": 0.6213012587941747,
+      "r_motion_undist": 0.5641940776710724,
+      "fp_by_recovery": {
+       "recovered": [
+        0,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9977083333333333,
+      "auc_body_push": 0.49006944444444445,
+      "caught_body_only": 120,
+      "fp_push": 65,
+      "undist_flagged": 8,
+      "r_motion": -0.8219855687187524,
+      "r_motion_undist": -0.38614708970638995,
+      "median_z": {
+       "neither": 0.4014513775110258,
+       "body_only": -6.351440691817525,
+       "world_only": -46.7560851034638,
+       "body_world": -56.78750252129947
+      },
+      "median_gain": {
+       "neither": 0.8780523258125981,
+       "body_only": 0.5039138854484642,
+       "world_only": 0.018277299598046554
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     }
+    }
+   },
+   "2": {
+    "heldout_mse": 0.11399290710687637,
+    "early": {
+     "M": {
+      "auc_body_undist": 0.33479166666666665,
+      "auc_body_push": 0.1795138888888889,
+      "caught_body_only": 5,
+      "fp_push": 62,
+      "undist_flagged": 6,
+      "r_motion": 0.5556280518720268,
+      "r_motion_undist": 0.5706486934734504,
+      "fp_by_recovery": {
+       "recovered": [
+        1,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.994375,
+      "auc_body_push": 0.5140972222222222,
+      "caught_body_only": 119,
+      "fp_push": 65,
+      "undist_flagged": 7,
+      "r_motion": -0.7431641224688316,
+      "r_motion_undist": -0.11413176003078601,
+      "median_z": {
+       "neither": 0.5130131859855414,
+       "body_only": -5.072724665770691,
+       "world_only": -3.6429400966777337,
+       "body_world": -5.169122799213924
+      },
+      "median_gain": {
+       "neither": 0.8679899533554464,
+       "body_only": 0.5015084363593894,
+       "world_only": 0.5771360852565222
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 0.2654861111111111,
+      "auc_body_push": 0.1309722222222222,
+      "caught_body_only": 5,
+      "fp_push": 61,
+      "undist_flagged": 8,
+      "r_motion": 0.624322326487232,
+      "r_motion_undist": 0.5719411199735279,
+      "fp_by_recovery": {
+       "recovered": [
+        0,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9971527777777778,
+      "auc_body_push": 0.48986111111111114,
+      "caught_body_only": 120,
+      "fp_push": 65,
+      "undist_flagged": 8,
+      "r_motion": -0.8210845693442458,
+      "r_motion_undist": -0.3773219720577991,
+      "median_z": {
+       "neither": 0.4126702394513162,
+       "body_only": -6.228827849134493,
+       "world_only": -44.99063306768783,
+       "body_world": -158.90978279977114
+      },
+      "median_gain": {
+       "neither": 0.8784684859359753,
+       "body_only": 0.49654294448457825,
+       "world_only": 0.017780021808394476
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        59
+       ],
+       "not_recovered": [
+        61,
+        61
+       ]
+      }
+     }
+    }
+   }
+  }
+ },
+ "soft_low": {
+  "n_train": 39487,
+  "seeds": {
+   "0": {
+    "heldout_mse": 0.1373322606086731,
+    "early": {
+     "M": {
+      "auc_body_undist": 0.8063888888888889,
+      "auc_body_push": 0.37041666666666667,
+      "caught_body_only": 57,
+      "fp_push": 67,
+      "undist_flagged": 7,
+      "r_motion": -0.23933165237146917,
+      "r_motion_undist": 0.29696871751367937,
+      "fp_by_recovery": {
+       "recovered": [
+        5,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9872222222222222,
+      "auc_body_push": 0.5102777777777778,
+      "caught_body_only": 103,
+      "fp_push": 61,
+      "undist_flagged": 1,
+      "r_motion": -0.651728910153167,
+      "r_motion_undist": 0.2029861622618742,
+      "median_z": {
+       "neither": 0.26979417281503293,
+       "body_only": -3.0020851021064745,
+       "world_only": -2.1799235776082653,
+       "body_world": -4.132162050053258
+      },
+      "median_gain": {
+       "neither": 0.7505817277691552,
+       "body_only": 0.5203307476261443,
+       "world_only": 0.5705872820169577
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        1,
+        58
+       ],
+       "not_recovered": [
+        60,
+        62
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 0.8552083333333333,
+      "auc_body_push": 0.3894444444444444,
+      "caught_body_only": 51,
+      "fp_push": 67,
+      "undist_flagged": 1,
+      "r_motion": -0.32659463642134734,
+      "r_motion_undist": 0.2886474855526961,
+      "fp_by_recovery": {
+       "recovered": [
+        5,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9890972222222222,
+      "auc_body_push": 0.47756944444444444,
+      "caught_body_only": 112,
+      "fp_push": 64,
+      "undist_flagged": 3,
+      "r_motion": -0.7150373817448787,
+      "r_motion_undist": -0.043278078174218734,
+      "median_z": {
+       "neither": 0.23063584203888243,
+       "body_only": -3.4313926124535117,
+       "world_only": -33.2878369709149,
+       "body_world": -40.5783156314378
+      },
+      "median_gain": {
+       "neither": 0.7501375412229474,
+       "body_only": 0.5193329683638779,
+       "world_only": 0.025936904558109826
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        2,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     }
+    }
+   },
+   "1": {
+    "heldout_mse": 0.13695873320102692,
+    "early": {
+     "M": {
+      "auc_body_undist": 0.8107638888888888,
+      "auc_body_push": 0.37555555555555553,
+      "caught_body_only": 58,
+      "fp_push": 67,
+      "undist_flagged": 7,
+      "r_motion": -0.24646652881591744,
+      "r_motion_undist": 0.2957385488250511,
+      "fp_by_recovery": {
+       "recovered": [
+        5,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9875694444444445,
+      "auc_body_push": 0.5163194444444444,
+      "caught_body_only": 105,
+      "fp_push": 60,
+      "undist_flagged": 1,
+      "r_motion": -0.6554984159998283,
+      "r_motion_undist": 0.19627622559320151,
+      "median_z": {
+       "neither": 0.2789214802790225,
+       "body_only": -3.038525770664541,
+       "world_only": -1.7434008490287924,
+       "body_world": -4.088989637509142
+      },
+      "median_gain": {
+       "neither": 0.7497621416079068,
+       "body_only": 0.5158879918580955,
+       "world_only": 0.597212193963921
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        2,
+        58
+       ],
+       "not_recovered": [
+        58,
+        62
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 0.8604166666666667,
+      "auc_body_push": 0.3921527777777778,
+      "caught_body_only": 51,
+      "fp_push": 68,
+      "undist_flagged": 0,
+      "r_motion": -0.3403484207338644,
+      "r_motion_undist": 0.27244909842442344,
+      "fp_by_recovery": {
+       "recovered": [
+        6,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9892361111111111,
+      "auc_body_push": 0.4779861111111111,
+      "caught_body_only": 112,
+      "fp_push": 64,
+      "undist_flagged": 2,
+      "r_motion": -0.7176792254186701,
+      "r_motion_undist": -0.03991924542154666,
+      "median_z": {
+       "neither": 0.20891884618779194,
+       "body_only": -3.495903910227041,
+       "world_only": -43.140160883733145,
+       "body_world": -133.98076685451468
+      },
+      "median_gain": {
+       "neither": 0.7472944851358615,
+       "body_only": 0.5144360210966159,
+       "world_only": 0.009471225889214787
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        2,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     }
+    }
+   },
+   "2": {
+    "heldout_mse": 0.1364585906267166,
+    "early": {
+     "M": {
+      "auc_body_undist": 0.8060416666666667,
+      "auc_body_push": 0.37041666666666667,
+      "caught_body_only": 59,
+      "fp_push": 67,
+      "undist_flagged": 7,
+      "r_motion": -0.23262212522917808,
+      "r_motion_undist": 0.3149675778990004,
+      "fp_by_recovery": {
+       "recovered": [
+        5,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9872222222222222,
+      "auc_body_push": 0.5152777777777777,
+      "caught_body_only": 104,
+      "fp_push": 59,
+      "undist_flagged": 1,
+      "r_motion": -0.6502736506995607,
+      "r_motion_undist": 0.20959492840735724,
+      "median_z": {
+       "neither": 0.28696954133091657,
+       "body_only": -2.9909322167765637,
+       "world_only": -1.7770843859393946,
+       "body_world": -4.083484038523262
+      },
+      "median_gain": {
+       "neither": 0.7545933329255908,
+       "body_only": 0.5208212351578525,
+       "world_only": 0.5976127097674637
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        1,
+        58
+       ],
+       "not_recovered": [
+        58,
+        62
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 0.8536111111111111,
+      "auc_body_push": 0.388125,
+      "caught_body_only": 49,
+      "fp_push": 66,
+      "undist_flagged": 1,
+      "r_motion": -0.3250722185953586,
+      "r_motion_undist": 0.29176023037361665,
+      "fp_by_recovery": {
+       "recovered": [
+        4,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 0.9890972222222222,
+      "auc_body_push": 0.4774305555555556,
+      "caught_body_only": 112,
+      "fp_push": 64,
+      "undist_flagged": 2,
+      "r_motion": -0.7144520821642052,
+      "r_motion_undist": -0.034968685556614434,
+      "median_z": {
+       "neither": 0.20759019442935134,
+       "body_only": -3.4194053530324906,
+       "world_only": -32.59638295367407,
+       "body_world": -46.53226883581111
+      },
+      "median_gain": {
+       "neither": 0.7509714628484481,
+       "body_only": 0.5203374581049132,
+       "world_only": 0.02720242235292067
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        2,
+        58
+       ],
+       "not_recovered": [
+        62,
+        62
+       ]
+      }
+     }
+    }
+   }
+  }
+ },
+ "rigid_none": {
+  "n_train": 39487,
+  "seeds": {
+   "0": {
+    "heldout_mse": 8.193789835786447e-05,
+    "early": {
+     "M": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5963194444444444,
+      "caught_body_only": 120,
+      "fp_push": 75,
+      "undist_flagged": 1,
+      "r_motion": 0.8512747019365287,
+      "r_motion_undist": 0.21063702641798543,
+      "fp_by_recovery": {
+       "recovered": [
+        70,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5511458333333333,
+      "caught_body_only": 120,
+      "fp_push": 64,
+      "undist_flagged": 3,
+      "r_motion": 0.7760604252197775,
+      "r_motion_undist": 0.17338789217348577,
+      "median_z": {
+       "neither": 0.25787025151992804,
+       "body_only": -1316.1739232093728,
+       "world_only": -1111.333633067009,
+       "body_world": -1653.3926063867807
+      },
+      "median_gain": {
+       "neither": 1.0000887563531329,
+       "body_only": 0.67614056706356,
+       "world_only": 0.7186668613178266
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        59,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "caught_body_only": 120,
+      "fp_push": 20,
+      "undist_flagged": 8,
+      "r_motion": 0.9665217543726917,
+      "r_motion_undist": 0.14822250271466678,
+      "fp_by_recovery": {
+       "recovered": [
+        15,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.961875,
+      "caught_body_only": 120,
+      "fp_push": 19,
+      "undist_flagged": 10,
+      "r_motion": 0.8929146068718048,
+      "r_motion_undist": 0.1528793408790298,
+      "median_z": {
+       "neither": 0.14174619898430674,
+       "body_only": -1965.9962359152769,
+       "world_only": 0.25237718564483785,
+       "body_world": -5322.597698430076
+      },
+      "median_gain": {
+       "neither": 1.0000721353075988,
+       "body_only": 0.6807265979568651,
+       "world_only": 1.0000937815930866
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        14,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     }
+    }
+   },
+   "1": {
+    "heldout_mse": 8.349823474418372e-06,
+    "early": {
+     "M": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.6359722222222223,
+      "caught_body_only": 120,
+      "fp_push": 68,
+      "undist_flagged": 0,
+      "r_motion": 0.8223351876332211,
+      "r_motion_undist": 0.18964205945171725,
+      "fp_by_recovery": {
+       "recovered": [
+        63,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5484375,
+      "caught_body_only": 120,
+      "fp_push": 63,
+      "undist_flagged": 3,
+      "r_motion": 0.6750459723594688,
+      "r_motion_undist": 0.3926715592081225,
+      "median_z": {
+       "neither": 0.3035351961355508,
+       "body_only": -1650.7371402468166,
+       "world_only": -1428.8299256352175,
+       "body_world": -2537.692394192457
+      },
+      "median_gain": {
+       "neither": 0.9997719851270034,
+       "body_only": 0.6756257902326297,
+       "world_only": 0.7121647974762793
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        58,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "caught_body_only": 120,
+      "fp_push": 17,
+      "undist_flagged": 9,
+      "r_motion": 0.957465442091932,
+      "r_motion_undist": 0.15392271555677559,
+      "fp_by_recovery": {
+       "recovered": [
+        12,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9611111111111111,
+      "caught_body_only": 120,
+      "fp_push": 18,
+      "undist_flagged": 9,
+      "r_motion": 0.8977738436749199,
+      "r_motion_undist": 0.1628936740581722,
+      "median_z": {
+       "neither": 0.11147192247309802,
+       "body_only": -2605.3739612658455,
+       "world_only": 0.14466779336316707,
+       "body_world": -6760.659994143663
+      },
+      "median_gain": {
+       "neither": 0.9997685462138867,
+       "body_only": 0.6801839558488681,
+       "world_only": 0.9997734523288209
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        13,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     }
+    }
+   },
+   "2": {
+    "heldout_mse": 0.0001355025015072897,
+    "early": {
+     "M": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.6545138888888888,
+      "caught_body_only": 120,
+      "fp_push": 71,
+      "undist_flagged": 2,
+      "r_motion": 0.8298926867485632,
+      "r_motion_undist": 0.04683678552293364,
+      "fp_by_recovery": {
+       "recovered": [
+        66,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.5874652777777778,
+      "caught_body_only": 120,
+      "fp_push": 67,
+      "undist_flagged": 8,
+      "r_motion": 0.6090489641133953,
+      "r_motion_undist": -0.08771867538723907,
+      "median_z": {
+       "neither": 0.33332503446069695,
+       "body_only": -1377.600213373346,
+       "world_only": -836.1583749362678,
+       "body_world": -1926.2786854133776
+      },
+      "median_gain": {
+       "neither": 1.0009949171528718,
+       "body_only": 0.6769618282236525,
+       "world_only": 0.7894251636691465
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        62,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     }
+    },
+    "late": {
+     "M": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9663194444444444,
+      "caught_body_only": 120,
+      "fp_push": 8,
+      "undist_flagged": 4,
+      "r_motion": 0.9616589293216737,
+      "r_motion_undist": 0.11724737125803406,
+      "fp_by_recovery": {
+       "recovered": [
+        3,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     },
+     "G": {
+      "auc_body_undist": 1.0,
+      "auc_body_push": 0.9621180555555556,
+      "caught_body_only": 120,
+      "fp_push": 11,
+      "undist_flagged": 5,
+      "r_motion": 0.8979424277108565,
+      "r_motion_undist": 0.12409554344525278,
+      "median_z": {
+       "neither": 0.03982977936560153,
+       "body_only": -1061.6999557247111,
+       "world_only": 0.13443323961312062,
+       "body_world": -3074.857488301262
+      },
+      "median_gain": {
+       "neither": 1.0009288990942,
+       "body_only": 0.6814833371584053,
+       "world_only": 1.0009631834865809
+      },
+      "fp_by_recovery": {
+       "recovered": [
+        6,
+        115
+       ],
+       "not_recovered": [
+        5,
+        5
+       ]
+      }
+     }
+    }
+   }
+  }
+ },
+ "criteria": {
+  "per_seed": {
+   "0": {
+    "M1": false,
+    "M2": false,
+    "G": false
+   },
+   "1": {
+    "M1": false,
+    "M2": false,
+    "G": false
+   },
+   "2": {
+    "M1": false,
+    "M2": false,
+    "G": false
+   }
+  },
+  "M1": false,
+  "M2": false,
+  "G": false
+ }
+}
