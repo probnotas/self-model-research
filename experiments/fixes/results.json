@@ -1,0 +1,899 @@
+{
+ "versions": {
+  "python": "3.11.15",
+  "numpy": "2.4.6",
+  "torch": "2.14.0+cpu",
+  "test_master_seed": 999000,
+  "n_calib": 150,
+  "n_hanging_calib": 50,
+  "gain_threshold": 2.5,
+  "probe_threshold": 3.0,
+  "probe": {
+   "settle": 40,
+   "probe": 60,
+   "amp": 1.0,
+   "freq": 1.5
+  },
+  "model_seeds": [
+   0,
+   1,
+   2
+  ],
+  "preregistration": "PREREG.md"
+ },
+ "soft_none": {
+  "fell": {
+   "neither": 0,
+   "body_only": 0,
+   "world_only": 62,
+   "body_world": 64
+  },
+  "z_probe_fallen": {
+   "neither": null,
+   "body_only": null,
+   "world_only": [
+    0.14480286029762762,
+    0.5708546605227028,
+    0.8927047739298593
+   ],
+   "body_world": [
+    -37.516057613907456,
+    -20.489094477373815,
+    -11.028204716690619
+   ]
+  },
+  "seeds": {
+   "0": {
+    "verdicts": {
+     "neither": {
+      "body": 5,
+      "world": 115
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 119
+     },
+     "body_world": {
+      "body": 120,
+      "world": 0
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 5,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 120,
+      "fell_body": 0
+     },
+     "world_only": {
+      "upright_body": 1,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 56,
+      "fell_body": 64
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 9,
+      "world": 111,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 3,
+      "world": 55,
+      "fell": 62
+     },
+     "body_world": {
+      "body": 56,
+      "world": 0,
+      "fell": 64
+     }
+    },
+    "auc_body_push": 1.0,
+    "auc_body_undist": 0.9992361111111111
+   },
+   "1": {
+    "verdicts": {
+     "neither": {
+      "body": 6,
+      "world": 114
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 119
+     },
+     "body_world": {
+      "body": 120,
+      "world": 0
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 6,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 120,
+      "fell_body": 0
+     },
+     "world_only": {
+      "upright_body": 1,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 56,
+      "fell_body": 64
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 8,
+      "world": 112,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 3,
+      "world": 55,
+      "fell": 62
+     },
+     "body_world": {
+      "body": 56,
+      "world": 0,
+      "fell": 64
+     }
+    },
+    "auc_body_push": 1.0,
+    "auc_body_undist": 0.9995833333333334
+   },
+   "2": {
+    "verdicts": {
+     "neither": {
+      "body": 5,
+      "world": 115
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 119
+     },
+     "body_world": {
+      "body": 120,
+      "world": 0
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 5,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 120,
+      "fell_body": 0
+     },
+     "world_only": {
+      "upright_body": 1,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 56,
+      "fell_body": 64
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 9,
+      "world": 111,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 3,
+      "world": 55,
+      "fell": 62
+     },
+     "body_world": {
+      "body": 56,
+      "world": 0,
+      "fell": 64
+     }
+    },
+    "auc_body_push": 1.0,
+    "auc_body_undist": 0.9991666666666666
+   }
+  }
+ },
+ "soft_low": {
+  "fell": {
+   "neither": 0,
+   "body_only": 0,
+   "world_only": 61,
+   "body_world": 75
+  },
+  "z_probe_fallen": {
+   "neither": null,
+   "body_only": null,
+   "world_only": [
+    -1.0612324633499772,
+    0.5383111906486058,
+    2.270601968713316
+   ],
+   "body_world": [
+    -32.278790445433124,
+    -17.545651856540175,
+    -9.400672630654471
+   ]
+  },
+  "seeds": {
+   "0": {
+    "verdicts": {
+     "neither": {
+      "body": 3,
+      "world": 117
+     },
+     "body_only": {
+      "body": 106,
+      "world": 14
+     },
+     "world_only": {
+      "body": 0,
+      "world": 120
+     },
+     "body_world": {
+      "body": 117,
+      "world": 3
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 3,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 106,
+      "fell_body": 0
+     },
+     "world_only": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 42,
+      "fell_body": 75
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 115,
+      "world": 5,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 2,
+      "world": 57,
+      "fell": 61
+     },
+     "body_world": {
+      "body": 44,
+      "world": 1,
+      "fell": 75
+     }
+    },
+    "auc_body_push": 0.996875,
+    "auc_body_undist": 0.9927777777777778
+   },
+   "1": {
+    "verdicts": {
+     "neither": {
+      "body": 3,
+      "world": 117
+     },
+     "body_only": {
+      "body": 107,
+      "world": 13
+     },
+     "world_only": {
+      "body": 0,
+      "world": 120
+     },
+     "body_world": {
+      "body": 117,
+      "world": 3
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 3,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 107,
+      "fell_body": 0
+     },
+     "world_only": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 42,
+      "fell_body": 75
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 115,
+      "world": 5,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 58,
+      "fell": 61
+     },
+     "body_world": {
+      "body": 44,
+      "world": 1,
+      "fell": 75
+     }
+    },
+    "auc_body_push": 0.9970833333333333,
+    "auc_body_undist": 0.9935416666666667
+   },
+   "2": {
+    "verdicts": {
+     "neither": {
+      "body": 3,
+      "world": 117
+     },
+     "body_only": {
+      "body": 106,
+      "world": 14
+     },
+     "world_only": {
+      "body": 0,
+      "world": 120
+     },
+     "body_world": {
+      "body": 117,
+      "world": 3
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 3,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 106,
+      "fell_body": 0
+     },
+     "world_only": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 42,
+      "fell_body": 75
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 115,
+      "world": 5,
+      "fell": 0
+     },
+     "world_only": {
+      "body": 1,
+      "world": 58,
+      "fell": 61
+     },
+     "body_world": {
+      "body": 44,
+      "world": 1,
+      "fell": 75
+     }
+    },
+    "auc_body_push": 0.9969444444444444,
+    "auc_body_undist": 0.9928472222222222
+   }
+  }
+ },
+ "rigid_none": {
+  "fell": {
+   "neither": 0,
+   "body_only": 24,
+   "world_only": 2,
+   "body_world": 65
+  },
+  "z_probe_fallen": {
+   "neither": null,
+   "body_only": [
+    -18.01040675665631,
+    4.412809110174798,
+    7.607757938256836
+   ],
+   "world_only": [
+    -0.13731950370133186,
+    -0.06880006459908,
+    -0.00028062549682814997
+   ],
+   "body_world": [
+    -10.956386365227786,
+    -4.316679191446423,
+    8.620089630909925
+   ]
+  },
+  "seeds": {
+   "0": {
+    "verdicts": {
+     "neither": {
+      "body": 5,
+      "world": 115
+     },
+     "body_only": {
+      "body": 115,
+      "world": 5
+     },
+     "world_only": {
+      "body": 4,
+      "world": 116
+     },
+     "body_world": {
+      "body": 105,
+      "world": 15
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 5,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 96,
+      "fell_body": 19
+     },
+     "world_only": {
+      "upright_body": 4,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 55,
+      "fell_body": 50
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 96,
+      "world": 0,
+      "fell": 24
+     },
+     "world_only": {
+      "body": 6,
+      "world": 112,
+      "fell": 2
+     },
+     "body_world": {
+      "body": 55,
+      "world": 0,
+      "fell": 65
+     }
+    },
+    "auc_body_push": 0.9886111111111111,
+    "auc_body_undist": 0.99
+   },
+   "1": {
+    "verdicts": {
+     "neither": {
+      "body": 1,
+      "world": 119
+     },
+     "body_only": {
+      "body": 115,
+      "world": 5
+     },
+     "world_only": {
+      "body": 3,
+      "world": 117
+     },
+     "body_world": {
+      "body": 105,
+      "world": 15
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 1,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 96,
+      "fell_body": 19
+     },
+     "world_only": {
+      "upright_body": 3,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 55,
+      "fell_body": 50
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 3,
+      "world": 117,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 96,
+      "world": 0,
+      "fell": 24
+     },
+     "world_only": {
+      "body": 4,
+      "world": 114,
+      "fell": 2
+     },
+     "body_world": {
+      "body": 55,
+      "world": 0,
+      "fell": 65
+     }
+    },
+    "auc_body_push": 0.990625,
+    "auc_body_undist": 0.9907638888888889
+   },
+   "2": {
+    "verdicts": {
+     "neither": {
+      "body": 6,
+      "world": 114
+     },
+     "body_only": {
+      "body": 115,
+      "world": 5
+     },
+     "world_only": {
+      "body": 5,
+      "world": 115
+     },
+     "body_world": {
+      "body": 105,
+      "world": 15
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 6,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 96,
+      "fell_body": 19
+     },
+     "world_only": {
+      "upright_body": 5,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 55,
+      "fell_body": 50
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 6,
+      "world": 114,
+      "fell": 0
+     },
+     "body_only": {
+      "body": 96,
+      "world": 0,
+      "fell": 24
+     },
+     "world_only": {
+      "body": 10,
+      "world": 108,
+      "fell": 2
+     },
+     "body_world": {
+      "body": 55,
+      "world": 0,
+      "fell": 65
+     }
+    },
+    "auc_body_push": 0.9865277777777778,
+    "auc_body_undist": 0.9871527777777778
+   }
+  }
+ },
+ "medium_none": {
+  "fell": {
+   "neither": 3,
+   "body_only": 120,
+   "world_only": 65,
+   "body_world": 120
+  },
+  "z_probe_fallen": {
+   "neither": [
+    0.04611696535797736,
+    0.118164676926691,
+    0.47464637975958346
+   ],
+   "body_only": [
+    -190.43209385460136,
+    -105.54291977468853,
+    -56.742210093585015
+   ],
+   "world_only": [
+    -0.5842187448850906,
+    -0.1739218284898277,
+    0.24929512192982922
+   ],
+   "body_world": [
+    -192.42498798051216,
+    -101.13965888788022,
+    -56.36415110315034
+   ]
+  },
+  "seeds": {
+   "0": {
+    "verdicts": {
+     "neither": {
+      "body": 0,
+      "world": 120
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0
+     },
+     "world_only": {
+      "body": 0,
+      "world": 120
+     },
+     "body_world": {
+      "body": 120,
+      "world": 0
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 0,
+      "fell_body": 120
+     },
+     "world_only": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 0,
+      "fell_body": 120
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 0,
+      "world": 117,
+      "fell": 3
+     },
+     "body_only": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     },
+     "world_only": {
+      "body": 0,
+      "world": 55,
+      "fell": 65
+     },
+     "body_world": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     }
+    },
+    "auc_body_push": 1.0,
+    "auc_body_undist": 1.0
+   },
+   "1": {
+    "verdicts": {
+     "neither": {
+      "body": 0,
+      "world": 120
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0
+     },
+     "world_only": {
+      "body": 0,
+      "world": 120
+     },
+     "body_world": {
+      "body": 120,
+      "world": 0
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 0,
+      "fell_body": 120
+     },
+     "world_only": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 0,
+      "fell_body": 120
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 0,
+      "world": 117,
+      "fell": 3
+     },
+     "body_only": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     },
+     "world_only": {
+      "body": 0,
+      "world": 55,
+      "fell": 65
+     },
+     "body_world": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     }
+    },
+    "auc_body_push": 1.0,
+    "auc_body_undist": 1.0
+   },
+   "2": {
+    "verdicts": {
+     "neither": {
+      "body": 0,
+      "world": 120
+     },
+     "body_only": {
+      "body": 120,
+      "world": 0
+     },
+     "world_only": {
+      "body": 0,
+      "world": 120
+     },
+     "body_world": {
+      "body": 120,
+      "world": 0
+     }
+    },
+    "verdicts_by_branch": {
+     "neither": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_only": {
+      "upright_body": 0,
+      "fell_body": 120
+     },
+     "world_only": {
+      "upright_body": 0,
+      "fell_body": 0
+     },
+     "body_world": {
+      "upright_body": 0,
+      "fell_body": 120
+     }
+    },
+    "old_rule": {
+     "neither": {
+      "body": 0,
+      "world": 117,
+      "fell": 3
+     },
+     "body_only": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     },
+     "world_only": {
+      "body": 0,
+      "world": 55,
+      "fell": 65
+     },
+     "body_world": {
+      "body": 0,
+      "world": 0,
+      "fell": 120
+     }
+    },
+    "auc_body_push": 1.0,
+    "auc_body_undist": 1.0
+   }
+  }
+ },
+ "criteria": {
+  "per_seed": {
+   "0": {
+    "S": true,
+    "D": true,
+    "A": true
+   },
+   "1": {
+    "S": true,
+    "D": true,
+    "A": true
+   },
+   "2": {
+    "S": true,
+    "D": true,
+    "A": true
+   }
+  },
+  "S": true,
+  "D": true,
+  "A": true,
+  "PASS": true
+ }
+}
