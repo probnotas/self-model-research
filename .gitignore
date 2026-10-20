@@ -12,3 +12,4 @@ surprise_attribution/results_history/episodes/
 surprise_attribution/results_replication/episodes/
 experiments/gated_gain/episodes/
 experiments/fixes/episodes/
+experiments/brax_ant/out/
