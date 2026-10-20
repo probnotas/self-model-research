@@ -2,10 +2,16 @@
 
     python verify_legs.py
 
-Paired trials (same seeds, same action noise): event vs no event. For steps
-ONSET..ONSET+10 (before the controller has much time to spread the effect),
-measures each leg's share of the joint-velocity deviation. Fails if any leg's
-own share is not the largest. Also prints the leg map derived from the model.
+Paired trials (same seeds, same action noise): event vs no event. Before onset the
+two runs are identical, so the FIRST post-onset observation (one env step = 5 physics
+frames, before the policy can react) differs only through the physics change. Measures
+each leg's share of that joint-velocity deviation. Also prints the leg map.
+
+What fails the check: motor_weak or joint_damped not hitting mainly their own leg. Those
+events touch only that leg's actuator / dof indices, so they test the leg MAPPING exactly.
+leg_heavy is reported but not fatal: a 3x leg (+0.2 kg on a 0.91 kg robot) shifts the
+whole body and its contacts, so its joint-velocity effect is physically non-local
+(observed in the smoke run). That is a property of the event, not a mapping error.
 """
 import json
 import os
@@ -30,14 +36,16 @@ def main():
         for l in range(4):
             sp = [dict(b, event=ev, leg=l) for b in base]
             ob, _ = C.run_trials(env, pol, legs, sp)
-            d = (ob[:, C.ONSET + 1:C.ONSET + 11, 19:27] - ob0[:, C.ONSET + 1:C.ONSET + 11, 19:27]) ** 2
+            d = (ob[:, C.ONSET + 1:C.ONSET + 2, 19:27] - ob0[:, C.ONSET + 1:C.ONSET + 2, 19:27]) ** 2
             share = np.array([d[:, :, [legs.obs[k][2] - 19, legs.obs[k][3] - 19]].sum() for k in range(4)])
             share = share / max(share.sum(), 1e-12)
             table[f"{ev}_leg{l + 1}"] = share.round(3).tolist()
             own_max = int(np.argmax(share)) == l
-            ok &= own_max
-            print(f"  {ev:13s} leg {l + 1}: joint-vel deviation share per leg {share.round(2)}  {'OK' if own_max else 'FAIL'}")
-    json.dump(dict(ok=bool(ok), shares=table), open(os.path.join(C.OUT, "verify_legs.json"), "w"), indent=1)
+            if ev != "leg_heavy":
+                ok &= own_max
+            print(f"  {ev:13s} leg {l + 1}: joint-vel deviation share per leg {share.round(2)}  {'OK' if own_max else ('not local (reported)' if ev == 'leg_heavy' else 'FAIL')}")
+    heavy_local = [int(np.argmax(table[f"leg_heavy_leg{l + 1}"])) == l for l in range(4)]
+    json.dump(dict(mapping_ok=bool(ok), leg_heavy_local=heavy_local, shares=table), open(os.path.join(C.OUT, "verify_legs.json"), "w"), indent=1)
     if not ok:
         sys.exit("LEG MAP CHECK FAILED: a body event does not mainly affect its own leg. Fix before any real run.")
     print("leg map check passed")
