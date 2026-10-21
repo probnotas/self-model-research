@@ -2,10 +2,11 @@
 
     python verify_legs.py
 
-Paired trials (same seeds, same action noise): event vs no event. Before onset the
-two runs are identical, so the FIRST post-onset observation (one env step = 5 physics
-frames, before the policy can react) differs only through the physics change. Measures
-each leg's share of that joint-velocity deviation. Also prints the leg map.
+Branch test: roll healthy to the onset, then take ONE env step (5 physics frames, same
+action) from that exact state twice - healthy model vs event model. The difference is
+purely the physics change (no policy reaction, and immune to GPU non-determinism, which
+broke an earlier version that compared two separate runs). Measures each leg's share of
+that joint-velocity difference. Also prints the leg map.
 
 What fails the check: motor_weak or joint_damped not hitting mainly their own leg. Those
 events touch only that leg's actuator / dof indices, so they test the leg MAPPING exactly.
@@ -29,15 +30,19 @@ def main():
     print("  actuator_trnid joints:", np.asarray(env.sys.actuator_trnid)[:, 0].tolist())
     pol = C.policy_fn(env)
     seeds = [5000 + i for i in range(8)]
+    import jax
+    import jax.numpy as jnp
     base = [dict(event=C.NONE, leg=-1, seed=s, push_dir=[1, 0], push_frac=0) for s in seeds]
-    ob0, _ = C.run_trials(env, pol, legs, base)
+    branch = C.make_branch(env, pol, legs)
+    keys = jnp.stack([jax.random.PRNGKey(s) for s in seeds])
     table, ok = {}, True
     for ev in C.BODY_EVENTS:
         for l in range(4):
             sp = [dict(b, event=ev, leg=l) for b in base]
-            ob, _ = C.run_trials(env, pol, legs, sp)
-            d = (ob[:, C.ONSET + 1:C.ONSET + 2, 19:27] - ob0[:, C.ONSET + 1:C.ONSET + 2, 19:27]) ** 2
-            share = np.array([d[:, :, [legs.obs[k][2] - 19, legs.obs[k][3] - 19]].sum() for k in range(4)])
+            ev_arr = {k: v for k, v in C.event_arrays(sp, env.sys, legs).items() if k in ("gear", "mass", "dmul", "dadd")}
+            oh, oe = branch(keys, ev_arr)
+            d = (np.asarray(oe)[:, 19:27] - np.asarray(oh)[:, 19:27]) ** 2
+            share = np.array([d[:, [legs.obs[k][2] - 19, legs.obs[k][3] - 19]].sum() for k in range(4)])
             share = share / max(share.sum(), 1e-12)
             table[f"{ev}_leg{l + 1}"] = share.round(3).tolist()
             own_max = int(np.argmax(share)) == l

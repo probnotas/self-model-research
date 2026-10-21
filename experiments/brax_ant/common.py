@@ -263,3 +263,37 @@ def fell(obs):
     qx, qy = obs[:, ONSET:, 2], obs[:, ONSET:, 3]
     up = 1 - 2 * (qx ** 2 + qy ** 2)
     return ((z < FALL_Z) | (up < 0)).any(1)
+
+
+# ---------------------------------------------------------------- branch check (for verify_legs)
+def make_branch(env, pol, legs):
+    """Roll healthy to ONSET, then take ONE env step from that exact state twice:
+    with the healthy model and with the event model (same action). Immune to GPU
+    non-determinism because both branches start from the same in-memory state."""
+    sys0 = env.sys
+    aq, ad = act_qpos_dof(sys0, legs)
+    pipe, nfr = env._pipeline, env._n_frames
+
+    def advance(sys_t, ps, a):
+        def frame(s, _):
+            return pipe.step(sys_t, s, to_ctrl(a, s, aq, ad)), None
+        return jax.lax.scan(frame, ps, (), nfr)[0]
+
+    def one(key, ev):
+        k_reset, k_noise = jax.random.split(key)
+        ps = env.reset(k_reset).pipeline_state
+
+        def step(carry, _):
+            ps, k = carry
+            k, kn = jax.random.split(k)
+            a = jnp.clip(pol(env._get_obs(ps)) + ACTION_NOISE * jax.random.normal(kn, (env.action_size,)), -1.0, 1.0)
+            return (advance(sys0, ps, a), k), None
+        psO = jax.lax.scan(step, (ps, k_noise), None, ONSET)[0][0]
+        a = pol(env._get_obs(psO))
+        sys_e = sys0.replace(actuator_gear=sys0.actuator_gear * ev["gear"][:, None],
+                             body_mass=sys0.body_mass * ev["mass"],
+                             body_inertia=sys0.body_inertia * ev["mass"][:, None],
+                             dof_damping=sys0.dof_damping * ev["dmul"] + ev["dadd"])
+        return env._get_obs(advance(sys0, psO, a)), env._get_obs(advance(sys_e, psO, a))
+
+    return jax.jit(jax.vmap(one))

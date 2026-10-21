@@ -13,6 +13,12 @@ import time
 def main():
     import common as C
     from brax.training.agents.ppo import train as ppo
+    rep_path = os.path.join(C.OUT, "policy_report.json")
+    if os.path.exists(os.path.join(C.OUT, "policy_params.pkl")) and os.path.exists(rep_path) and os.environ.get("RETRAIN") != "1":
+        r = json.load(open(rep_path))["final_eval_reward"]
+        if C.REWARD_TARGET is None or r >= C.REWARD_TARGET:
+            print(f"policy already trained (eval reward {r:.1f}); skipping PPO. Set RETRAIN=1 to retrain.")
+            return
     env = C.get_train_env()
     log = []
 
