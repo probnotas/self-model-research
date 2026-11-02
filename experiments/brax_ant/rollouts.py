@@ -21,10 +21,13 @@ def main():
     pol = C.policy_fn(env)
     specs = C.trial_specs(split)
     print(f"{split}: {len(specs)} trials", flush=True)
-    obs, act = C.run_trials(env, pol, legs, specs)
-    np.savez_compressed(os.path.join(C.OUT, f"rollouts_{split}.npz"), obs=obs, act=act, fell=C.fell(obs))
+    print(f"action noise {C.ACTION_NOISE}", flush=True)
+    obs, act, base = C.run_trials(env, pol, legs, specs)
+    np.savez_compressed(os.path.join(C.OUT, f"rollouts_{split}.npz"), obs=obs, act=act, base=base, fell=C.fell(obs),
+                        fell_any=C.fell(obs, 0), action_noise=C.ACTION_NOISE)
     json.dump(specs, open(os.path.join(C.OUT, f"specs_{split}.json"), "w"))
-    print(f"saved rollouts_{split}.npz  fell {int(C.fell(obs).sum())}/{len(specs)}")
+    print(f"saved rollouts_{split}.npz  noise {C.ACTION_NOISE}  fell after onset {int(C.fell(obs).sum())}/{len(specs)}"
+          f"  fell at any time {int(C.fell(obs, 0).sum())}/{len(specs)}")
 
 
 if __name__ == "__main__":

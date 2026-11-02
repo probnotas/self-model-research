@@ -36,6 +36,9 @@ def main():
     d = np.load(os.path.join(C.OUT, f"rollouts_{split}.npz"))
     specs = json.load(open(os.path.join(C.OUT, f"specs_{split}.json")))
     obs, act, fell = d["obs"], d["act"], d["fell"]
+    for name, z in (("train", tr), (split, d)):
+        if "action_noise" not in z.files or float(z["action_noise"]) != C.ACTION_NOISE:
+            sys.exit(f"rollouts_{name}.npz was made with a different (or unrecorded) action noise; regenerate it")
     ev = np.array([s["event"] for s in specs]); leg = np.array([s["leg"] for s in specs])
     is_body = np.isin(ev, C.BODY_EVENTS)
     legs = C.leg_map(C.get_train_env().sys)
@@ -46,7 +49,7 @@ def main():
 
     ts = np.arange(C.PRE[0], C.LATE[1])
     w = lambda E, W: E[:, W[0] - ts[0]:W[1] - ts[0]].mean(1)       # mean over window of (n, dims)
-    res = dict(split=split, scale=C.SCALE, compliant=C.COMPLIANT, prereg_sha256=prereg_sha, n=len(specs),
+    res = dict(split=split, scale=C.SCALE, compliant=C.COMPLIANT, action_noise=C.ACTION_NOISE, prereg_sha256=prereg_sha, n=len(specs),
                fall_rate={e: float(fell[ev == e].mean()) for e in np.unique(ev)},
                policy=json.load(open(os.path.join(C.OUT, "policy_report.json")))["final_eval_reward"],
                motion=dict(auc_body_vs_none=auc(motion[is_body], motion[ev == C.NONE]),

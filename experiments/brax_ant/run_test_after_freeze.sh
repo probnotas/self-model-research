@@ -6,3 +6,4 @@ export SCALE=full OUT=${OUT:-/workspace/brax_ant_out}
 python freeze_prereg.py
 python rollouts.py test
 python evaluate.py test
+python gain.py test

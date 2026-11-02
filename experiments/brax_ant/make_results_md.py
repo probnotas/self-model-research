@@ -30,7 +30,8 @@ def main():
     L.append("- **A world event:** a short shove, a steady push, or a payload on the torso.\n")
     L.append("- **Nothing.**\n")
     L.append("We ask whether the self-model's prediction error (1) notices, (2) tells body from world, and (3) points to the right leg.\n")
-    L.append(f"**Controller:** final eval reward {f(R['policy'], 0)} (target about 5000+).\n")
+    L.append(f"**Controller:** final eval reward {f(R['policy'], 0)} (spec asked for about 5000+; accepted below that, see README). "
+             f"Action noise {R.get('action_noise', 'unrecorded')} (spec said 0.1; lowered to cut healthy falls).\n")
     L.append("## What happened (mean, min–max over 3 self-model seeds; AUC 0.5 = coin flip, below 0.5 = backwards)\n")
     L.append("| hypothesis | number | passes on all seeds? |\n|---|---|---|")
     L.append(f"| H1: multi-step error notices body changes (AUC body vs nothing ≥ 0.90) | {span(rng('detect_auc_body_vs_none'))} | {'yes' if hyp['H1'] else 'no'} |")
@@ -54,6 +55,27 @@ def main():
     L.append(f"- **Body vs payload (persist, upright):** {f(ex['persist_auc_body_vs_nonfallen'].get('payload'))}")
     L.append(f"- **Model-free motion signal:** AUC body vs nothing {f(R['motion']['auc_body_vs_none'])}; "
              f"body vs short shove {f(R['motion']['auc_body_vs_push_short'])}\n")
+    gp = os.path.join(C.OUT, "gain_dev_results.json")
+    if os.path.exists(gp):
+        G = json.load(open(gp))
+        gs = sorted(G["seeds"], key=int)
+        gr = lambda fn: [fn(G["seeds"][s]["late"]) for s in gs]
+        L.append("## Command gain: the signal that worked on the pendulum\n")
+        L.append("The motors get a little random noise on top of what the controller asks for. An inverse model, trained on "
+                 "healthy walking only, learns how much each nudge moves each leg. If a leg's nudges stop moving it like "
+                 "they used to (weak motor, heavy leg, stiff joint), that leg's \"gain\" drops. A push on the torso shouldn't "
+                 "change how a leg answers its own motor. Scored on trials where the Ant stayed upright "
+                 f"({G['n'] - G['n_fallen']} of {G['n']}); gain change from before the event (1.0-9.5 s) to late after it (15-19.5 s).\n")
+        L.append("| question | AUC or accuracy (mean, min-max over 3 seeds) |\n|---|---|")
+        L.append(f"| notices body changes (body vs nothing) | {span(gr(lambda o: o['auc_body_vs_none']))} |")
+        for e, name in (("push_short", "short shove"), ("push_sustained", "steady push"), ("payload", "torso payload")):
+            L.append(f"| body change vs {name} | {span(gr(lambda o: o['auc_body_vs'][e]))} |")
+        L.append(f"| names the right leg (chance 0.25) | {span(gr(lambda o: o['leg_accuracy']))} |\n")
+        L.append("**By event** (seed 0; own-leg z below 0 means that leg's gain dropped):\n")
+        L.append("| event | upright trials | median score | AUC vs nothing | right leg | median own-leg z |\n|---|---|---|---|---|---|")
+        for e, v in sorted(G["seeds"][gs[0]]["late"]["per_event"].items()):
+            L.append(f"| {e} | {v['n_upright']} | {f(v['median_score'], 2)} | {f(v['auc_vs_none'])} | {f(v['leg_accuracy'], 2)} | {f(v['median_own_leg_z'], 2)} |")
+        L.append(f"\nFallen trials (left out of the gain scores): {G['fallen_by_event']}\n")
     L.append("## Caveats\n")
     L.append("- **Simulation, not hardware.** One controller and one robot design.")
     L.append("- **These are dev results.** They're used to check the pipeline and set the push range; the test split will be scored once, after the pre-registration is frozen.")

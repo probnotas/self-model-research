@@ -8,5 +8,6 @@ python verify_legs.py || echo "(verify_legs at smoke scale uses an untrained pol
 python rollouts.py train
 python rollouts.py dev
 python evaluate.py dev
+python gain.py dev
 python make_results_md.py
 echo "smoke OK -> $OUT"
