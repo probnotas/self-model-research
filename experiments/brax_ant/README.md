@@ -32,6 +32,17 @@ This ports the soft-pendulum research to a walking robot, as suggested by AMI La
 | 3 | 6, 7 | 10, 11 | 6, 7 | 9, 10, 23, 24 |
 | 4 | 0, 1 | 12, 13 | 8, 9 | 11, 12, 25, 26 |
 
+## Running from your own computer over SSH (recommended)
+
+Open this folder in a Claude Code session on your computer (it reads `CLAUDE.md`), or run the commands yourself:
+
+```bash
+cp pod.env.example pod.env      # fill in from RunPod -> Connect -> "SSH over exposed TCP"
+./pod.sh check && ./pod.sh push && ./pod.sh setup && ./pod.sh run
+./pod.sh status                 # later; then ./pod.sh fetch
+```
+Needs macOS, Linux or WSL with `ssh` and `tar`. Your SSH public key must be in RunPod (Settings -> SSH Public Keys) before the pod starts. Package versions are pinned in `requirements-pod.txt`.
+
 ## RunPod commands (RTX 4090 or A100, CUDA 12 template, network volume at /workspace)
 
 ```bash

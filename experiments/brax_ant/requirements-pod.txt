@@ -1,0 +1,9 @@
+# Exact versions for the RunPod GPU pod (Python 3.12, CUDA 12). Unpinned installs broke once:
+# a newer mujoco-mjx pulled in JAX 0.11, which brax 0.14 can't use. Keep everything pinned.
+jax[cuda12]==0.8.2
+jaxlib==0.8.2
+flax==0.12.6
+brax==0.14.2
+mujoco==3.17.0
+mujoco-mjx==3.17.0
+scikit-learn
