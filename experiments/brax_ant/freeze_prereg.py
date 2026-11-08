@@ -35,6 +35,13 @@ def main():
             H2="multi-step persist = log(late/pre err): AUC body vs push_short >= 0.80, non-fallen trials only",
             H3="multi-step leg localization (argmax per-leg early/pre ratio) accuracy on body events >= 0.50",
             H4="multi-step detect AUC > one-step detect AUC (body vs none)"),
+        gain_hypotheses=dict(
+            G1="command gain (gain.py, late window, upright trials): AUC body vs none >= 0.90",
+            G2="command gain leg localization accuracy on body events >= 0.70 (chance 0.25 with 4 legs)"),
+        gain_rule="G1 and G2 pass only if they hold on all 3 inverse-model seeds; same bars for rigid and compliant",
+        gain_note=(None if C.COMPLIANT else
+                   "rigid: frozen AFTER the rigid dev run already failed G1 (0.737) and G2 (0.546); "
+                   "this test confirms a dev negative, it is not a blind test"),
         exploratory="sustained push and payload vs body; motion signal; per-event breakdowns; fall rates",
         windows=dict(pre=C.PRE, early=C.EARLY, late=C.LATE, onset=C.ONSET, T=C.T_TOTAL),
         events=dict(body=list(C.BODY_EVENTS), world=list(C.WORLD_EVENTS),
