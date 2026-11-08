@@ -4,6 +4,7 @@
 # re-run this after every pod restart; /workspace (policy, outputs) survives.
 set -e
 cd "$(dirname "$0")"
+export PIP_BREAK_SYSTEM_PACKAGES=1        # Ubuntu 24.04 images mark system Python as externally managed (PEP 668); the pod is disposable
 pip install -q --ignore-installed blinker   # RunPod images ship a debian blinker that pip can't uninstall
 pip uninstall -y -q jax jaxlib jax-cuda12-plugin jax-cuda12-pjrt brax mujoco mujoco-mjx flax 2>/dev/null || true
 pip install -q -r requirements-pod.txt

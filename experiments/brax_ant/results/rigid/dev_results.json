@@ -1,0 +1,554 @@
+{
+ "split": "dev",
+ "scale": "full",
+ "compliant": false,
+ "action_noise": 0.05,
+ "prereg_sha256": null,
+ "n": 512,
+ "fall_rate": {
+  "joint_damped": 0.078125,
+  "leg_heavy": 0.15625,
+  "motor_weak": 0.1328125,
+  "none": 0.03125,
+  "payload": 0.09375,
+  "push_short": 0.0625,
+  "push_sustained": 0.125
+ },
+ "policy": 3198.29638671875,
+ "motion": {
+  "auc_body_vs_none": 0.3514811197916667,
+  "auc_body_vs_push_short": 0.40276953511374874
+ },
+ "seeds": {
+  "0": {
+   "one": {
+    "detect_auc_body_vs_none": 0.714599609375,
+    "persist_auc_body_vs_push_short_nonfallen": 0.7984174085064293,
+    "leg_accuracy_body": 0.5338541666666666,
+    "exploratory": {
+     "detect_auc_body_vs": {
+      "push_short": 0.7154947916666666,
+      "push_sustained": 0.6526692708333334,
+      "payload": 0.7401529947916666
+     },
+     "persist_auc_body_vs_nonfallen": {
+      "push_short": 0.7984174085064293,
+      "push_sustained": 0.6572700296735905,
+      "payload": 0.7887035710631332
+     },
+     "persist_auc_body_vs_none": 0.6927897135416666
+    },
+    "per_event": {
+     "joint_damped": {
+      "n": 128,
+      "fall_rate": 0.078125,
+      "median_detect": 0.041127968579530716,
+      "median_persist": 0.12635734677314758,
+      "median_motion": -0.016712423413991928,
+      "detect_auc_vs_none": 0.515380859375,
+      "leg_accuracy": 0.53125
+     },
+     "leg_heavy": {
+      "n": 128,
+      "fall_rate": 0.15625,
+      "median_detect": 0.7700343728065491,
+      "median_persist": 0.7949314117431641,
+      "median_motion": -0.045099422335624695,
+      "detect_auc_vs_none": 0.810546875,
+      "leg_accuracy": 0.2265625
+     },
+     "motor_weak": {
+      "n": 128,
+      "fall_rate": 0.1328125,
+      "median_detect": 0.8086760640144348,
+      "median_persist": 0.8565137982368469,
+      "median_motion": -0.13219772279262543,
+      "detect_auc_vs_none": 0.81787109375,
+      "leg_accuracy": 0.84375
+     },
+     "none": {
+      "n": 32,
+      "fall_rate": 0.03125,
+      "median_detect": 0.06360188871622086,
+      "median_persist": 0.18998707830905914,
+      "median_motion": 0.004725159611552954,
+      "detect_auc_vs_none": null,
+      "leg_accuracy": null
+     },
+     "payload": {
+      "n": 32,
+      "fall_rate": 0.09375,
+      "median_detect": -0.026153266429901123,
+      "median_persist": 0.03126594424247742,
+      "median_motion": -0.009011426940560341,
+      "detect_auc_vs_none": 0.4736328125,
+      "leg_accuracy": null
+     },
+     "push_short": {
+      "n": 32,
+      "fall_rate": 0.0625,
+      "median_detect": -0.009250910952687263,
+      "median_persist": 0.056060679256916046,
+      "median_motion": -0.007709492929279804,
+      "detect_auc_vs_none": 0.52734375,
+      "leg_accuracy": null
+     },
+     "push_sustained": {
+      "n": 32,
+      "fall_rate": 0.125,
+      "median_detect": 0.154306098818779,
+      "median_persist": 0.22037628293037415,
+      "median_motion": -0.051040876656770706,
+      "detect_auc_vs_none": 0.5888671875,
+      "leg_accuracy": null
+     }
+    }
+   },
+   "multi": {
+    "detect_auc_body_vs_none": 0.7434895833333334,
+    "persist_auc_body_vs_push_short_nonfallen": 0.8066271018793274,
+    "leg_accuracy_body": 0.5052083333333334,
+    "exploratory": {
+     "detect_auc_body_vs": {
+      "push_short": 0.6964518229166666,
+      "push_sustained": 0.5843912760416666,
+      "payload": 0.763671875
+     },
+     "persist_auc_body_vs_nonfallen": {
+      "push_short": 0.8066271018793274,
+      "push_sustained": 0.5857354811360747,
+      "payload": 0.8037450117671134
+     },
+     "persist_auc_body_vs_none": 0.7062174479166666
+    },
+    "per_event": {
+     "joint_damped": {
+      "n": 128,
+      "fall_rate": 0.078125,
+      "median_detect": 0.01349113043397665,
+      "median_persist": 0.042276158928871155,
+      "median_motion": -0.016712423413991928,
+      "detect_auc_vs_none": 0.519775390625,
+      "leg_accuracy": 0.3671875
+     },
+     "leg_heavy": {
+      "n": 128,
+      "fall_rate": 0.15625,
+      "median_detect": 0.6435383558273315,
+      "median_persist": 0.6561688780784607,
+      "median_motion": -0.045099422335624695,
+      "detect_auc_vs_none": 0.84326171875,
+      "leg_accuracy": 0.2578125
+     },
+     "motor_weak": {
+      "n": 128,
+      "fall_rate": 0.1328125,
+      "median_detect": 0.8207271099090576,
+      "median_persist": 0.7913080453872681,
+      "median_motion": -0.13219772279262543,
+      "detect_auc_vs_none": 0.867431640625,
+      "leg_accuracy": 0.890625
+     },
+     "none": {
+      "n": 32,
+      "fall_rate": 0.03125,
+      "median_detect": 0.02794724702835083,
+      "median_persist": 0.09905117750167847,
+      "median_motion": 0.004725159611552954,
+      "detect_auc_vs_none": null,
+      "leg_accuracy": null
+     },
+     "payload": {
+      "n": 32,
+      "fall_rate": 0.09375,
+      "median_detect": -0.08736459910869598,
+      "median_persist": -0.05137420445680618,
+      "median_motion": -0.009011426940560341,
+      "detect_auc_vs_none": 0.45703125,
+      "leg_accuracy": null
+     },
+     "push_short": {
+      "n": 32,
+      "fall_rate": 0.0625,
+      "median_detect": 0.07022616267204285,
+      "median_persist": -0.03294260427355766,
+      "median_motion": -0.007709492929279804,
+      "detect_auc_vs_none": 0.6015625,
+      "leg_accuracy": null
+     },
+     "push_sustained": {
+      "n": 32,
+      "fall_rate": 0.125,
+      "median_detect": 0.22125785052776337,
+      "median_persist": 0.3560258150100708,
+      "median_motion": -0.051040876656770706,
+      "detect_auc_vs_none": 0.7392578125,
+      "leg_accuracy": null
+     }
+    }
+   },
+   "hypotheses": {
+    "H1": false,
+    "H2": true,
+    "H3": true,
+    "H4": true
+   }
+  },
+  "1": {
+   "one": {
+    "detect_auc_body_vs_none": 0.7217610677083334,
+    "persist_auc_body_vs_push_short_nonfallen": 0.7914935707220574,
+    "leg_accuracy_body": 0.5442708333333334,
+    "exploratory": {
+     "detect_auc_body_vs": {
+      "push_short": 0.704345703125,
+      "push_sustained": 0.6609700520833334,
+      "payload": 0.73681640625
+     },
+     "persist_auc_body_vs_nonfallen": {
+      "push_short": 0.7914935707220574,
+      "push_sustained": 0.6699872827469266,
+      "payload": 0.7782666530236365
+     },
+     "persist_auc_body_vs_none": 0.7008463541666666
+    },
+    "per_event": {
+     "joint_damped": {
+      "n": 128,
+      "fall_rate": 0.078125,
+      "median_detect": 0.07877674698829651,
+      "median_persist": 0.1098523736000061,
+      "median_motion": -0.016712423413991928,
+      "detect_auc_vs_none": 0.528076171875,
+      "leg_accuracy": 0.546875
+     },
+     "leg_heavy": {
+      "n": 128,
+      "fall_rate": 0.15625,
+      "median_detect": 0.7394769191741943,
+      "median_persist": 0.8120675086975098,
+      "median_motion": -0.045099422335624695,
+      "detect_auc_vs_none": 0.8154296875,
+      "leg_accuracy": 0.2265625
+     },
+     "motor_weak": {
+      "n": 128,
+      "fall_rate": 0.1328125,
+      "median_detect": 0.8400073051452637,
+      "median_persist": 0.8910138607025146,
+      "median_motion": -0.13219772279262543,
+      "detect_auc_vs_none": 0.82177734375,
+      "leg_accuracy": 0.859375
+     },
+     "none": {
+      "n": 32,
+      "fall_rate": 0.03125,
+      "median_detect": 0.08291305601596832,
+      "median_persist": 0.07958880066871643,
+      "median_motion": 0.004725159611552954,
+      "detect_auc_vs_none": null,
+      "leg_accuracy": null
+     },
+     "payload": {
+      "n": 32,
+      "fall_rate": 0.09375,
+      "median_detect": 0.0730133205652237,
+      "median_persist": 0.09151560068130493,
+      "median_motion": -0.009011426940560341,
+      "detect_auc_vs_none": 0.4931640625,
+      "leg_accuracy": null
+     },
+     "push_short": {
+      "n": 32,
+      "fall_rate": 0.0625,
+      "median_detect": 0.10796397924423218,
+      "median_persist": 0.08252327889204025,
+      "median_motion": -0.007709492929279804,
+      "detect_auc_vs_none": 0.5458984375,
+      "leg_accuracy": null
+     },
+     "push_sustained": {
+      "n": 32,
+      "fall_rate": 0.125,
+      "median_detect": 0.1546022891998291,
+      "median_persist": 0.20307648181915283,
+      "median_motion": -0.051040876656770706,
+      "detect_auc_vs_none": 0.5830078125,
+      "leg_accuracy": null
+     }
+    }
+   },
+   "multi": {
+    "detect_auc_body_vs_none": 0.7428385416666666,
+    "persist_auc_body_vs_push_short_nonfallen": 0.8056379821958457,
+    "leg_accuracy_body": 0.5208333333333334,
+    "exploratory": {
+     "detect_auc_body_vs": {
+      "push_short": 0.7005208333333334,
+      "push_sustained": 0.5873209635416666,
+      "payload": 0.765625
+     },
+     "persist_auc_body_vs_nonfallen": {
+      "push_short": 0.8056379821958457,
+      "push_sustained": 0.5918821534548537,
+      "payload": 0.8028241072342167
+     },
+     "persist_auc_body_vs_none": 0.7093098958333334
+    },
+    "per_event": {
+     "joint_damped": {
+      "n": 128,
+      "fall_rate": 0.078125,
+      "median_detect": 0.019420068711042404,
+      "median_persist": 0.05195463448762894,
+      "median_motion": -0.016712423413991928,
+      "detect_auc_vs_none": 0.515869140625,
+      "leg_accuracy": 0.4140625
+     },
+     "leg_heavy": {
+      "n": 128,
+      "fall_rate": 0.15625,
+      "median_detect": 0.6531718373298645,
+      "median_persist": 0.6434038877487183,
+      "median_motion": -0.045099422335624695,
+      "detect_auc_vs_none": 0.841796875,
+      "leg_accuracy": 0.2578125
+     },
+     "motor_weak": {
+      "n": 128,
+      "fall_rate": 0.1328125,
+      "median_detect": 0.8657658100128174,
+      "median_persist": 0.8417459726333618,
+      "median_motion": -0.13219772279262543,
+      "detect_auc_vs_none": 0.870849609375,
+      "leg_accuracy": 0.890625
+     },
+     "none": {
+      "n": 32,
+      "fall_rate": 0.03125,
+      "median_detect": 0.00023771915584802628,
+      "median_persist": 0.0975324809551239,
+      "median_motion": 0.004725159611552954,
+      "detect_auc_vs_none": null,
+      "leg_accuracy": null
+     },
+     "payload": {
+      "n": 32,
+      "fall_rate": 0.09375,
+      "median_detect": -0.10350441932678223,
+      "median_persist": -0.040962062776088715,
+      "median_motion": -0.009011426940560341,
+      "detect_auc_vs_none": 0.451171875,
+      "leg_accuracy": null
+     },
+     "push_short": {
+      "n": 32,
+      "fall_rate": 0.0625,
+      "median_detect": 0.09529876708984375,
+      "median_persist": -0.01887945644557476,
+      "median_motion": -0.007709492929279804,
+      "detect_auc_vs_none": 0.5966796875,
+      "leg_accuracy": null
+     },
+     "push_sustained": {
+      "n": 32,
+      "fall_rate": 0.125,
+      "median_detect": 0.23795385658740997,
+      "median_persist": 0.3312320411205292,
+      "median_motion": -0.051040876656770706,
+      "detect_auc_vs_none": 0.7314453125,
+      "leg_accuracy": null
+     }
+    }
+   },
+   "hypotheses": {
+    "H1": false,
+    "H2": true,
+    "H3": true,
+    "H4": true
+   }
+  },
+  "2": {
+   "one": {
+    "detect_auc_body_vs_none": 0.7119954427083334,
+    "persist_auc_body_vs_push_short_nonfallen": 0.7950544015825914,
+    "leg_accuracy_body": 0.5208333333333334,
+    "exploratory": {
+     "detect_auc_body_vs": {
+      "push_short": 0.69775390625,
+      "push_sustained": 0.641357421875,
+      "payload": 0.7477213541666666
+     },
+     "persist_auc_body_vs_nonfallen": {
+      "push_short": 0.7950544015825914,
+      "push_sustained": 0.6645824501907588,
+      "payload": 0.7798014939117978
+     },
+     "persist_auc_body_vs_none": 0.703857421875
+    },
+    "per_event": {
+     "joint_damped": {
+      "n": 128,
+      "fall_rate": 0.078125,
+      "median_detect": 0.04619057849049568,
+      "median_persist": 0.13957668840885162,
+      "median_motion": -0.016712423413991928,
+      "detect_auc_vs_none": 0.4970703125,
+      "leg_accuracy": 0.5234375
+     },
+     "leg_heavy": {
+      "n": 128,
+      "fall_rate": 0.15625,
+      "median_detect": 0.7476961612701416,
+      "median_persist": 0.8521294593811035,
+      "median_motion": -0.045099422335624695,
+      "detect_auc_vs_none": 0.818359375,
+      "leg_accuracy": 0.1953125
+     },
+     "motor_weak": {
+      "n": 128,
+      "fall_rate": 0.1328125,
+      "median_detect": 0.8828639984130859,
+      "median_persist": 0.8651769161224365,
+      "median_motion": -0.13219772279262543,
+      "detect_auc_vs_none": 0.820556640625,
+      "leg_accuracy": 0.84375
+     },
+     "none": {
+      "n": 32,
+      "fall_rate": 0.03125,
+      "median_detect": 0.06687410175800323,
+      "median_persist": 0.14025205373764038,
+      "median_motion": 0.004725159611552954,
+      "detect_auc_vs_none": null,
+      "leg_accuracy": null
+     },
+     "payload": {
+      "n": 32,
+      "fall_rate": 0.09375,
+      "median_detect": -0.0532001331448555,
+      "median_persist": 0.09958302229642868,
+      "median_motion": -0.009011426940560341,
+      "detect_auc_vs_none": 0.447265625,
+      "leg_accuracy": null
+     },
+     "push_short": {
+      "n": 32,
+      "fall_rate": 0.0625,
+      "median_detect": 0.13075056672096252,
+      "median_persist": 0.011208931915462017,
+      "median_motion": -0.007709492929279804,
+      "detect_auc_vs_none": 0.5322265625,
+      "leg_accuracy": null
+     },
+     "push_sustained": {
+      "n": 32,
+      "fall_rate": 0.125,
+      "median_detect": 0.21138349175453186,
+      "median_persist": 0.2216343879699707,
+      "median_motion": -0.051040876656770706,
+      "detect_auc_vs_none": 0.59375,
+      "leg_accuracy": null
+     }
+    }
+   },
+   "multi": {
+    "detect_auc_body_vs_none": 0.7410481770833334,
+    "persist_auc_body_vs_push_short_nonfallen": 0.8084075173095945,
+    "leg_accuracy_body": 0.5104166666666666,
+    "exploratory": {
+     "detect_auc_body_vs": {
+      "push_short": 0.6990559895833334,
+      "push_sustained": 0.5882161458333334,
+      "payload": 0.7608235677083334
+     },
+     "persist_auc_body_vs_nonfallen": {
+      "push_short": 0.8084075173095945,
+      "push_sustained": 0.5918821534548537,
+      "payload": 0.8071216617210683
+     },
+     "persist_auc_body_vs_none": 0.7054850260416666
+    },
+    "per_event": {
+     "joint_damped": {
+      "n": 128,
+      "fall_rate": 0.078125,
+      "median_detect": 0.019300900399684906,
+      "median_persist": 0.04500036686658859,
+      "median_motion": -0.016712423413991928,
+      "detect_auc_vs_none": 0.517822265625,
+      "leg_accuracy": 0.390625
+     },
+     "leg_heavy": {
+      "n": 128,
+      "fall_rate": 0.15625,
+      "median_detect": 0.6411597728729248,
+      "median_persist": 0.654222846031189,
+      "median_motion": -0.045099422335624695,
+      "detect_auc_vs_none": 0.838623046875,
+      "leg_accuracy": 0.25
+     },
+     "motor_weak": {
+      "n": 128,
+      "fall_rate": 0.1328125,
+      "median_detect": 0.8449764251708984,
+      "median_persist": 0.8246955275535583,
+      "median_motion": -0.13219772279262543,
+      "detect_auc_vs_none": 0.86669921875,
+      "leg_accuracy": 0.890625
+     },
+     "none": {
+      "n": 32,
+      "fall_rate": 0.03125,
+      "median_detect": 0.03051382303237915,
+      "median_persist": 0.10561956465244293,
+      "median_motion": 0.004725159611552954,
+      "detect_auc_vs_none": null,
+      "leg_accuracy": null
+     },
+     "payload": {
+      "n": 32,
+      "fall_rate": 0.09375,
+      "median_detect": -0.10043425112962723,
+      "median_persist": -0.05313333123922348,
+      "median_motion": -0.009011426940560341,
+      "detect_auc_vs_none": 0.455078125,
+      "leg_accuracy": null
+     },
+     "push_short": {
+      "n": 32,
+      "fall_rate": 0.0625,
+      "median_detect": 0.08008381724357605,
+      "median_persist": -0.018280738964676857,
+      "median_motion": -0.007709492929279804,
+      "detect_auc_vs_none": 0.5966796875,
+      "leg_accuracy": null
+     },
+     "push_sustained": {
+      "n": 32,
+      "fall_rate": 0.125,
+      "median_detect": 0.22268466651439667,
+      "median_persist": 0.35802870988845825,
+      "median_motion": -0.051040876656770706,
+      "detect_auc_vs_none": 0.732421875,
+      "leg_accuracy": null
+     }
+    }
+   },
+   "hypotheses": {
+    "H1": false,
+    "H2": true,
+    "H3": true,
+    "H4": true
+   }
+  }
+ },
+ "hypotheses_all_seeds": {
+  "H1": false,
+  "H2": true,
+  "H3": true,
+  "H4": true
+ },
+ "push_short_fall_rate": 0.0625,
+ "recommend_lower_push": false
+}

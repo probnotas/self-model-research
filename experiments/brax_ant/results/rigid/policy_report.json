@@ -1,0 +1,76 @@
+{
+ "scale": "full",
+ "compliant": false,
+ "ppo": {
+  "num_timesteps": 50000000,
+  "num_evals": 10,
+  "num_envs": 4096,
+  "batch_size": 2048,
+  "num_minibatches": 32,
+  "episode_length": 1000,
+  "reward_scaling": 10,
+  "normalize_observations": true,
+  "action_repeat": 1,
+  "unroll_length": 5,
+  "num_updates_per_batch": 4,
+  "discounting": 0.97,
+  "learning_rate": 0.0003,
+  "entropy_cost": 0.01,
+  "seed": 1
+ },
+ "final_eval_reward": 3198.29638671875,
+ "reward_target": 2500.0,
+ "curve": [
+  {
+   "step": 0,
+   "eval_reward": -11.565971374511719,
+   "t": 1794087455.4582784
+  },
+  {
+   "step": 5570560,
+   "eval_reward": 76.59061431884766,
+   "t": 1794087535.4242446
+  },
+  {
+   "step": 11141120,
+   "eval_reward": 432.98443603515625,
+   "t": 1794087568.6380208
+  },
+  {
+   "step": 16711680,
+   "eval_reward": 988.468994140625,
+   "t": 1794087581.584804
+  },
+  {
+   "step": 22282240,
+   "eval_reward": 1906.8004150390625,
+   "t": 1794087594.5372279
+  },
+  {
+   "step": 27852800,
+   "eval_reward": 2464.475830078125,
+   "t": 1794087607.4800732
+  },
+  {
+   "step": 33423360,
+   "eval_reward": 2845.08935546875,
+   "t": 1794087620.4322863
+  },
+  {
+   "step": 38993920,
+   "eval_reward": 2996.37890625,
+   "t": 1794087633.3775756
+  },
+  {
+   "step": 44564480,
+   "eval_reward": 3213.010986328125,
+   "t": 1794087646.3317652
+  },
+  {
+   "step": 50135040,
+   "eval_reward": 3198.29638671875,
+   "t": 1794087659.2831717
+  }
+ ],
+ "train_seconds": 295.59811425209045
+}

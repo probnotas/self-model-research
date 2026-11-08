@@ -31,7 +31,7 @@ case "$cmd" in
   check)
     "${SSH[@]}" 'echo "connected to $(hostname)"; nvidia-smi --query-gpu=name,memory.used,memory.total --format=csv,noheader; df -h /workspace | tail -1; ls '"$OUT"'/rigid 2>/dev/null | head -20 || echo "(no outputs yet)"' ;;
   push)
-    tar czf - --exclude=pod.env --exclude=results --exclude=out --exclude=__pycache__ --exclude='*.zip' . \
+    COPYFILE_DISABLE=1 tar czf - --no-xattrs --exclude=pod.env --exclude=results --exclude=out --exclude=__pycache__ --exclude='*.zip' . \
       | "${SSH[@]}" "mkdir -p $REMOTE && tar xzf - -C $REMOTE && echo pushed to $REMOTE" ;;
   setup)
     "${SSH[@]}" "cd $REMOTE && bash setup.sh" ;;
