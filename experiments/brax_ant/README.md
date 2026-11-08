@@ -13,7 +13,7 @@ This ports the soft-pendulum research to a walking robot, as suggested by AMI La
 
 | file | role |
 |---|---|
-| `common.py` | config (env vars `SCALE`, `COMPLIANT`, `OUT`), leg map derived from the model, events, trial loop, fall check |
+| `common.py` | config (env vars `SCALE`, `COMPLIANT`, `SEA_DEFLECT`, `OUT`), leg map derived from the model, series-elastic joints (`COMPLIANT=1`, see `PREREG_COMPLIANT.md`), events, trial loop, fall check |
 | `train_policy.py` | PPO with the standard Ant hyperparameters; saves the policy; exits with code 2 if the eval reward is < `REWARD_TARGET` at full scale |
 | `verify_legs.py` | checks that each body event mainly changes its own leg's joint velocities (gotcha 1) |
 | `rollouts.py` | frozen policy plus action noise (0.05; see below); 400-step trials; event at step 200; saves what the policy asked for (`base`) and the noisy action; splits `train`, `dev`, `test` (test refused until frozen) |
@@ -22,6 +22,11 @@ This ports the soft-pendulum research to a walking robot, as suggested by AMI La
 | `gain.py` | **command gain**, the pendulum's winning signal: an inverse model learns how much each motor's noise nudge moves its leg; a leg whose gain drops is the changed leg. Upright trials only; z-scored against held-out healthy train trials |
 | `freeze_prereg.py` | writes `prereg.json` once, recording code hashes and the dev-results hash. Run only after the dev review |
 | `make_results_md.py` | writes a plain-language `results.md` from `dev_results.json` |
+| `run_rigid_rerun.sh` | rigid run 2 (run 1's policy was lost with its pod): retrain, dev, freeze, test once |
+| `run_compliant.sh` | compliant run as pre-registered: stiffness ladder (reward only), dev, freeze, test once on seeds 888000+ |
+| `run_all_pending.sh` | both of the above, in one pod session. `pod.sh` refuses all three without `ALLOW_TEST=1` |
+| `RESULTS_RIGID.md` | rigid result, recorded as a negative |
+| `PREREG_COMPLIANT.md` | compliant pre-registration, committed before any compliant run |
 
 **Leg map, checked against the model** (`verify_legs.py` prints it):
 
@@ -62,8 +67,8 @@ tail -f /workspace/full_dev.log
 # 4. ONLY after the dev review and "freeze":
 # bash run_test_after_freeze.sh
 
-# Compliant version (after the rigid one is finished): same commands with COMPLIANT=1, e.g.
-# COMPLIANT=1 nohup bash run_full_dev.sh > /workspace/full_dev_compliant.log 2>&1 &
+# Rigid run 2 + compliant (series-elastic) run, dev and test, as pre-registered:
+# ALLOW_TEST=1 ./pod.sh run run_all_pending.sh
 ```
 
 **Stop conditions built in:**

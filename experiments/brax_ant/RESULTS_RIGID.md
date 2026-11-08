@@ -20,7 +20,7 @@ nothing, and it does not reliably say which leg changed. Only one of the three b
   - G2: leg accuracy ≥ 0.70.
   - Each must hold on all 3 seeds.
 
-## Dev results (`results/rigid/gain_dev_results.json`)
+## Dev results (`results/rigid_run1/gain_dev_results.json`)
 | | mean (min–max, 3 seeds) | bar | result |
 |---|---|---|---|
 | G1 detection AUC, body vs nothing | 0.737 (0.716–0.762) | ≥ 0.90 | **FAIL** |
@@ -43,7 +43,7 @@ detection working. It is not reliable across body changes.
 Only the weak motor is detected cleanly. The heavy leg and the damped joint are mostly
 missed. In all three, the changed leg's gain moves in the predicted direction (z < 0), but
 for the heavy leg and the damped joint it moves too little to separate from healthy noise.
-The leg-map check (`verify_legs.json`) also found that heavy-leg changes on legs 2 and 4 show
+The leg-map check (`results/rigid_run1/verify_legs.json`) also found that heavy-leg changes on legs 2 and 4 show
 up across neighbouring legs, not just their own.
 
 **Prediction-error self-models (same dev run, `dev_results.json`):**

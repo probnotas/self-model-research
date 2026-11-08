@@ -50,7 +50,9 @@ def main():
                     push_short="0.2 s, horizontal, 0.5-1.5 x body weight, random direction",
                     push_sustained="0.15-0.3 x body weight, held to the end", payload="torso mass and inertia x1.5"),
         seeds=dict(split=C.SPLIT_SEED, selfmodel=list(C.SM_SEEDS)),
-        action_noise=C.ACTION_NOISE, compliant_pd=dict(kp=C.KP, kd=C.KD) if C.COMPLIANT else None,
+        action_noise=C.ACTION_NOISE, compliant_sea=dict(deflect_at_full_torque=C.SEA_DEFLECT, ladder=list(C.SEA_LADDER), j_ratio=C.J_RATIO,
+                           tau_motor=C.TAU_MOTOR, spring_zeta=C.SPRING_ZETA, hyst=C.HYST, hyst_eps=C.HYST_EPS,
+                           sensor_noise=list(C.SENSOR_NOISE), physics_dt=C.SEA_DT) if C.COMPLIANT else None,
         code_sha256={os.path.basename(f): sha(f) for f in sorted(glob.glob(os.path.join(C.HERE, "*.py")))},
         dev_results_sha256=sha(dev))
     json.dump(pre, open(p, "w"), indent=1)

@@ -37,7 +37,7 @@ case "$cmd" in
     "${SSH[@]}" "cd $REMOTE && bash setup.sh" ;;
   run)
     script="${1:-run_full_dev.sh}"
-    if [ "$script" = run_test_after_freeze.sh ] && [ "${ALLOW_TEST:-0}" != 1 ]; then
+    if grep -qE "(rollouts|evaluate|gain)\.py test|run_(rigid_rerun|compliant|test_after_freeze)\.sh" "$script" 2>/dev/null && [ "${ALLOW_TEST:-0}" != 1 ]; then
       echo "refusing: the test split runs only after the user reviews dev and says \"freeze\" (then ALLOW_TEST=1)"; exit 1
     fi
     "${SSH[@]}" "cd $REMOTE && if $ALIVE; then echo 'a pipeline is already running'; exit 1; fi; \

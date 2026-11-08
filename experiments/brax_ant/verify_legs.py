@@ -13,6 +13,8 @@ events touch only that leg's actuator / dof indices, so they test the leg MAPPIN
 leg_heavy is reported but not fatal: a 3x leg (+0.2 kg on a 0.91 kg robot) shifts the
 whole body and its contacts, so its joint-velocity effect is physically non-local
 (observed in the smoke run). That is a property of the event, not a mapping error.
+Series-elastic Ant (COMPLIANT=1): motor_weak is checked on the hidden motor velocity, where it
+acts; through the spring its one-step link effect is smaller than whole-body coupling.
 """
 import json
 import os
@@ -40,9 +42,16 @@ def main():
         for l in range(4):
             sp = [dict(b, event=ev, leg=l) for b in base]
             ev_arr = {k: v for k, v in C.event_arrays(sp, env.sys, legs).items() if k in ("gear", "mass", "dmul", "dadd")}
-            oh, oe = branch(keys, ev_arr)
-            d = (np.asarray(oe)[:, 19:27] - np.asarray(oh)[:, 19:27]) ** 2
-            share = np.array([d[:, [legs.obs[k][2] - 19, legs.obs[k][3] - 19]].sum() for k in range(4)])
+            oh, oe, uh, ue = branch(keys, ev_arr)
+            if C.COMPLIANT and ev == "motor_weak":
+                # SEA: a weaker motor reaches the link only through the spring, so within one step its link
+                # effect is tiny next to whole-body coupling. Check it where it acts: the motor's own velocity.
+                nu = env.action_size
+                d = (np.asarray(ue)[:, nu:] - np.asarray(uh)[:, nu:]) ** 2
+                share = np.array([d[:, legs.act[k]].sum() for k in range(4)])
+            else:
+                d = (np.asarray(oe)[:, 19:27] - np.asarray(oh)[:, 19:27]) ** 2
+                share = np.array([d[:, [legs.obs[k][2] - 19, legs.obs[k][3] - 19]].sum() for k in range(4)])
             share = share / max(share.sum(), 1e-12)
             table[f"{ev}_leg{l + 1}"] = share.round(3).tolist()
             own_max = int(np.argmax(share)) == l

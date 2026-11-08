@@ -2,8 +2,10 @@
 
 Importable (no argparse here). Configuration comes from environment variables:
   SCALE      "full" (default) or "smoke"
-  COMPLIANT  "1" to drive joints through a weak PD spring (kp, kd below)
-  OUT        output directory (default experiments/brax_ant/out[/compliant])
+  COMPLIANT  "1" for series-elastic (SEA) joints, built like the soft pendulum's
+             (surprise_attribution/compliant_env.py); see the SEA section below
+  SEA_DEFLECT  spring deflection (rad) at full motor torque; sets the stiffness (0.4, 0.2 or 0.1)
+  OUT        output directory (default experiments/brax_ant/out[/rigid | /compliant_sea_d<deflect>])
 
 SIMULATION ONLY (Brax / MuJoCo-MJX). Nothing here is hardware.
 """
@@ -18,14 +20,14 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCALE = os.environ.get("SCALE", "full")
 COMPLIANT = os.environ.get("COMPLIANT", "0") == "1"
-OUT = os.environ.get("OUT", os.path.join(HERE, "out")) + ("/compliant" if COMPLIANT else "/rigid")
+SEA_DEFLECT = float(os.environ.get("SEA_DEFLECT", "0.4"))
+OUT = os.environ.get("OUT", os.path.join(HERE, "out")) + (f"/compliant_sea_d{SEA_DEFLECT}" if COMPLIANT else "/rigid")
 os.makedirs(OUT, exist_ok=True)
 
 # ---------------------------------------------------------------- experiment constants
 T_TOTAL, ONSET = 400, 200                     # steps of dt = 0.05 s -> 20 s, event at 10 s
 ACTION_NOISE = float(os.environ.get("ACTION_NOISE", "0.05"))   # spec said 0.1; lowered to 0.05 after the noise sweep
                                               # (healthy flips 23/128 at 0.1 vs 7/128 at 0.05). Override via env var.
-KP, KD = 0.6, 0.04                            # compliant mode: ctrl = kp*(target - q) - kd*qd (normalized units)
 PRE, EARLY, LATE = (100, 190), (200, 260), (300, 390)   # window start times t (prediction made at t)
 H = 10                                        # multi-step horizon / context
 FALL_Z = 0.25
@@ -46,7 +48,8 @@ else:
     REWARD_TARGET = 2500.0                    # spec said ~5000; mjx PPO plateaued at 2789 (peak 3098), accepted for this run
 PPO.update(reward_scaling=10, normalize_observations=True, action_repeat=1, unroll_length=5,
            num_updates_per_batch=4, discounting=0.97, learning_rate=3e-4, entropy_cost=1e-2, seed=1)
-SPLIT_SEED = {"train": 1000, "dev": 2000, "test": 777000}
+# test seeds: the compliant run gets its own never-used range (pre-registered in PREREG_COMPLIANT.md)
+SPLIT_SEED = {"train": 1000, "dev": 2000, "test": 888000 if COMPLIANT else 777000}
 SM_SEEDS = (0, 1, 2)
 
 
@@ -99,40 +102,115 @@ def leg_map(sys):
     return m
 
 
-# ---------------------------------------------------------------- control: rigid or compliant
-def act_qpos_dof(sys, legs):
+# ---------------------------------------------------------------- control: rigid or series-elastic
+# SEA joints, modelled on the soft pendulum (surprise_attribution/compliant_env.py). All fixed
+# BEFORE any compliant run (PREREG_COMPLIANT.md):
+#   motor:  phi_dd = (tau_m - tau_s - B_m * phi_d) / J_m,  tau_m = gear * action  (action = motor torque, as rigid)
+#   spring: tau_s = k * d * (1 + HYST * tanh(d * d_dot / HYST_EPS)) + c * d_dot,  d = phi - q  (hysteretic, damped)
+#   link:   MuJoCo joint, driven ONLY by tau_s (qfrc_applied); its armature, damping and mass are unchanged
+#   sensor: Gaussian noise on the joint angles / velocities the policy and self-models read
+# Motor state (phi, phi_d) is hidden from the robot; it lives in pipeline_state.userdata so
+# Brax's auto-reset resets it together with the body.
+SEA_LADDER = (0.4, 0.2, 0.1)    # softest first; the first whose PPO eval reward >= REWARD_TARGET is used
+J_RATIO = 0.15                  # motor inertia / joint inertia at rest (pendulum: 0.05 / (1/3))
+TAU_MOTOR = 0.1                 # J_m / B_m in s (pendulum: 0.05 / 0.5)
+SPRING_ZETA = 0.3               # damper, fraction of critical 2*sqrt(k*J_m) (pendulum value)
+HYST, HYST_EPS = 0.3, 1e-3      # pendulum values
+SENSOR_NOISE = (0.002, 0.02)    # rad, rad/s: the pendulum's "low" level
+SEA_DT, SEA_FRAMES = 0.005, 10  # physics step 0.005 s (pendulum substep); 10 frames keeps env dt = 0.05 s
+
+
+def act_qpos_dof(sys, legs=None):
     """Per-actuator qpos and dof index (actuator order)."""
     trn = np.asarray(sys.actuator_trnid)[:, 0]
     return (jnp.array(np.asarray(sys.jnt_qposadr)[trn]), jnp.array(np.asarray(sys.jnt_dofadr)[trn]))
 
 
-def to_ctrl(action, ps, aq, ad):
-    """Rigid: ctrl = action. Compliant: weak PD spring toward target angle = action."""
+def sea_params(sys):
+    """k, c, J_m, B_m per actuator, from the model at rest (gear and joint inertia incl. armature)."""
+    import mujoco
+    mm = sys.mj_model
+    d = mujoco.MjData(mm); mujoco.mj_forward(mm, d)
+    M = np.zeros((mm.nv, mm.nv)); mujoco.mj_fullM(mm, d, M)
+    _, ad = act_qpos_dof(sys)
+    gear = np.asarray(sys.actuator_gear)[:, 0]
+    k = gear / SEA_DEFLECT
+    J = J_RATIO * np.diag(M)[np.asarray(ad)]
+    return dict(k=k, c=SPRING_ZETA * 2 * np.sqrt(k * J), J=J, B=J / TAU_MOTOR)
+
+
+def physics_frame(pipe, sys_t, s, a, aq, ad, P=None):
+    """One physics step. Rigid: ctrl = action. SEA (P given): motor -> spring -> link."""
+    if P is None:
+        return pipe.step(sys_t, s, a)
+    nu = a.shape[0]
+    phi, phid = s.userdata[:nu], s.userdata[nu:]
+    d, dd = phi - s.q[aq], phid - s.qd[ad]
+    tau_s = P["k"] * d * (1 + HYST * jnp.tanh(d * dd / HYST_EPS)) + P["c"] * dd
+    tau_m = sys_t.actuator_gear[:, 0] * a                    # motor_weak scales the gear: the motor itself
+    dt = sys_t.opt.timestep
+    phid = phid + dt * (tau_m - tau_s - P["B"] * phid) / P["J"]
+    phi = phi + dt * phid
+    s = s.replace(qfrc_applied=jnp.zeros_like(s.qfrc_applied).at[ad].set(tau_s),
+                  userdata=jnp.concatenate([phi, phid]))
+    return pipe.step(sys_t, s, jnp.zeros_like(a))
+
+
+def sea_init(ps, aq, ad):
+    """Spring starts relaxed: motor at the link's angle and velocity."""
+    return ps.replace(userdata=jnp.concatenate([ps.q[aq], ps.qd[ad]]))
+
+
+def sense(obs, key, aq, ad):
+    """Sensor noise on the joint angles (obs = qpos - 2) and joint velocities (obs = 13 + dof). Rigid: none."""
     if not COMPLIANT:
-        return action
-    return jnp.clip(KP * (action - ps.q[aq]) - KD * ps.qd[ad], -1.0, 1.0)
+        return obs
+    k1, k2 = jax.random.split(key)
+    obs = obs.at[aq - 2].add(SENSOR_NOISE[0] * jax.random.normal(k1, aq.shape))
+    return obs.at[13 + ad].add(SENSOR_NOISE[1] * jax.random.normal(k2, ad.shape))
 
 
 def make_compliant_env():
-    """Ant whose policy outputs joint targets, applied through the weak spring every physics frame."""
+    """Ant with series-elastic joints; same reward, same observation layout (plus sensor noise)."""
     from brax.envs.ant import Ant
 
-    class CompliantAnt(Ant):
+    class SEAAnt(Ant):
         def __init__(self, **kw):
-            super().__init__(backend="mjx", **kw)
-            self._aq, self._ad = act_qpos_dof(self.sys, None)
+            super().__init__(backend="mjx", n_frames=SEA_FRAMES, **kw)
+            self.sys = self.sys.tree_replace({"opt.timestep": SEA_DT})
+            self._aq, self._ad = act_qpos_dof(self.sys)
+            self._P = {k: jnp.array(v, dtype=jnp.float32) for k, v in sea_params(self.sys).items()}
+
+        def pipeline_init(self, q, qd):
+            return sea_init(super().pipeline_init(q, qd), self._aq, self._ad)
 
         def pipeline_step(self, pipeline_state, action):
             def f(s, _):
-                return self._pipeline.step(self.sys, s, to_ctrl(action, s, self._aq, self._ad), self._debug), None
+                return physics_frame(self._pipeline, self.sys, s, action, self._aq, self._ad, self._P), None
             return jax.lax.scan(f, pipeline_state, (), self._n_frames)[0]
 
-    return CompliantAnt()
+        def reset(self, rng):
+            rng, kn = jax.random.split(rng)
+            st = super().reset(rng)
+            k, ko = jax.random.split(kn)
+            return st.replace(obs=sense(st.obs, ko, self._aq, self._ad), info={**st.info, "sense_key": k})
+
+        def step(self, state, action):
+            st = super().step(state, action)
+            k, ko = jax.random.split(state.info["sense_key"])
+            return st.replace(obs=sense(st.obs, ko, self._aq, self._ad), info={**st.info, "sense_key": k})
+
+    env = SEAAnt()
+    assert abs(env.dt - 0.05) < 1e-6, env.dt
+    return env
+
+
+def sea_P(env):
+    return getattr(env, "_P", None)
 
 
 def get_train_env():
     if COMPLIANT:
-        assert COMPLIANT
         return make_compliant_env()
     return make_env()
 
@@ -211,12 +289,13 @@ def make_rollout(env, pol, legs):
     sys0 = env.sys
     aq, ad = act_qpos_dof(sys0, legs)
     torso = legs.torso
-    pipe, nfr = env._pipeline, env._n_frames
+    pipe, nfr, P = env._pipeline, env._n_frames, sea_P(env)
 
     def one(key, ev):
         k_reset, k_noise = jax.random.split(key)
         state = env.reset(k_reset)
         ps = state.pipeline_state
+        k_sense = jax.random.fold_in(k_noise, 7)
 
         def step(carry, t):
             ps, k = carry
@@ -228,19 +307,20 @@ def make_rollout(env, pol, legs):
                 dof_damping=sys0.dof_damping * jnp.where(on, ev["dmul"], 1.0) + jnp.where(on, ev["dadd"], 0.0))
             push = on & (t < ev["f_end"])
             xf = jnp.zeros_like(ps.xfrc_applied).at[torso, :3].set(jnp.where(push, ev["force"], 0.0))
-            obs = env._get_obs(ps)
+            obs = sense(env._get_obs(ps), jax.random.fold_in(k_sense, t), aq, ad)   # what the robot senses
             k, kn = jax.random.split(k)
             base = jnp.clip(pol(obs), -1.0, 1.0)                        # what the frozen policy asked for
             a = jnp.clip(base + ACTION_NOISE * jax.random.normal(kn, (env.action_size,)), -1.0, 1.0)
 
             def frame(s, _):
                 s = s.replace(xfrc_applied=xf)
-                return pipe.step(sys_t, s, to_ctrl(a, s, aq, ad)), None
+                return physics_frame(pipe, sys_t, s, a, aq, ad, P), None
             ps2 = jax.lax.scan(frame, ps, (), nfr)[0]
             return (ps2, k), (obs, a, base)
 
         (psT, _), (obs, act, base) = jax.lax.scan(step, (ps, k_noise), jnp.arange(T_TOTAL))
-        obs = jnp.concatenate([obs, env._get_obs(psT)[None]], 0)       # (T+1, 27)
+        obsT = sense(env._get_obs(psT), jax.random.fold_in(k_sense, T_TOTAL), aq, ad)
+        obs = jnp.concatenate([obs, obsT[None]], 0)                    # (T+1, 27)
         return obs, act, base
 
     return jax.jit(jax.vmap(one))
@@ -274,11 +354,11 @@ def make_branch(env, pol, legs):
     non-determinism because both branches start from the same in-memory state."""
     sys0 = env.sys
     aq, ad = act_qpos_dof(sys0, legs)
-    pipe, nfr = env._pipeline, env._n_frames
+    pipe, nfr, P = env._pipeline, env._n_frames, sea_P(env)
 
     def advance(sys_t, ps, a):
         def frame(s, _):
-            return pipe.step(sys_t, s, to_ctrl(a, s, aq, ad)), None
+            return physics_frame(pipe, sys_t, s, a, aq, ad, P), None
         return jax.lax.scan(frame, ps, (), nfr)[0]
 
     def one(key, ev):
@@ -296,6 +376,8 @@ def make_branch(env, pol, legs):
                              body_mass=sys0.body_mass * ev["mass"],
                              body_inertia=sys0.body_inertia * ev["mass"][:, None],
                              dof_damping=sys0.dof_damping * ev["dmul"] + ev["dadd"])
-        return env._get_obs(advance(sys0, psO, a)), env._get_obs(advance(sys_e, psO, a))
+        ph, pe = advance(sys0, psO, a), advance(sys_e, psO, a)
+        # also return the hidden motor state (SEA only; empty for rigid) so motor events can be checked where they act
+        return env._get_obs(ph), env._get_obs(pe), ph.userdata, pe.userdata
 
     return jax.jit(jax.vmap(one))

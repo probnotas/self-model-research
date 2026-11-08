@@ -12,16 +12,13 @@ a pre-registered test. This folder ports the question to the Brax Ant (MJX). Sim
 only, never hardware: say so in every write-up.
 
 ## Where things stand
-- **First dev run** (policy reward 2789; noise 0.05 or 0.1, not recorded): self-model
-  hypotheses H1 0.70, H2 0.78 and H3 about 0.5 all failed; H4 passed by only 0.02. Healthy
-  trials fell 19% of the time.
-- **Spec deviations,** written into the README:
-  - action noise 0.1 → 0.05 (healthy flips 23/128 → 7/128);
-  - reward gate 5000 → 2500 (MJX PPO plateaued at about 2800).
-- **New:** `gain.py` (command gain, using the action noise as the probe). It has been
-  smoke-tested on CPU but not run at full scale yet.
-- **The current pod lost the trained policy,** so the next full run retrains PPO first
-  (about 1 hour on an A40), then runs rollouts, self-models and gain (about 45-75 min).
+- **Rigid run 1** (reward 3198, noise 0.05; `results/rigid_run1/`, `RESULTS_RIGID.md`): command
+  gain AUC 0.737 vs 0.90, leg accuracy 0.546 (chance 0.25; bar 0.70), recorded as a NEGATIVE.
+  Its policy was lost with the pod; the rigid test was never run.
+- **Compliant (series-elastic) run** pre-registered in `PREREG_COMPLIANT.md` (G1 AUC >= 0.90,
+  G2 leg acc >= 0.70, all 3 seeds; test seeds 888000+).
+- **Next:** on a new pod, `ALLOW_TEST=1 ./pod.sh run run_all_pending.sh` (rigid run 2 dev+test,
+  then compliant ladder+dev+test). The user authorized both test splits on 2026-11-08.
 
 ## Rules (from the user; do not bend them)
 1. **Never run the test split** (`run_test_after_freeze.sh`, `rollouts.py test`,
