@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compliant Pendulum Playground</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #171a23; --line: #2a2f3d; --text: #e6e8ef; --muted: #9aa1b2;
+    --motor: #8b93ff; --arm: #3ee0a1; --curve: #ffb347; --manual: #ff6b9a; --theory: #6cc6ff; --event: #ff5c5c;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, -apple-system, Segoe UI, sans-serif; }
+  header { padding: 12px 16px 0; }
+  h1 { font-size: 18px; margin: 0 0 2px; }
+  header p { margin: 0; color: var(--muted); font-size: 12px; }
+  main { display: flex; gap: 16px; padding: 12px 16px 16px; flex-wrap: wrap; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+  #left { flex: 1 1 420px; min-width: 0; }
+  #right { flex: 1.3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  canvas { width: 100%; display: block; background: #0b0d12; border-radius: 8px; }
+  #anim { aspect-ratio: 1 / 0.8; }
+  #ts, #rc { aspect-ratio: 2.2 / 1; }
+  .readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; margin: 10px 0; }
+  .ro { background: #0b0d12; border-radius: 6px; padding: 6px 8px; }
+  .ro b { display: block; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .ro span { color: var(--muted); font-size: 11px; }
+  .ctl { margin: 8px 0; }
+  .ctl label { display: flex; justify-content: space-between; gap: 8px; }
+  .ctl output { font-variant-numeric: tabular-nums; color: var(--arm); }
+  .ctl input { width: 100%; }
+  .hint { color: var(--muted); font-size: 12px; font-style: italic; margin-top: 2px; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  button { background: #252a38; color: var(--text); border: 1px solid #3a4153; border-radius: 6px; padding: 7px 12px; font: inherit; cursor: pointer; }
+  button:hover { background: #2f3547; }
+  button.accent { border-color: var(--event); }
+  #warn { color: var(--event); min-height: 1.2em; font-size: 12px; margin-top: 6px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 5px; border-radius: 2px; }
+  h2 { font-size: 13px; margin: 0 0 6px; color: var(--muted); font-weight: 600; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Compliant pendulum playground</h1>
+  <p>Series-elastic pendulum, driven open-loop. Simulation only. Is the "quieter after a body change" effect just resonance detuning?</p>
+</header>
+<main>
+  <section id="left" class="panel">
+    <div class="legend">
+      <span><i style="background:var(--motor)"></i>motor command θ<sub>m</sub></span>
+      <span><i style="background:var(--arm)"></i>arm θ<sub>a</sub></span>
+      <span><i style="background:var(--curve)"></i>spring (θ<sub>m</sub> − θ<sub>a</sub>)</span>
+    </div>
+    <canvas id="anim"></canvas>
+
+    <div class="readouts">
+      <div class="ro"><span>natural freq ω<sub>n</sub> = √(k/mL²)</span><b id="r-wn">–</b></div>
+      <div class="ro"><span>ω<sub>n</sub> with gravity = √((k+mgL)/mL²)</span><b id="r-wng">–</b></div>
+      <div class="ro"><span>drive freq ω<sub>drive</sub></span><b id="r-wd">–</b></div>
+      <div class="ro"><span>Q ≈ √(k·mL²)/c</span><b id="r-q">–</b></div>
+      <div class="ro"><span id="r-amp-label">arm amplitude (last 2 s)</span><b id="r-amp">–</b></div>
+      <div class="ro"><span>after/before body change</span><b id="r-ratio">–</b></div>
+    </div>
+
+    <div class="ctl"><label><span>mass m</span> <output id="o-m"></output></label><input id="m" type="range" min="0.1" max="5" step="0.05" value="1">
+      <div class="hint">Change this while driving. Does the amplitude go up or down? Why?</div></div>
+    <div class="ctl"><label><span>length L</span> <output id="o-L"></output></label><input id="L" type="range" min="0.2" max="2" step="0.01" value="1"></div>
+    <div class="ctl"><label><span>spring stiffness k</span> <output id="o-k"></output></label><input id="k" type="range" min="0.5" max="50" step="0.1" value="10"></div>
+    <div class="ctl"><label><span>damping c</span> <output id="o-c"></output></label><input id="c" type="range" min="0" max="2" step="0.01" value="0.1"></div>
+    <div class="ctl"><label><span>drive amplitude A<sub>drive</sub></span> <output id="o-A"></output></label><input id="A" type="range" min="0" max="1" step="0.01" value="0.3"></div>
+    <div class="ctl"><label><span>drive frequency ω<sub>drive</sub></span> <output id="o-w"></output></label><input id="w" type="range" min="0.1" max="10" step="0.01" value="3">
+      <div class="hint">Try matching this to ω<sub>n</sub> above. Watch the amplitude.</div></div>
+
+    <div class="buttons">
+      <button id="b-reset">Reset</button>
+      <button id="b-sweep">Sweep frequency</button>
+      <button id="b-bump" class="accent">Change the body mid-run</button>
+      <button id="b-clear">Clear curve</button>
+    </div>
+    <div class="hint">"Change the body mid-run" is the exact move that gave me AUC = 0.11. Watch what happens to arm amplitude after the bump. If it drops purely from resonance detuning, Revzen was right. If something more is going on, there may still be a real finding.</div>
+    <div id="warn"></div>
+  </section>
+
+  <section id="right">
+    <div class="panel">
+      <h2>Arm angle vs time (last 10 s)</h2>
+      <div class="legend">
+        <span><i style="background:var(--motor)"></i>θ<sub>m</sub> commanded (rad)</span>
+        <span><i style="background:var(--arm)"></i>θ<sub>a</sub> arm (rad)</span>
+        <span><i style="background:var(--event)"></i>body change</span>
+      </div>
+      <canvas id="ts"></canvas>
+    </div>
+    <div class="panel">
+      <h2>Resonance curve: steady-state arm amplitude vs drive frequency</h2>
+      <div class="legend">
+        <span><i style="background:var(--curve)"></i>sweep (simulated to steady state)</span>
+        <span><i style="background:var(--manual)"></i>your visits</span>
+        <span><i style="background:var(--theory)"></i>linear theory, now (dashed)</span>
+        <span><i style="background:var(--theory);opacity:.35"></i>theory before body change</span>
+        <span><i style="background:var(--event)"></i>body change</span>
+      </div>
+      <canvas id="rc"></canvas>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+const G = 9.81, DT = 0.002, SAMPLE_EVERY = 5;        // physics step 2 ms; store a sample every 10 ms
+const $ = id => document.getElementById(id);
+const P = { m: 1, L: 1, k: 10, c: 0.1, A: 0.3, w: 3 };
+const UNITS = { m: "kg", L: "m", k: "N·m/rad", c: "N·m·s/rad", A: "rad", w: "rad/s" };
+const DIGITS = { m: 2, L: 2, k: 1, c: 2, A: 2, w: 2 };
+
+// ------------------------------------------------------------------ physics
+function accel(th, om, thm, p) {
+  const I = p.m * p.L * p.L;
+  return (p.k * (thm - th) - p.m * G * p.L * Math.sin(th) - p.c * om) / I;
+}
+// one semi-implicit Euler step; phase accumulates so changing ω never jumps θm
+function step(s, p) {
+  const thm = p.A * Math.sin(s.phase);
+  s.om += accel(s.th, s.om, thm, p) * DT;
+  s.th += s.om * DT;
+  s.phase += p.w * DT;
+  s.t += DT;
+  return thm;
+}
+function stiffness(p) {                                // fastest mode × dt: semi-implicit Euler wants this well below 2
+  const I = p.m * p.L * p.L;
+  return Math.sqrt((p.k + p.m * G * p.L) / I) * DT + (p.c / I) * DT;
+}
+const fresh = () => ({ t: 0, th: 0, om: 0, phase: 0 });
+let S = fresh();
+let hist = [];            // {t, a, m}
+let events = [];          // {t, w}  body-change marks
+let manual = [];          // {w, amp, after}
+let sweep = [];           // {w, amp}
+let theoryBefore = null;  // params snapshot from before the last body change
+let ampBefore = null, bumpT = null, wSetAt = 0, sweepJob = null;
+
+function linearAmp(p, w) {
+  const I = p.m * p.L * p.L;
+  return p.k * p.A / Math.hypot(p.k + p.m * G * p.L - I * w * w, p.c * w);
+}
+function ampWindow() { return Math.max(2, 2 * Math.PI / P.w); }   // ≥ one drive period, else low ω is underestimated
+function armAmplitude(win, tEnd = S.t) {
+  let lo = Infinity, hi = -Infinity;
+  for (let i = hist.length - 1; i >= 0 && hist[i].t >= tEnd - win; i--) {
+    if (hist[i].t > tEnd) continue;
+    lo = Math.min(lo, hist[i].a); hi = Math.max(hi, hist[i].a);
+  }
+  return hi > lo ? (hi - lo) / 2 : 0;
+}
+
+// steady-state amplitude at one frequency, from rest, offline (used by Sweep)
+function steadyAmp(p0, w) {
+  const p = { ...p0, w }, I = p.m * p.L * p.L;
+  const tau = p.c > 0 ? 2 * I / p.c : Infinity;                    // decay time of transients
+  const settle = Math.min(Math.max(6 * tau, 20), 240);
+  const measure = Math.max(4 * Math.PI / w, 2);
+  const s = fresh();
+  let lo = Infinity, hi = -Infinity;
+  const n1 = Math.round(settle / DT), n2 = Math.round(measure / DT);
+  for (let i = 0; i < n1 + n2; i++) {
+    step(s, p);
+    if (!isFinite(s.th) || Math.abs(s.th) > 1e3) return NaN;
+    if (i >= n1) { lo = Math.min(lo, s.th); hi = Math.max(hi, s.th); }
+  }
+  return (hi - lo) / 2;
+}
+
+// ------------------------------------------------------------------ controls
+function setSlider(key, val) {
+  const el = $(key);
+  if (val > +el.max) el.max = (Math.ceil(val * 10) / 10).toString();   // body change may exceed the slider range
+  el.value = val; P[key] = +val; label(key);
+}
+function label(key) { $("o-" + key).textContent = `${P[key].toFixed(DIGITS[key])} ${UNITS[key]}`; }
+for (const key of Object.keys(P)) {
+  P[key] = +$(key).value; label(key);
+  $(key).addEventListener("input", () => {
+    if (key === "w") { commitManual(); wSetAt = S.t; }
+    if (!sweepJob && ampBefore !== null) { ampBefore = null; $("r-ratio").textContent = "– (sliders moved)"; }
+    P[key] = +$(key).value; label(key);
+  });
+}
+function commitManual() {                              // keep the visit at the old frequency if it had settled
+  if (cur) manual.push(cur);
+  cur = null;
+}
+let cur = null;                                        // live dot for the frequency being visited now
+
+$("b-reset").onclick = () => {
+  stopSweep(); S = fresh(); hist = []; events = []; manual = []; sweep = []; cur = null;
+  theoryBefore = null; ampBefore = null; bumpT = null; wSetAt = 0; $("r-ratio").textContent = "–"; warn("");
+};
+$("b-clear").onclick = () => { stopSweep(); manual = []; sweep = []; cur = null; };
+$("b-bump").onclick = () => {
+  theoryBefore = { ...P };
+  ampBefore = armAmplitude(ampWindow());
+  bumpT = S.t;
+  commitManual(); wSetAt = S.t;
+  events.push({ t: S.t, w: P.w });
+  setSlider("m", +(P.m * 1.5).toFixed(3));
+};
+$("b-sweep").onclick = () => {
+  stopSweep(); sweep = [];
+  const N = 100, ws = Array.from({ length: N }, (_, i) => 0.1 + (9.9 * i) / (N - 1));
+  const snap = { ...P }; let i = 0;
+  if (snap.c === 0) warn("Damping is 0: there is no true steady state, so sweep amplitudes include beating.");
+  $("b-sweep").textContent = "Sweeping…";
+  sweepJob = setInterval(() => {                       // one frequency every 150 ms → ~15 s total
+    const w = ws[i++];
+    const a = steadyAmp(snap, w);
+    if (isFinite(a)) sweep.push({ w, amp: a });
+    setSlider("w", w); commitManual(); wSetAt = S.t;   // live arm follows the sweep so you can watch it
+    if (i >= ws.length) stopSweep();
+  }, 150);
+};
+function stopSweep() { if (sweepJob) clearInterval(sweepJob); sweepJob = null; $("b-sweep").textContent = "Sweep frequency"; }
+function warn(msg) { $("warn").textContent = msg; }
+
+// ------------------------------------------------------------------ drawing helpers
+function fit(cv) {
+  const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  const w = Math.round(r.width * d), h = Math.round(r.height * d);
+  if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+  const ctx = cv.getContext("2d"); ctx.setTransform(d, 0, 0, d, 0, 0);
+  return { ctx, W: r.width, H: r.height };
+}
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function axes(ctx, W, H, pad, xr, yr, xlab, ylab, xt, yt) {
+  ctx.strokeStyle = "#2a2f3d"; ctx.fillStyle = "#9aa1b2"; ctx.lineWidth = 1; ctx.font = "11px system-ui";
+  const X = x => pad.l + (x - xr[0]) / (xr[1] - xr[0]) * (W - pad.l - pad.r);
+  const Y = y => H - pad.b - (y - yr[0]) / (yr[1] - yr[0]) * (H - pad.t - pad.b);
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  for (const x of xt) { ctx.beginPath(); ctx.moveTo(X(x), pad.t); ctx.lineTo(X(x), H - pad.b); ctx.stroke(); ctx.fillText(+x.toFixed(2), X(x), H - pad.b + 3); }
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (const y of yt) { ctx.beginPath(); ctx.moveTo(pad.l, Y(y)); ctx.lineTo(W - pad.r, Y(y)); ctx.stroke(); ctx.fillText(+y.toFixed(3), pad.l - 4, Y(y)); }
+  ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(xlab, (pad.l + W - pad.r) / 2, H - 1);
+  ctx.save(); ctx.translate(11, (pad.t + H - pad.b) / 2); ctx.rotate(-Math.PI / 2); ctx.textBaseline = "middle"; ctx.fillText(ylab, 0, 0); ctx.restore();
+  return { X, Y };
+}
+function ticks(lo, hi, n = 5) {
+  const raw = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(raw)), f = raw / mag;
+  const st = (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * mag, out = [];
+  for (let v = Math.ceil(lo / st) * st; v <= hi + 1e-9; v += st) out.push(Math.abs(v) < 1e-12 ? 0 : v);
+  return out;
+}
+
+function drawAnim(thm) {
+  const { ctx, W, H } = fit($("anim"));
+  ctx.clearRect(0, 0, W, H);
+  const cx = W / 2, cy = H * 0.3, scale = Math.min(W, H) * 0.32 / 2;   // 2 m arm fits
+  const Lpx = P.L * scale, tip = th => [cx + Math.sin(th) * Lpx, cy + Math.cos(th) * Lpx];
+  // ghost motor line
+  ctx.setLineDash([6, 6]); ctx.strokeStyle = css("--motor"); ctx.globalAlpha = 0.6; ctx.lineWidth = 2;
+  const [gx, gy] = tip(thm); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(gx, gy); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1;
+  // spring: zigzag arc from motor angle to arm angle, near the pivot
+  const r = Math.max(22, Lpx * 0.22), a0 = thm, a1 = S.th, n = 14;
+  ctx.strokeStyle = css("--curve"); ctx.lineWidth = 2; ctx.beginPath();
+  for (let i = 0; i <= n; i++) {
+    const a = a0 + (a1 - a0) * i / n, rr = r + (i % 2 ? 6 : -6) * (i > 0 && i < n);
+    const x = cx + Math.sin(a) * rr, y = cy + Math.cos(a) * rr;
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+  ctx.stroke();
+  // arm + mass (radius grows gently with mass)
+  const [ax, ay] = tip(S.th);
+  ctx.strokeStyle = css("--arm"); ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ax, ay); ctx.stroke();
+  ctx.fillStyle = css("--arm"); ctx.beginPath(); ctx.arc(ax, ay, 8 + 7 * Math.sqrt(P.m), 0, 2 * Math.PI); ctx.fill();
+  // pivot / motor
+  ctx.fillStyle = "#cfd3de"; ctx.beginPath(); ctx.arc(cx, cy, 7, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = css("--muted"); ctx.font = "12px system-ui"; ctx.textAlign = "left"; ctx.textBaseline = "top";
+  ctx.fillText(`t = ${S.t.toFixed(1)} s`, 10, 8);
+  ctx.fillText(`θa = ${S.th.toFixed(3)} rad   spring deflection = ${(thm - S.th).toFixed(3)} rad`, 10, 26);
+}
+
+function drawTS() {
+  const { ctx, W, H } = fit($("ts"));
+  ctx.clearRect(0, 0, W, H);
+  const t1 = Math.max(S.t, 10), t0 = t1 - 10, vis = hist.filter(h => h.t >= t0);
+  let ym = 0.05; for (const h of vis) ym = Math.max(ym, Math.abs(h.a), Math.abs(h.m));
+  ym *= 1.1;
+  const pad = { l: 46, r: 10, t: 8, b: 30 };
+  const { X, Y } = axes(ctx, W, H, pad, [t0, t1], [-ym, ym], "time (s)", "angle (rad)", ticks(t0, t1), ticks(-ym, ym, 4));
+  for (const [key, col] of [["m", "--motor"], ["a", "--arm"]]) {
+    ctx.strokeStyle = css(col); ctx.lineWidth = key === "a" ? 2 : 1.3; ctx.globalAlpha = key === "a" ? 1 : 0.7; ctx.beginPath();
+    vis.forEach((h, i) => (i ? ctx.lineTo(X(h.t), Y(h[key])) : ctx.moveTo(X(h.t), Y(h[key]))));
+    ctx.stroke(); ctx.globalAlpha = 1;
+  }
+  ctx.strokeStyle = css("--event"); ctx.lineWidth = 2;
+  for (const e of events) if (e.t >= t0) { ctx.beginPath(); ctx.moveTo(X(e.t), pad.t); ctx.lineTo(X(e.t), H - pad.b); ctx.stroke(); }
+}
+
+function drawRC() {
+  const { ctx, W, H } = fit($("rc"));
+  ctx.clearRect(0, 0, W, H);
+  const xs = Array.from({ length: 300 }, (_, i) => 0.1 + 9.9 * i / 299);
+  const th = xs.map(w => linearAmp(P, w)), thb = theoryBefore ? xs.map(w => linearAmp(theoryBefore, w)) : [];
+  const pts = [...sweep, ...manual, ...(cur ? [cur] : [])];
+  // y range from data; theory peaks can be huge at low damping, so cap them at 1.5x the data or 3 rad
+  let ym = Math.max(0.05, ...pts.map(p => p.amp));
+  const thMax = Math.max(...th, ...thb);
+  ym = pts.length ? Math.max(ym, Math.min(thMax, ym * 1.5)) : Math.min(thMax, 3);
+  ym *= 1.1;
+  const pad = { l: 50, r: 10, t: 8, b: 30 };
+  const { X, Y } = axes(ctx, W, H, pad, [0.1, 10], [0, ym], "drive frequency ω (rad/s)", "amplitude (rad)", ticks(0, 10), ticks(0, ym, 4));
+  ctx.save(); ctx.beginPath(); ctx.rect(pad.l, pad.t, W - pad.l - pad.r, H - pad.t - pad.b); ctx.clip();
+  const line = (ys, alpha) => {
+    ctx.strokeStyle = css("--theory"); ctx.globalAlpha = alpha; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5; ctx.beginPath();
+    xs.forEach((w, i) => (i ? ctx.lineTo(X(w), Y(ys[i])) : ctx.moveTo(X(w), Y(ys[i])))); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+  };
+  if (thb.length) line(thb, 0.35);
+  line(th, 1);
+  ctx.strokeStyle = css("--curve"); ctx.lineWidth = 2; ctx.beginPath();
+  sweep.forEach((p, i) => (i ? ctx.lineTo(X(p.w), Y(p.amp)) : ctx.moveTo(X(p.w), Y(p.amp)))); ctx.stroke();
+  ctx.strokeStyle = css("--event"); ctx.lineWidth = 2;
+  for (const e of events) { ctx.beginPath(); ctx.moveTo(X(e.w), pad.t); ctx.lineTo(X(e.w), H - pad.b); ctx.stroke(); }
+  for (const p of [...manual, ...(cur ? [cur] : [])]) {
+    ctx.fillStyle = css("--manual"); ctx.globalAlpha = p === cur ? 0.55 : 1;
+    ctx.beginPath(); ctx.arc(X(p.w), Y(p.amp), p.after ? 5 : 4, 0, 2 * Math.PI);
+    p.after ? (ctx.lineWidth = 2, ctx.strokeStyle = css("--manual"), ctx.stroke()) : ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+  ctx.fillStyle = css("--muted"); ctx.font = "11px system-ui"; ctx.textAlign = "right"; ctx.textBaseline = "top";
+  ctx.fillText("filled dot = before body change, ring = after", W - 12, pad.t + 2);
+}
+
+// ------------------------------------------------------------------ main loop
+let last = null, stepCount = 0, lastThm = 0;
+function frame(now) {
+  const dtReal = last === null ? 0 : Math.min((now - last) / 1000, 0.05);   // tab switches don't explode the sim
+  last = now;
+  const sf = stiffness(P);
+  if (sf > 1.5) warn(`These settings are too stiff for dt = 2 ms (stability number ${sf.toFixed(2)}). Lower k or damping, or raise m or L.`);
+  else if ($("warn").textContent.startsWith("These settings")) warn("");
+  for (let i = 0, n = Math.round(dtReal / DT); i < n; i++) {
+    lastThm = step(S, P);
+    if (!isFinite(S.th) || Math.abs(S.th) > 1e3) {
+      warn("The simulation went unstable at these settings and was reset to rest. Try less extreme sliders.");
+      S = { ...fresh(), t: S.t, phase: S.phase }; break;
+    }
+    if (++stepCount % SAMPLE_EVERY === 0) hist.push({ t: S.t, a: S.th, m: lastThm });
+  }
+  while (hist.length && hist[0].t < S.t - 300) hist.shift();       // keep 5 minutes, enough for slow drives
+
+  const win = ampWindow(), amp = armAmplitude(win);
+  // a visit counts once the drive has been steady for 2 s and one window has elapsed
+  if (S.t - wSetAt >= Math.max(2, win)) cur = { w: P.w, amp, after: bumpT !== null };
+  if (ampBefore !== null && S.t - bumpT >= win) {
+    $("r-ratio").textContent = `${ampBefore.toFixed(3)} → ${amp.toFixed(3)} rad (×${(amp / Math.max(ampBefore, 1e-9)).toFixed(2)})`;
+  }
+  const I = P.m * P.L * P.L;
+  $("r-wn").textContent = `${Math.sqrt(P.k / I).toFixed(2)} rad/s`;
+  $("r-wng").textContent = `${Math.sqrt((P.k + P.m * G * P.L) / I).toFixed(2)} rad/s`;
+  $("r-wd").textContent = `${P.w.toFixed(2)} rad/s`;
+  $("r-q").textContent = P.c > 0 ? (Math.sqrt(P.k * I) / P.c).toFixed(1) : "∞ (no damping)";
+  $("r-amp-label").textContent = `arm amplitude (last ${win.toFixed(1)} s)`;
+  $("r-amp").textContent = `${amp.toFixed(3)} rad`;
+
+  drawAnim(lastThm); drawTS(); drawRC();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
