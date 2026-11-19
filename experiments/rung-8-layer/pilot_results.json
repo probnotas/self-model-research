@@ -1,0 +1,76 @@
+{
+ "success": 0,
+ "n": 10,
+ "runs": [
+  {
+   "seed": 880000,
+   "success_step": null,
+   "max_height_deg": 8.145579331655165,
+   "final_angle_deg": -175.91856689995768,
+   "mean_abs_u": 0.6420761800664477
+  },
+  {
+   "seed": 880001,
+   "success_step": null,
+   "max_height_deg": 7.015332624726114,
+   "final_angle_deg": -179.5793803233527,
+   "mean_abs_u": 0.6431347590822261
+  },
+  {
+   "seed": 880002,
+   "success_step": null,
+   "max_height_deg": 6.68506067029228,
+   "final_angle_deg": -179.2844597750415,
+   "mean_abs_u": 0.6027656595290173
+  },
+  {
+   "seed": 880003,
+   "success_step": null,
+   "max_height_deg": 6.409910287720619,
+   "final_angle_deg": -174.00690690241584,
+   "mean_abs_u": 0.6273991089703923
+  },
+  {
+   "seed": 880004,
+   "success_step": null,
+   "max_height_deg": 8.010295836397495,
+   "final_angle_deg": -175.16300036027383,
+   "mean_abs_u": 0.6646769580034306
+  },
+  {
+   "seed": 880005,
+   "success_step": null,
+   "max_height_deg": 6.278514599161637,
+   "final_angle_deg": -174.88413388083424,
+   "mean_abs_u": 0.6404823011660483
+  },
+  {
+   "seed": 880006,
+   "success_step": null,
+   "max_height_deg": 6.197691158741892,
+   "final_angle_deg": -174.416439488003,
+   "mean_abs_u": 0.6561765233283858
+  },
+  {
+   "seed": 880007,
+   "success_step": null,
+   "max_height_deg": 7.642296509942686,
+   "final_angle_deg": -179.40555209418503,
+   "mean_abs_u": 0.6158810286521912
+  },
+  {
+   "seed": 880008,
+   "success_step": null,
+   "max_height_deg": 7.0824485844890095,
+   "final_angle_deg": -175.60691101718305,
+   "mean_abs_u": 0.6383591310391202
+  },
+  {
+   "seed": 880009,
+   "success_step": null,
+   "max_height_deg": 7.241757039092537,
+   "final_angle_deg": -176.45012141697381,
+   "mean_abs_u": 0.617193636934273
+  }
+ ]
+}
