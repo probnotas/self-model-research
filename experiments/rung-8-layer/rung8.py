@@ -128,7 +128,7 @@ def batched_step(x, u, p, base):
     th, w, phi, phi_d = x.T.copy()
     k = CFG["stiffness"] * p.get("k_mult", 1.0)
     bj = ce.B_JOINT * p.get("b_joint_mult", 1.0)
-    m = base.m * p.get("m_mult", 1.0)
+    m = base.m                                   # base.m already holds the true current mass (change_body)
     l, g, tilt = base.l, base.g, p.get("tilt", 0.0)
     u = np.clip(u, -base.max_torque * p.get("torque_mult", 1.0), base.max_torque * p.get("torque_mult", 1.0))
     h = base.dt / ce.N_SUBSTEPS
