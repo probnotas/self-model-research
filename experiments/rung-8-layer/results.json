@@ -1,0 +1,381 @@
+{
+ "threshold_B": 0.020092913221325028,
+ "success_rate_pct": {
+  "A_policy": {
+   "healthy": 100.0,
+   "payload_add": 100.0,
+   "spring_soft": 100.0,
+   "spring_stiff": 100.0,
+   "damping_high": 100.0,
+   "motor_weak": 100.0,
+   "gravity_tilt": 0.0,
+   "sensor_delay": 0.0
+  },
+  "B_filter": {
+   "healthy": 0.0,
+   "payload_add": 0.0,
+   "spring_soft": 0.0,
+   "spring_stiff": 0.0,
+   "damping_high": 0.0,
+   "motor_weak": 0.0,
+   "gravity_tilt": 0.0,
+   "sensor_delay": 0.0
+  },
+  "C_adapt": {
+   "healthy": 100.0,
+   "payload_add": 100.0,
+   "spring_soft": 100.0,
+   "spring_stiff": 100.0,
+   "damping_high": 100.0,
+   "motor_weak": 100.0,
+   "gravity_tilt": 0.0,
+   "sensor_delay": 0.0
+  },
+  "D_oracle": {
+   "healthy": 100.0,
+   "payload_add": 100.0,
+   "spring_soft": 100.0,
+   "spring_stiff": 100.0,
+   "damping_high": 100.0,
+   "motor_weak": 100.0,
+   "gravity_tilt": 0.0,
+   "sensor_delay": 100.0
+  }
+ },
+ "wilson95": {
+  "A_policy": {
+   "healthy": [
+    88.6482908609522,
+    100
+   ],
+   "payload_add": [
+    88.6482908609522,
+    100
+   ],
+   "spring_soft": [
+    88.6482908609522,
+    100
+   ],
+   "spring_stiff": [
+    88.6482908609522,
+    100
+   ],
+   "damping_high": [
+    88.6482908609522,
+    100
+   ],
+   "motor_weak": [
+    88.6482908609522,
+    100
+   ],
+   "gravity_tilt": [
+    0,
+    11.3517091390478
+   ],
+   "sensor_delay": [
+    0,
+    11.3517091390478
+   ]
+  },
+  "B_filter": {
+   "healthy": [
+    0,
+    11.3517091390478
+   ],
+   "payload_add": [
+    0,
+    11.3517091390478
+   ],
+   "spring_soft": [
+    0,
+    11.3517091390478
+   ],
+   "spring_stiff": [
+    0,
+    11.3517091390478
+   ],
+   "damping_high": [
+    0,
+    11.3517091390478
+   ],
+   "motor_weak": [
+    0,
+    11.3517091390478
+   ],
+   "gravity_tilt": [
+    0,
+    11.3517091390478
+   ],
+   "sensor_delay": [
+    0,
+    11.3517091390478
+   ]
+  },
+  "C_adapt": {
+   "healthy": [
+    88.6482908609522,
+    100
+   ],
+   "payload_add": [
+    88.6482908609522,
+    100
+   ],
+   "spring_soft": [
+    88.6482908609522,
+    100
+   ],
+   "spring_stiff": [
+    88.6482908609522,
+    100
+   ],
+   "damping_high": [
+    88.6482908609522,
+    100
+   ],
+   "motor_weak": [
+    88.6482908609522,
+    100
+   ],
+   "gravity_tilt": [
+    0,
+    11.3517091390478
+   ],
+   "sensor_delay": [
+    0,
+    11.3517091390478
+   ]
+  },
+  "D_oracle": {
+   "healthy": [
+    88.6482908609522,
+    100
+   ],
+   "payload_add": [
+    88.6482908609522,
+    100
+   ],
+   "spring_soft": [
+    88.6482908609522,
+    100
+   ],
+   "spring_stiff": [
+    88.6482908609522,
+    100
+   ],
+   "damping_high": [
+    88.6482908609522,
+    100
+   ],
+   "motor_weak": [
+    88.6482908609522,
+    100
+   ],
+   "gravity_tilt": [
+    0,
+    11.3517091390478
+   ],
+   "sensor_delay": [
+    88.6482908609522,
+    100
+   ]
+  }
+ },
+ "n": {
+  "A_policy": {
+   "healthy": 30,
+   "payload_add": 30,
+   "spring_soft": 30,
+   "spring_stiff": 30,
+   "damping_high": 30,
+   "motor_weak": 30,
+   "gravity_tilt": 30,
+   "sensor_delay": 30
+  },
+  "B_filter": {
+   "healthy": 30,
+   "payload_add": 30,
+   "spring_soft": 30,
+   "spring_stiff": 30,
+   "damping_high": 30,
+   "motor_weak": 30,
+   "gravity_tilt": 30,
+   "sensor_delay": 30
+  },
+  "C_adapt": {
+   "healthy": 30,
+   "payload_add": 30,
+   "spring_soft": 30,
+   "spring_stiff": 30,
+   "damping_high": 30,
+   "motor_weak": 30,
+   "gravity_tilt": 30,
+   "sensor_delay": 30
+  },
+  "D_oracle": {
+   "healthy": 30,
+   "payload_add": 30,
+   "spring_soft": 30,
+   "spring_stiff": 30,
+   "damping_high": 30,
+   "motor_weak": 30,
+   "gravity_tilt": 30,
+   "sensor_delay": 30
+  }
+ },
+ "fell": {
+  "A_policy": {
+   "healthy": 0,
+   "payload_add": 0,
+   "spring_soft": 0,
+   "spring_stiff": 0,
+   "damping_high": 0,
+   "motor_weak": 0,
+   "gravity_tilt": 30,
+   "sensor_delay": 11
+  },
+  "B_filter": {
+   "healthy": 30,
+   "payload_add": 30,
+   "spring_soft": 30,
+   "spring_stiff": 30,
+   "damping_high": 30,
+   "motor_weak": 30,
+   "gravity_tilt": 30,
+   "sensor_delay": 30
+  },
+  "C_adapt": {
+   "healthy": 0,
+   "payload_add": 0,
+   "spring_soft": 0,
+   "spring_stiff": 0,
+   "damping_high": 0,
+   "motor_weak": 0,
+   "gravity_tilt": 30,
+   "sensor_delay": 28
+  },
+  "D_oracle": {
+   "healthy": 0,
+   "payload_add": 0,
+   "spring_soft": 0,
+   "spring_stiff": 0,
+   "damping_high": 0,
+   "motor_weak": 0,
+   "gravity_tilt": 30,
+   "sensor_delay": 0
+  }
+ },
+ "logs": {
+  "healthy": {
+   "B_reject_rate_mean": 0.3590666666666667,
+   "C_adapted_fraction_mean": 0.7997333333333333,
+   "C_mean_scale": 1.4479674561960372,
+   "mean_abs_u_post": {
+    "A_policy": 0.7453505753038946,
+    "B_filter": 0.43881247059637124,
+    "C_adapt": 1.2740547624799121,
+    "D_oracle": 0.3622108108423843
+   }
+  },
+  "payload_add": {
+   "B_reject_rate_mean": 0.29186666666666666,
+   "C_adapted_fraction_mean": 0.34573333333333334,
+   "C_mean_scale": 1.618100346925822,
+   "mean_abs_u_post": {
+    "A_policy": 0.3844850774968895,
+    "B_filter": 0.4761189551019197,
+    "C_adapt": 0.6190173691316941,
+    "D_oracle": 0.36608079720121106
+   }
+  },
+  "spring_soft": {
+   "B_reject_rate_mean": 0.3257999999999999,
+   "C_adapted_fraction_mean": 0.6737333333333333,
+   "C_mean_scale": 1.5641337244080884,
+   "mean_abs_u_post": {
+    "A_policy": 0.7581052683111043,
+    "B_filter": 0.4555109210399047,
+    "C_adapt": 1.2076388882696303,
+    "D_oracle": 0.36690179343898965
+   }
+  },
+  "spring_stiff": {
+   "B_reject_rate_mean": 0.44100000000000006,
+   "C_adapted_fraction_mean": 0.7796666666666667,
+   "C_mean_scale": 1.277578856082898,
+   "mean_abs_u_post": {
+    "A_policy": 0.6500573420266759,
+    "B_filter": 0.36868832286103836,
+    "C_adapt": 1.0607276361125402,
+    "D_oracle": 0.35404399059775243
+   }
+  },
+  "damping_high": {
+   "B_reject_rate_mean": 0.3756,
+   "C_adapted_fraction_mean": 0.7022666666666667,
+   "C_mean_scale": 1.475666972756225,
+   "mean_abs_u_post": {
+    "A_policy": 0.5235072946492575,
+    "B_filter": 0.39221277791417053,
+    "C_adapt": 1.1098105893779795,
+    "D_oracle": 0.35727650201454103
+   }
+  },
+  "motor_weak": {
+   "B_reject_rate_mean": 0.3193333333333334,
+   "C_adapted_fraction_mean": 0.47819999999999996,
+   "C_mean_scale": 1.6073108399446672,
+   "mean_abs_u_post": {
+    "A_policy": 0.5025353656029065,
+    "B_filter": 0.4603850657727555,
+    "C_adapt": 0.7570491078688886,
+    "D_oracle": 0.4412224761431163
+   }
+  },
+  "gravity_tilt": {
+   "B_reject_rate_mean": 0.8994,
+   "C_adapted_fraction_mean": 0.058066666666666676,
+   "C_mean_scale": 1.2056820923902574,
+   "mean_abs_u_post": {
+    "A_policy": 0.7366034003521521,
+    "B_filter": 0.029261205031090396,
+    "C_adapt": 0.733795835995943,
+    "D_oracle": 1.2636447311893402
+   }
+  },
+  "sensor_delay": {
+   "B_reject_rate_mean": 0.4096,
+   "C_adapted_fraction_mean": 0.4416666666666667,
+   "C_mean_scale": 1.1409264222919302,
+   "mean_abs_u_post": {
+    "A_policy": 1.3096880866509726,
+    "B_filter": 0.4468726089368406,
+    "C_adapt": 1.0033967952492955,
+    "D_oracle": 0.3622108108423843
+   }
+  }
+ },
+ "claims": {
+  "1_policy_degrades_>=30pp": {
+   "value": 0.0,
+   "passed": false
+  },
+  "2_oracle_degrades_<=10pp": {
+   "value": 0.0,
+   "passed": true
+  },
+  "3_selfmodel_beats_policy_>=15pp": {
+   "value": 0.0,
+   "passed": false
+  },
+  "4_adapt_beats_filter_somewhere": {
+   "value": [
+    "payload_add",
+    "spring_soft",
+    "spring_stiff",
+    "damping_high",
+    "motor_weak"
+   ],
+   "passed": true
+  }
+ }
+}

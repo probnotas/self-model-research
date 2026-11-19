@@ -37,15 +37,15 @@ def main():
             for p in PERTS}
     A, B, C, Dd = (rate[c] for c in CONDS)
     claims = {
-        "1_policy_degrades_>=30pp": dict(value=A["healthy"] - A["payload_add"], passed=A["healthy"] - A["payload_add"] >= 30),
-        "2_oracle_degrades_<=10pp": dict(value=Dd["healthy"] - Dd["payload_add"], passed=Dd["healthy"] - Dd["payload_add"] <= 10),
+        "1_policy_degrades_>=30pp": dict(value=A["healthy"] - A["payload_add"], passed=bool(A["healthy"] - A["payload_add"] >= 30)),
+        "2_oracle_degrades_<=10pp": dict(value=Dd["healthy"] - Dd["payload_add"], passed=bool(Dd["healthy"] - Dd["payload_add"] <= 10)),
         "3_selfmodel_beats_policy_>=15pp": dict(value=max(B["payload_add"], C["payload_add"]) - A["payload_add"],
-                                                 passed=max(B["payload_add"], C["payload_add"]) - A["payload_add"] >= 15),
+                                                 passed=bool(max(B["payload_add"], C["payload_add"]) - A["payload_add"] >= 15)),
         "4_adapt_beats_filter_somewhere": dict(value=[p for p in PERTS[1:] if C[p] > B[p]],
-                                                passed=any(C[p] > B[p] for p in PERTS[1:])),
+                                                passed=bool(any(C[p] > B[p] for p in PERTS[1:]))),
     }
     out = dict(threshold_B=D["threshold_B"], success_rate_pct=rate, wilson95=ci, n=n, fell=fell, logs=logs, claims=claims)
-    json.dump(out, open(os.path.join(HERE, "results.json"), "w"), indent=1)
+    json.dump(out, open(os.path.join(HERE, "results.json"), "w"), indent=1, default=float)
 
     L = ["| perturbation | A policy | B filter | C adapt | D oracle |", "|---|---|---|---|---|"]
     for p in PERTS:
